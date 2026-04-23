@@ -169,17 +169,20 @@ app.use(helmet({
   contentSecurityPolicy: false,
 }));
 
-// ✅ CORS (production safe + simple)
+// ✅ CORS
 const ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
+  'https://verdant-naiad-df12c8.netlify.app',
   ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
 ];
 
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin) return cb(null, true); // allow Postman etc.
+    if (!origin) return cb(null, true);
     if (ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
+    // allow any netlify.app preview deploy
+    if (origin.endsWith('.netlify.app')) return cb(null, true);
     return cb(new Error('CORS not allowed'));
   },
   credentials: true,
