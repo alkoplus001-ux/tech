@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import DemoLayout from '../components/DemoLayout.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
-import { API } from '../api.js';
+const API = import.meta.env.VITE_API_URL;
 import './Demo.css';
 
 const MENU = [

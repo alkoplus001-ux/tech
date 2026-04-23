@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
-import { API } from '../api.js';
+const API = import.meta.env.VITE_API_URL;
 import './Home.css';
 
 const TEMPLATES = [
