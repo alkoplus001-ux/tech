@@ -211,6 +211,8 @@ app.get('/api/status', (req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
+  if (err.message === 'CORS not allowed')
+    return res.status(403).json({ success: false, message: 'CORS not allowed' });
   console.error(err.message);
   res.status(500).json({
     success: false,

@@ -8,27 +8,89 @@ export default function AdminPanel() {
   const [loading,   setLoading]   = useState(true);
   const [toast,     setToast]     = useState(null);
   const [filter,    setFilter]    = useState('');
+  const [adminKey,  setAdminKey]  = useState('');
+  const [keyInput,  setKeyInput]  = useState('');
+  const [authErr,   setAuthErr]   = useState('');
+  const [authLoad,  setAuthLoad]  = useState(false);
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000); };
 
-  const load = async () => {
+  const load = async (key) => {
     setLoading(true);
     try {
-      const res  = await fetch(`${API}/api/contact`);
+      const res  = await fetch(`${API}/api/contact`, { headers: { 'x-admin-key': key } });
+      if (res.status === 403) { setAdminKey(''); return; }
       const data = await res.json();
       setContacts(data.data || []);
     } catch { showToast('Failed to load','error'); }
     finally { setLoading(false); }
   };
 
-  useEffect(() => { load(); const t = setInterval(load, 30000); return ()=>clearInterval(t); }, []);
+  useEffect(() => {
+    if (!adminKey) return;
+    load(adminKey);
+    const t = setInterval(() => load(adminKey), 30000);
+    return () => clearInterval(t);
+  }, [adminKey]);
+
+  const handleLogin = async () => {
+    if (!keyInput.trim()) { setAuthErr('Admin key daalo'); return; }
+    setAuthLoad(true);
+    setAuthErr('');
+    try {
+      const res = await fetch(`${API}/api/contact`, { headers: { 'x-admin-key': keyInput.trim() } });
+      if (res.status === 403) { setAuthErr('Wrong admin key. Dobara try karo.'); }
+      else { setAdminKey(keyInput.trim()); }
+    } catch { setAuthErr('Server se connect nahi ho raha.'); }
+    finally { setAuthLoad(false); }
+  };
 
   const deleteLead = async (id) => {
     if (!confirm('Delete this lead?')) return;
-    await fetch(`${API}/api/contact/${id}`, { method:'DELETE' });
+    const res = await fetch(`${API}/api/contact/${id}`, { method:'DELETE', headers: { 'x-admin-key': adminKey } });
+    if (res.status === 403) { setAdminKey(''); return; }
     setContacts(prev => prev.filter(c=>c._id!==id));
     showToast('Lead deleted');
   };
+
+  // ── Login screen ──────────────────────────────────────────────────────────────
+  if (!adminKey) {
+    return (
+      <div className="admin-page" style={{display:'flex',alignItems:'center',justifyContent:'center',minHeight:'100vh'}}>
+        <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:18,padding:'40px 36px',maxWidth:400,width:'100%',boxShadow:'0 20px 60px rgba(0,0,0,.4)'}}>
+          <div style={{textAlign:'center',marginBottom:28}}>
+            <div style={{fontSize:'2.5rem',marginBottom:8}}>🔐</div>
+            <h2 style={{margin:0,fontSize:'1.4rem'}}>Admin Login</h2>
+            <p style={{color:'var(--muted)',fontSize:'.85rem',margin:'8px 0 0'}}>Tech Nandu Lead Dashboard</p>
+          </div>
+          <div className="form-group" style={{marginBottom:16}}>
+            <label style={{fontSize:'.8rem',color:'var(--muted)',marginBottom:6,display:'block'}}>Admin Key</label>
+            <input
+              className="a-search"
+              type="password"
+              placeholder="Enter admin key..."
+              value={keyInput}
+              onChange={e => setKeyInput(e.target.value)}
+              onKeyDown={e => e.key==='Enter' && handleLogin()}
+              style={{width:'100%',boxSizing:'border-box'}}
+            />
+          </div>
+          {authErr && <div style={{color:'#FF6584',fontSize:'.82rem',marginBottom:12}}>⚠️ {authErr}</div>}
+          <button
+            className="btn-refresh"
+            style={{width:'100%',padding:'11px',fontSize:'.95rem',fontWeight:700}}
+            onClick={handleLogin}
+            disabled={authLoad}
+          >
+            {authLoad ? '⏳ Checking...' : '🔓 Login'}
+          </button>
+          <div style={{textAlign:'center',marginTop:16}}>
+            <Link to="/" style={{color:'var(--muted)',fontSize:'.8rem',textDecoration:'none'}}>← Back to Website</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const exportCSV = () => {
     const rows = [['#','Name','Phone','Email','Business','Message','Date']];
