@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import DemoLayout from '../components/DemoLayout.jsx';
+import { API } from '../api.js';
 import './Demo.css';
 
 const MENU = [
@@ -48,7 +49,7 @@ export default function InventoryDemo() {
       const params = new URLSearchParams();
       if (search) params.set('search', search);
       if (cat !== 'All') params.set('category', cat);
-      const res  = await fetch(`/api/inventory?${params}`);
+      const res  = await fetch(`${API}/api/inventory?${params}`);
       const data = await res.json();
       setProducts(data.data || []);
     } catch { showToast('Load failed','error'); }
@@ -65,7 +66,7 @@ export default function InventoryDemo() {
   const handleAdd = async () => {
     if (!form.name || !form.stock || !form.price) return showToast('Name, stock aur price required!','error');
     try {
-      const res  = await fetch('/api/inventory', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({...form, stock:Number(form.stock), price:Number(form.price)}) });
+      const res  = await fetch(`${API}/api/inventory`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({...form, stock:Number(form.stock), price:Number(form.price)}) });
       const data = await res.json();
       if (data.success) { showToast(`"${data.data.name}" added!`); setModal(false); setForm({name:'',sku:'',category:'Electronics',stock:'',price:'',supplier:''}); load(); setTab(1); }
     } catch { showToast('Add failed','error'); }
@@ -73,7 +74,7 @@ export default function InventoryDemo() {
 
   const handleDelete = async (id, name) => {
     if (!confirm(`Delete "${name}"?`)) return;
-    await fetch(`/api/inventory/${id}`, { method:'DELETE' });
+    await fetch(`${API}/api/inventory/${id}`, { method:'DELETE' });
     showToast(`"${name}" deleted`);
     load();
   };

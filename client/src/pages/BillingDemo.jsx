@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import DemoLayout from '../components/DemoLayout.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
+import { API } from '../api.js';
 import './Demo.css';
 
 const MENU = [
@@ -34,7 +35,7 @@ export default function BillingDemo() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res  = await fetch('/api/billing');
+      const res  = await fetch(`${API}/api/billing`);
       const data = await res.json();
       setInvoices(data.data || []);
     } catch { showToast('Load failed','error'); }
@@ -61,20 +62,20 @@ export default function BillingDemo() {
   const handleCreate = async () => {
     if (!form.customer||!form.items[0].name) return showToast('Customer name aur item required!','error');
     try {
-      const res  = await fetch('/api/billing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,items:form.items.map(it=>({...it,qty:Number(it.qty),price:Number(it.price)}))})});
+      const res  = await fetch(`${API}/api/billing`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,items:form.items.map(it=>({...it,qty:Number(it.qty),price:Number(it.price)}))})});
       const data = await res.json();
       if(data.success){ showToast(`Invoice ${data.data.invoiceNo} created!`); setModal(false); setForm({customer:'',phone:'',gstRate:18,items:[{name:'',qty:1,price:''}]}); load(); setTab(1); }
     } catch { showToast('Create failed','error'); }
   };
 
   const updateStatus = async (id,status) => {
-    await fetch(`/api/billing/${id}/status`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});
+    await fetch(`${API}/api/billing/${id}/status`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});
     showToast(`Marked as ${status}`); load();
   };
 
   const deleteInvoice = async (id) => {
     if(!confirm('Delete this invoice?')) return;
-    await fetch(`/api/billing/${id}`,{method:'DELETE'});
+    await fetch(`${API}/api/billing/${id}`,{method:'DELETE'});
     showToast('Deleted'); load();
   };
 

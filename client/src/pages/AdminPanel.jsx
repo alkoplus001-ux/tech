@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { API } from '../api.js';
 import './Admin.css';
 
 export default function AdminPanel() {
@@ -13,7 +14,7 @@ export default function AdminPanel() {
   const load = async () => {
     setLoading(true);
     try {
-      const res  = await fetch('/api/contact');
+      const res  = await fetch(`${API}/api/contact`);
       const data = await res.json();
       setContacts(data.data || []);
     } catch { showToast('Failed to load','error'); }
@@ -24,7 +25,7 @@ export default function AdminPanel() {
 
   const deleteLead = async (id) => {
     if (!confirm('Delete this lead?')) return;
-    await fetch(`/api/contact/${id}`, { method:'DELETE' });
+    await fetch(`${API}/api/contact/${id}`, { method:'DELETE' });
     setContacts(prev => prev.filter(c=>c._id!==id));
     showToast('Lead deleted');
   };

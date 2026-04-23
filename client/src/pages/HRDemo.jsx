@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import DemoLayout from '../components/DemoLayout.jsx';
+import { API } from '../api.js';
 import './Demo.css';
 
 const MENU = [
@@ -58,7 +59,7 @@ export default function HRDemo() {
       const params = new URLSearchParams();
       if (search) params.set('search', search);
       if (dept !== 'All') params.set('department', dept);
-      const res  = await fetch(`/api/hr?${params}`);
+      const res  = await fetch(`${API}/api/hr?${params}`);
       const data = await res.json();
       setEmps(data.data || []);
     } catch { showToast('Load failed','error'); }
@@ -72,7 +73,7 @@ export default function HRDemo() {
   const handleAdd = async () => {
     if (!form.name||!form.position) return showToast('Name aur position required!','error');
     try {
-      const res  = await fetch('/api/hr',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,salary:Number(form.salary)})});
+      const res  = await fetch(`${API}/api/hr`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,salary:Number(form.salary)})});
       const data = await res.json();
       if(data.success){ showToast(`${data.data.name} added!`); setModal(false); setForm({name:'',department:'Engineering',position:'',phone:'',email:'',salary:'',status:'Active'}); load(); setTab(1); }
     } catch { showToast('Add failed','error'); }
@@ -80,7 +81,7 @@ export default function HRDemo() {
 
   const handleDelete = async (id, name) => {
     if(!confirm(`Delete ${name}?`)) return;
-    await fetch(`/api/hr/${id}`,{method:'DELETE'});
+    await fetch(`${API}/api/hr/${id}`,{method:'DELETE'});
     showToast(`${name} removed`); load();
   };
 
