@@ -1,0 +1,291 @@
+.demo-shell { min-height:100vh; display:flex; flex-direction:column; background:var(--dark); }
+
+.demo-topbar {
+  height:58px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px; background:var(--dark2); position:sticky; top:0; z-index:100;
+  border-bottom:1px solid var(--border); transition:background .3s;
+}
+.demo-topbar-left  { display:flex; align-items:center; gap:16px; }
+.demo-topbar-right { display:flex; align-items:center; gap:10px; font-size:.8rem; }
+
+.back-btn { color:var(--muted); text-decoration:none; font-size:.82rem; background:rgba(255,255,255,.06); border:1px solid var(--border); padding:5px 12px; border-radius:6px; transition:all .2s; }
+.back-btn:hover { color:#fff; background:rgba(255,255,255,.1); }
+
+.demo-title { display:flex; align-items:center; gap:12px; }
+.demo-title-icon { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.demo-title h2  { font-size:.95rem; font-weight:700; margin:0; }
+.demo-badge     { font-size:.68rem; color:var(--muted); }
+
+.live-dot { width:7px; height:7px; border-radius:50%; animation:pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── Theme toggle in topbar ───────────────────────────────────────────── */
+.demo-theme-toggle {
+  width:32px; height:32px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+  cursor:pointer; font-size:.9rem;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+.demo-theme-toggle:hover { background:rgba(255,255,255,.13); transform:scale(1.08); }
+
+.demo-body    { display:flex; flex:1; }
+
+/* ── Sidebar ──────────────────────────────────────────────────────────── */
+.demo-sidebar {
+  width:210px; flex-shrink:0;
+  background:rgba(255,255,255,.02);
+  border-right:1px solid var(--border); padding:16px 12px;
+  position:sticky; top:58px; height:calc(100vh - 58px); overflow-y:auto;
+  transition:background .3s;
+}
+.sidebar-section-label { font-size:.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; padding:0 8px; margin-bottom:6px; margin-top:4px; }
+.sidebar-item {
+  width:100%; display:flex; align-items:center; gap:9px; padding:9px 10px;
+  border-radius:9px; border:1px solid transparent; background:transparent;
+  color:rgba(255,255,255,.55); font-size:.82rem; cursor:pointer;
+  transition:all .18s; margin-bottom:2px; text-align:left; font-family:inherit;
+}
+.sidebar-item:hover  { background:rgba(255,255,255,.05); color:#fff; }
+.sidebar-item.active { font-weight:600; color:#fff; }
+.sidebar-divider     { height:1px; background:var(--border); margin:12px 0; }
+.sidebar-info        { padding:0 8px; font-size:.72rem; color:var(--muted); line-height:2; }
+
+.demo-main { flex:1; padding:24px; overflow-x:hidden; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VARIANTS — each demo gets a distinct visual identity
+═══════════════════════════════════════════════════════════════════════ */
+
+/* ── glass (Inventory — purple) ────────────────────────────────────── */
+.variant-glass .demo-sidebar {
+  background: rgba(108,99,255,.07);
+  backdrop-filter: blur(20px);
+  border-right-color: rgba(108,99,255,.18);
+}
+.variant-glass .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #6C63FF, 0 0 18px rgba(108,99,255,.12);
+}
+.variant-glass .stat-card {
+  background: rgba(108,99,255,.05);
+  border-color: rgba(108,99,255,.14);
+}
+.variant-glass th { background: rgba(108,99,255,.07); color: #9b94ff; }
+
+/* ── flat (Billing — green) ────────────────────────────────────────── */
+.variant-flat .demo-sidebar {
+  background: #09150d;
+  border-right-color: rgba(67,233,123,.16);
+}
+.variant-flat .sidebar-item.active {
+  border-left: 3px solid #43E97B;
+  border-radius: 0 9px 9px 0;
+  padding-left: 11px;
+  background: rgba(67,233,123,.07) !important;
+}
+.variant-flat .card { border-radius: 8px; }
+.variant-flat th    { background: rgba(67,233,123,.05); color: #43E97B; }
+
+/* ── warm (HR — pink/rose) ─────────────────────────────────────────── */
+.variant-warm .demo-topbar  { background: linear-gradient(90deg, #1f0d14 0%, #0f0f1a 55%); }
+.variant-warm .demo-sidebar {
+  background: linear-gradient(180deg, #1f0d14, #140a0e);
+  border-right-color: rgba(255,101,132,.2);
+}
+.variant-warm .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #FF6584;
+  background: rgba(255,101,132,.1) !important;
+}
+.variant-warm th { background: rgba(255,101,132,.05); color: #FF6584; }
+
+/* ── neon (POS — amber glow) ───────────────────────────────────────── */
+.variant-neon .demo-sidebar {
+  background: #070710;
+  border-right-color: rgba(245,158,11,.2);
+}
+.variant-neon .sidebar-item.active {
+  box-shadow: 0 0 22px rgba(245,158,11,.22), inset 3px 0 0 #f59e0b;
+  background: rgba(245,158,11,.08) !important;
+}
+.variant-neon .stat-card { border-color: rgba(245,158,11,.1); }
+.variant-neon th { background: rgba(245,158,11,.05); color: #f59e0b; }
+
+/* ── emerald (Payroll — dark forest) ───────────────────────────────── */
+.variant-emerald .demo-sidebar {
+  background: linear-gradient(180deg, #071512, #050d0a);
+  border-right-color: rgba(16,185,129,.18);
+}
+.variant-emerald .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #10b981;
+  background: rgba(16,185,129,.1) !important;
+}
+.variant-emerald th { background: rgba(16,185,129,.05); color: #10b981; }
+
+/* ── violet (CRM — deep violet) ────────────────────────────────────── */
+.variant-violet .demo-topbar  { background: linear-gradient(90deg, #130920 0%, #0f0f1a 55%); }
+.variant-violet .demo-sidebar {
+  background: linear-gradient(180deg, #130920, #0d0614);
+  border-right-color: rgba(139,92,246,.22);
+}
+.variant-violet .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #8B5CF6, 0 0 20px rgba(139,92,246,.12);
+  background: rgba(139,92,246,.12) !important;
+}
+.variant-violet .stat-card { border-color: rgba(139,92,246,.12); }
+.variant-violet th { background: rgba(139,92,246,.06); color: #8B5CF6; }
+
+/* ── medical (Hospital — clean red) ────────────────────────────────── */
+.variant-medical .demo-sidebar {
+  background: #08080f;
+  border-right: 2px solid rgba(239,68,68,.15);
+}
+.variant-medical .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #ef4444;
+  background: rgba(239,68,68,.08) !important;
+}
+.variant-medical .card { border-radius: 6px; }
+.variant-medical th {
+  background: rgba(239,68,68,.04);
+  border-bottom: 2px solid rgba(239,68,68,.14);
+  color: #ef4444;
+}
+
+/* ── edu (School — sky blue) ────────────────────────────────────────── */
+.variant-edu .demo-sidebar {
+  background: linear-gradient(180deg, #060f1e, #040810);
+  border-right-color: rgba(6,182,212,.18);
+}
+.variant-edu .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #06b6d4;
+  background: rgba(6,182,212,.1) !important;
+}
+.variant-edu th { background: rgba(6,182,212,.05); color: #06b6d4; }
+
+/* ── cozy (Restaurant — warm orange) ───────────────────────────────── */
+.variant-cozy .demo-topbar  { background: linear-gradient(90deg, #1e1005 0%, #0f0f1a 55%); }
+.variant-cozy .demo-sidebar {
+  background: linear-gradient(180deg, #1e1005, #140c04);
+  border-right-color: rgba(251,146,60,.18);
+}
+.variant-cozy .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #fb923c;
+  background: rgba(251,146,60,.1) !important;
+}
+.variant-cozy .stat-card { border-color: rgba(251,146,60,.1); }
+.variant-cozy th { background: rgba(251,146,60,.05); color: #fb923c; }
+
+/* ── corporate (Real Estate — navy) ────────────────────────────────── */
+.variant-corporate .demo-sidebar {
+  background: linear-gradient(180deg, #06101e, #040b15);
+  border-right-color: rgba(59,130,246,.18);
+}
+.variant-corporate .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #3B82F6;
+  background: rgba(59,130,246,.1) !important;
+}
+.variant-corporate .card { border-radius: 8px; }
+.variant-corporate th { background: rgba(59,130,246,.05); color: #3B82F6; }
+
+/* ── pharma (Pharmacy — deep purple) ───────────────────────────────── */
+.variant-pharma .demo-sidebar {
+  background: linear-gradient(180deg, #12071e, #0d0514);
+  border-right-color: rgba(168,85,247,.2);
+}
+.variant-pharma .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #a855f7, 0 0 16px rgba(168,85,247,.1);
+  background: rgba(168,85,247,.1) !important;
+}
+.variant-pharma th { background: rgba(168,85,247,.05); color: #a855f7; }
+
+/* ── gradient (Analytics — hot pink) ───────────────────────────────── */
+.variant-gradient .demo-sidebar {
+  background: linear-gradient(180deg, #1a0818, #0e050e);
+  border-right-color: rgba(236,72,153,.2);
+}
+.variant-gradient .sidebar-item.active {
+  box-shadow: inset 3px 0 0 #ec4899, 0 0 22px rgba(236,72,153,.15);
+  background: rgba(236,72,153,.1) !important;
+}
+.variant-gradient .stat-card {
+  background: linear-gradient(135deg, rgba(236,72,153,.05), rgba(139,92,246,.05));
+  border-color: rgba(236,72,153,.12);
+}
+.variant-gradient th {
+  background: linear-gradient(90deg, rgba(236,72,153,.06), rgba(139,92,246,.06));
+  color: #ec4899;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LIGHT MODE — Professional Business Look
+═══════════════════════════════════════════════════════════════════════ */
+html.light .demo-shell { background: #f1f5f9; }
+
+html.light .demo-topbar {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+html.light .demo-title h2  { color: #0f172a; }
+html.light .demo-badge     { color: #64748b; }
+html.light .back-btn       { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
+html.light .back-btn:hover { background: #e2e8f0; color: #0f172a; }
+html.light .demo-theme-toggle       { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
+html.light .demo-theme-toggle:hover { background: #e2e8f0; }
+
+/* Sidebar — clean professional navigation */
+html.light .demo-sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  box-shadow: 1px 0 4px rgba(0,0,0,.04);
+  backdrop-filter: none !important;
+}
+html.light .sidebar-section-label { color: #94a3b8; letter-spacing: 1px; }
+html.light .sidebar-item          { color: #475569; }
+html.light .sidebar-item:hover    { background: #f1f5f9; color: #0f172a; }
+html.light .sidebar-item.active   { color: #0f172a !important; background: #f1f5f9; }
+html.light .sidebar-divider       { background: #e2e8f0; }
+html.light .sidebar-info          { color: #64748b; }
+html.light .demo-main             { color: #0f172a; }
+
+/* All variant sidebars: white in light mode, accent top-border stripe */
+html.light [class*="variant-"] .demo-sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  backdrop-filter: none !important;
+}
+html.light [class*="variant-"] .demo-topbar { background: #ffffff !important; }
+
+/* Active item — variant-colored left bar + tinted bg */
+html.light .variant-glass     .sidebar-item.active { background: #eef2ff !important; color: #4338ca !important; box-shadow: inset 3px 0 0 #6C63FF; }
+html.light .variant-flat      .sidebar-item.active { background: #f0fdf4 !important; color: #166534 !important; box-shadow: inset 3px 0 0 #16a34a; }
+html.light .variant-warm      .sidebar-item.active { background: #fff1f2 !important; color: #9f1239 !important; box-shadow: inset 3px 0 0 #f43f5e; }
+html.light .variant-neon      .sidebar-item.active { background: #fffbeb !important; color: #92400e !important; box-shadow: inset 3px 0 0 #d97706; }
+html.light .variant-emerald   .sidebar-item.active { background: #ecfdf5 !important; color: #065f46 !important; box-shadow: inset 3px 0 0 #059669; }
+html.light .variant-violet    .sidebar-item.active { background: #f5f3ff !important; color: #4c1d95 !important; box-shadow: inset 3px 0 0 #7c3aed; }
+html.light .variant-medical   .sidebar-item.active { background: #fef2f2 !important; color: #991b1b !important; box-shadow: inset 3px 0 0 #dc2626; }
+html.light .variant-edu       .sidebar-item.active { background: #ecfeff !important; color: #164e63 !important; box-shadow: inset 3px 0 0 #0891b2; }
+html.light .variant-cozy      .sidebar-item.active { background: #fff7ed !important; color: #9a3412 !important; box-shadow: inset 3px 0 0 #ea580c; }
+html.light .variant-corporate .sidebar-item.active { background: #eff6ff !important; color: #1e3a8a !important; box-shadow: inset 3px 0 0 #2563eb; }
+html.light .variant-pharma    .sidebar-item.active { background: #faf5ff !important; color: #581c87 !important; box-shadow: inset 3px 0 0 #9333ea; }
+html.light .variant-gradient  .sidebar-item.active { background: #fdf2f8 !important; color: #831843 !important; box-shadow: inset 3px 0 0 #db2777; }
+
+/* Table headers — keep variant color accent, clean bg */
+html.light th { background: #f8fafc !important; color: #475569 !important; border-bottom: 2px solid #e2e8f0 !important; }
+html.light .variant-glass     th { color: #4338ca !important; background: #eef2ff !important; border-bottom-color: #c7d2fe !important; }
+html.light .variant-flat      th { color: #15803d !important; background: #f0fdf4 !important; border-bottom-color: #bbf7d0 !important; }
+html.light .variant-warm      th { color: #be123c !important; background: #fff1f2 !important; border-bottom-color: #fecdd3 !important; }
+html.light .variant-neon      th { color: #b45309 !important; background: #fffbeb !important; border-bottom-color: #fde68a !important; }
+html.light .variant-emerald   th { color: #047857 !important; background: #ecfdf5 !important; border-bottom-color: #a7f3d0 !important; }
+html.light .variant-violet    th { color: #6d28d9 !important; background: #f5f3ff !important; border-bottom-color: #ddd6fe !important; }
+html.light .variant-medical   th { color: #b91c1c !important; background: #fef2f2 !important; border-bottom-color: #fecaca !important; }
+html.light .variant-edu       th { color: #0e7490 !important; background: #ecfeff !important; border-bottom-color: #a5f3fc !important; }
+html.light .variant-cozy      th { color: #c2410c !important; background: #fff7ed !important; border-bottom-color: #fed7aa !important; }
+html.light .variant-corporate th { color: #1d4ed8 !important; background: #eff6ff !important; border-bottom-color: #bfdbfe !important; }
+html.light .variant-pharma    th { color: #7e22ce !important; background: #faf5ff !important; border-bottom-color: #e9d5ff !important; }
+html.light .variant-gradient  th { color: #be185d !important; background: #fdf2f8 !important; border-bottom-color: #fbcfe8 !important; }
+
+@media(max-width:768px) {
+  .demo-sidebar { display:none; }
+  .demo-main    { padding:16px; }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Nandu — Admin Panel</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',sans-serif; background:#0a0a14; color:#fff; min-height:100vh; }
+  nav {
+    background:rgba(15,15,26,0.98); border-bottom:1px solid rgba(108,99,255,0.3);
+    padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100;
+  }
+  .logo { font-size:1.2rem; font-weight:800; background:linear-gradient(90deg,#6C63FF,#FF6584); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .badge { background:rgba(255,101,132,0.15); border:1px solid rgba(255,101,132,0.3); color:#FF6584; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:600; }
+  .main { max-width:1200px; margin:0 auto; padding:32px 20px; }
+  .page-title { font-size:1.8rem; font-weight:800; margin-bottom:6px; }
+  .page-sub { color:rgba(255,255,255,0.4); font-size:0.9rem; margin-bottom:28px; }
+  .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:28px; }
+  .s-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px; }
+  .s-label { font-size:0.72rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+  .s-val { font-size:1.8rem; font-weight:800; }
+  .card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:16px; overflow:hidden; }
+  .card-head { padding:16px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .card-head h3 { font-size:0.95rem; font-weight:700; }
+  .refresh-btn { background:rgba(108,99,255,0.15); border:1px solid rgba(108,99,255,0.3); color:#6C63FF; padding:7px 16px; border-radius:8px; cursor:pointer; font-size:0.8rem; font-weight:600; transition:all 0.2s; }
+  .refresh-btn:hover { background:rgba(108,99,255,0.25); }
+  table { width:100%; border-collapse:collapse; }
+  th { padding:11px 18px; text-align:left; font-size:0.72rem; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.06); }
+  td { padding:14px 18px; font-size:0.85rem; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:rgba(255,255,255,0.02); }
+  .name-cell { font-weight:700; }
+  .phone-cell { color:#43E97B; font-weight:600; }
+  .time-cell { color:rgba(255,255,255,0.4); font-size:0.78rem; }
+  .del-btn { background:rgba(255,80,80,0.1); border:1px solid rgba(255,80,80,0.2); color:#ff5050; padding:5px 10px; border-radius:6px; cursor:pointer; font-size:0.75rem; transition:all 0.2s; }
+  .del-btn:hover { background:rgba(255,80,80,0.2); }
+  .wa-btn { background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.3); color:#25d366; padding:5px 10px; border-radius:6px; cursor:pointer; font-size:0.75rem; text-decoration:none; display:inline-block; margin-right:4px; transition:all 0.2s; }
+  .wa-btn:hover { background:rgba(37,211,102,0.2); }
+  .empty { text-align:center; padding:60px; color:rgba(255,255,255,0.3); }
+  .empty-icon { font-size:3rem; margin-bottom:12px; }
+  .loading { text-align:center; padding:40px; color:rgba(255,255,255,0.4); }
+  .export-btn { background:rgba(67,233,123,0.1); border:1px solid rgba(67,233,123,0.3); color:#43E97B; padding:7px 16px; border-radius:8px; cursor:pointer; font-size:0.8rem; font-weight:600; }
+  @media(max-width:768px){ .stats-row{grid-template-columns:repeat(2,1fr);} th:nth-child(n+4),td:nth-child(n+4){display:none;} }
+</style>
+</head>
+<body>
+<nav>
+  <span class="logo">⚡ Tech Nandu</span>
+  <span class="badge">🔐 Admin Panel</span>
+</nav>
+<div class="main">
+  <div class="page-title">📊 Contact Leads Dashboard</div>
+  <div class="page-sub">Saare demo requests yahan dikhenge — real-time data from MongoDB</div>
+
+  <div class="stats-row">
+    <div class="s-card"><div class="s-label">Total Leads</div><div class="s-val" id="totalLeads" style="color:#6C63FF">—</div></div>
+    <div class="s-card"><div class="s-label">Today</div><div class="s-val" id="todayLeads" style="color:#43E97B">—</div></div>
+    <div class="s-card"><div class="s-label">This Week</div><div class="s-val" id="weekLeads" style="color:#f59e0b">—</div></div>
+    <div class="s-card"><div class="s-label">This Month</div><div class="s-val" id="monthLeads" style="color:#FF6584">—</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h3>📋 All Demo Requests (Latest First)</h3>
+      <div style="display:flex;gap:8px">
+        <button class="export-btn" onclick="exportCSV()">📥 Export CSV</button>
+        <button class="refresh-btn" onclick="loadContacts()">🔄 Refresh</button>
+      </div>
+    </div>
+    <div id="tableContainer">
+      <div class="loading">⏳ Loading contacts...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let allContacts = [];
+
+async function loadContacts() {
+  document.getElementById('tableContainer').innerHTML = '<div class="loading">⏳ Loading...</div>';
+  try {
+    const res = await fetch('/api/contacts');
+    const data = await res.json();
+    if (!data.success) throw new Error('Failed');
+    allContacts = data.contacts;
+    renderStats(data.contacts);
+    renderTable(data.contacts);
+  } catch (e) {
+    document.getElementById('tableContainer').innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><div>Error loading contacts.<br><small>Make sure MongoDB is connected.</small></div></div>`;
+  }
+}
+
+function renderStats(contacts) {
+  const now = new Date();
+  const today = contacts.filter(c => new Date(c.createdAt).toDateString() === now.toDateString());
+  const week = contacts.filter(c => (now - new Date(c.createdAt)) < 7*24*60*60*1000);
+  const month = contacts.filter(c => {
+    const d = new Date(c.createdAt);
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  });
+  document.getElementById('totalLeads').textContent = contacts.length;
+  document.getElementById('todayLeads').textContent = today.length;
+  document.getElementById('weekLeads').textContent = week.length;
+  document.getElementById('monthLeads').textContent = month.length;
+}
+
+function renderTable(contacts) {
+  if (!contacts.length) {
+    document.getElementById('tableContainer').innerHTML = `<div class="empty"><div class="empty-icon">📭</div><div>Abhi koi lead nahi hai.<br><small>Website pe "Book Free Demo" form fill hoga to yahan dikhega.</small></div></div>`;
+    return;
+  }
+  document.getElementById('tableContainer').innerHTML = `
+    <table>
+      <thead><tr><th>#</th><th>Name</th><th>Phone / WhatsApp</th><th>Email</th><th>Business</th><th>Message</th><th>Time</th><th>Action</th></tr></thead>
+      <tbody>
+        ${contacts.map((c, i) => `
+          <tr id="row-${c._id}">
+            <td style="color:rgba(255,255,255,0.3)">${contacts.length - i}</td>
+            <td class="name-cell">👤 ${c.name}</td>
+            <td class="phone-cell">📞 ${c.phone}</td>
+            <td style="color:rgba(255,255,255,0.6)">${c.email || '—'}</td>
+            <td>${c.business || '—'}</td>
+            <td style="color:rgba(255,255,255,0.5);max-width:160px;white-space:pre-wrap">${c.message || '—'}</td>
+            <td class="time-cell">${formatTime(c.createdAt)}</td>
+            <td>
+              <a class="wa-btn" href="https://wa.me/91${c.phone.replace(/\D/g,'')}" target="_blank">💬 WA</a>
+              <button class="del-btn" onclick="deleteContact('${c._id}')">🗑 Del</button>
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function formatTime(iso) {
+  return new Date(iso).toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+async function deleteContact(id) {
+  if (!confirm('Delete this lead?')) return;
+  await fetch(`/api/contacts/${id}`, { method:'DELETE' });
+  document.getElementById(`row-${id}`)?.remove();
+  allContacts = allContacts.filter(c => c._id !== id);
+  renderStats(allContacts);
+}
+
+function exportCSV() {
+  if (!allContacts.length) return alert('No data to export');
+  const rows = [['#','Name','Phone','Email','Business','Message','Date']];
+  allContacts.forEach((c, i) => rows.push([i+1, c.name, c.phone, c.email||'', c.business||'', c.message||'', formatTime(c.createdAt)]));
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = `technandu_leads_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+loadContacts();
+setInterval(loadContacts, 30000); // auto-refresh every 30 sec
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+.table-actions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.demo-loading  { text-align:center; padding:40px; color:var(--muted); font-size:.9rem; }
+.empty-row     { text-align:center; padding:36px !important; color:var(--muted); }
+
+/* Bar chart */
+.bar-chart { display:flex; align-items:flex-end; gap:10px; height:90px; }
+.bar-col   { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.bar-fill  { width:100%; border-radius:5px 5px 0 0; transition:all .3s; min-height:4px; cursor:pointer; }
+.bar-fill:hover { filter:brightness(1.2); }
+.bar-label { font-size:.65rem; color:var(--muted); text-align:center; }
+
+/* Invoice card */
+.invoice-preview { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:20px; }
+.inv-head { display:flex; justify-content:space-between; margin-bottom:18px; }
+.inv-co   { font-size:1.1rem; font-weight:800; background:linear-gradient(135deg,#6C63FF,#43E97B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.inv-num  { font-size:.75rem; color:var(--muted); }
+.inv-line { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.04); font-size:.83rem; }
+.inv-line:last-child { border:none; }
+.inv-total{ font-size:1.8rem; font-weight:900; background:linear-gradient(135deg,#6C63FF,#43E97B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* Item rows in billing form */
+.item-row { display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:10px; align-items:center; margin-bottom:8px; }
+.item-total { font-size:.85rem; font-weight:700; color:#43E97B; min-width:60px; }
+.add-item-btn { background:rgba(108,99,255,.15); border:1px dashed rgba(108,99,255,.4); color:#6C63FF; padding:8px; border-radius:8px; width:100%; cursor:pointer; font-size:.8rem; margin-top:6px; }
+
+/* POS */
+.pos-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.product-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.product-tile { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:14px; text-align:center; cursor:pointer; transition:all .2s; }
+.product-tile:hover { background:rgba(108,99,255,.1); border-color:rgba(108,99,255,.3); transform:scale(1.02); }
+.product-tile .pt-icon { font-size:1.8rem; margin-bottom:6px; }
+.product-tile .pt-name { font-size:.78rem; font-weight:600; margin-bottom:4px; }
+.product-tile .pt-price { font-size:.8rem; color:#43E97B; font-weight:700; }
+.cart-item { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.05); font-size:.83rem; }
+.cart-qty { display:flex; align-items:center; gap:8px; }
+.qty-btn { width:24px; height:24px; border-radius:50%; border:none; background:rgba(255,255,255,.1); color:#fff; cursor:pointer; font-size:.9rem; display:flex; align-items:center; justify-content:center; }
+.pay-btn { width:100%; padding:13px; border-radius:10px; border:none; color:#fff; font-weight:700; font-size:.9rem; cursor:pointer; margin-top:10px; }
+
+/* Kanban */
+.kanban { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.kanban-col { border-radius:10px; padding:12px; }
+.kanban-col-title { font-size:.75rem; font-weight:700; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px; }
+.kanban-item { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:10px; margin-bottom:6px; font-size:.78rem; cursor:default; }
+
+/* Generic tables */
+.demo-section { margin-bottom:20px; }
+.section-title { font-size:.88rem; font-weight:700; margin-bottom:12px; color:rgba(255,255,255,.8); }
+
+@media(max-width:768px) {
+  .pos-grid { grid-template-columns:1fr; }
+  .product-grid { grid-template-columns:repeat(2,1fr); }
+  .kanban { grid-template-columns:repeat(2,1fr); }
+  .item-row { grid-template-columns:1fr 1fr; }
+}
+
+/* ── Light mode Demo overrides ───────────────────────────────────────── */
+html.light .product-tile {
+  background: #fff; border-color: #e2e8f0; color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+html.light .product-tile:hover { background: #eef2ff; border-color: #c7d2fe; }
+html.light .pt-name   { color: #0f172a; }
+html.light .pt-price  { color: #059669; }
+
+html.light .cart-item { border-bottom-color: #f1f5f9; color: #0f172a; }
+html.light .qty-btn   { background: #f1f5f9; border: 1px solid #e2e8f0; color: #0f172a; }
+html.light .qty-btn:hover { background: #e2e8f0; }
+
+html.light .inv-line  { border-bottom-color: #f1f5f9; color: #0f172a; }
+html.light .invoice-preview { background: #f8fafc; border-color: #e2e8f0; }
+
+html.light .kanban-col  { background: #f8fafc !important; border-color: #e2e8f0 !important; }
+html.light .kanban-item { background: #fff; border-color: #e2e8f0; color: #374151; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+html.light .kanban-col-title { /* inherits inline color — fine */ }
+
+html.light .bar-label  { color: #64748b; }
+html.light .section-title { color: #374151; }
+html.light .add-item-btn { background: #eef2ff; border-color: #c7d2fe; color: #4338ca; }
+
+/* Light mode pill/filter buttons (POS category, payment) — targeted via parent */
+html.light .pos-grid .card { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+/* Invoice total summary block */
+html.light .inv-total-block { background: #f8fafc !important; border-color: #e2e8f0 !important; }
