@@ -182,7 +182,8 @@ app.use(cors({
     if (!origin) return cb(null, true);
     if (ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
     // allow any netlify.app preview deploy
-    if (origin.endsWith('.netlify.app')) return cb(null, true);
+   // if (origin.endsWith('.netlify.app')) return cb(null, true);
+   if (origin && origin.endsWith('.netlify.app')) return cb(null, true);
     return cb(new Error('CORS not allowed'));
   },
   credentials: true,
