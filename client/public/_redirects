@@ -1,6 +1,2 @@
-# Replace YOUR_RENDER_URL with your actual Render backend URL
-# Example: https://technandu-api.onrender.com
-/api/*  https://YOUR_RENDER_URL/api/:splat  200
-
 # React Router — all routes serve index.html
 /*  /index.html  200
