@@ -5,30 +5,132 @@ const API = import.meta.env.VITE_API_URL;
 import './Demo.css';
 
 const MENU = [
-  { icon:'📊', label:'Dashboard'   },
-  { icon:'🧾', label:'Invoices'    },
-  { icon:'➕', label:'New Invoice' },
-  { icon:'👥', label:'Customers'   },
-  { icon:'📋', label:'Reports'     },
+  { icon:'📊', label:'Dashboard'    },
+  { icon:'🧾', label:'Invoices'     },
+  { icon:'➕', label:'New Invoice'  },
+  { icon:'👥', label:'Customers'    },
+  { icon:'🖨️', label:'Challan'     },
+  { icon:'📋', label:'Reports'      },
+];
+
+const CHALLAN_TEMPLATES = [
+  {
+    id: 'classic', name: 'Classic GST', desc: 'Traditional GST invoice format with purple accent',
+    accent: '#6C63FF', headerBg: '#6C63FF', headerText: '#fff',
+    bodyBg: '#fff', bodyText: '#1e293b', accentColor: '#6C63FF',
+  },
+  {
+    id: 'modern', name: 'Modern Dark', desc: 'Bold dark theme with green highlights',
+    accent: '#43E97B', headerBg: '#0f172a', headerText: '#43E97B',
+    bodyBg: '#1a2535', bodyText: '#e2e8f0', accentColor: '#43E97B',
+  },
+  {
+    id: 'minimal', name: 'Minimal Clean', desc: 'Light white layout with amber accents',
+    accent: '#f59e0b', headerBg: '#fffbeb', headerText: '#1e293b',
+    bodyBg: '#ffffff', bodyText: '#374151', accentColor: '#f59e0b',
+  },
+  {
+    id: 'corporate', name: 'Corporate Blue', desc: 'Formal blue theme for professional invoices',
+    accent: '#1d4ed8', headerBg: '#1d4ed8', headerText: '#fff',
+    bodyBg: '#fff', bodyText: '#1e293b', accentColor: '#1d4ed8',
+  },
 ];
 
 const statusBadge = s => {
-  if (s==='Paid')    return <span className="badge badge-green">Paid</span>;
-  if (s==='Pending') return <span className="badge badge-yellow">Pending</span>;
-  if (s==='Overdue') return <span className="badge badge-red">Overdue</span>;
+  if (s === 'Paid')    return <span className="badge badge-green">Paid</span>;
+  if (s === 'Pending') return <span className="badge badge-yellow">Pending</span>;
+  if (s === 'Overdue') return <span className="badge badge-red">Overdue</span>;
 };
+
+function ChallanPaper({ inv, tpl }) {
+  if (!inv || !tpl) return null;
+  return (
+    <div className="challan-paper" style={{ background: tpl.bodyBg, color: tpl.bodyText, fontFamily: "'Segoe UI', sans-serif" }}>
+      <div className="challan-header" style={{ background: tpl.headerBg, color: tpl.headerText }}>
+        <div>
+          <div className="challan-co-name" style={{ color: tpl.headerText }}>{`TECH NANDU`}</div>
+          <div className="challan-co-addr" style={{ color: tpl.headerText, opacity: .82 }}>📍 Tikri Border, Baba Haridas Colony, Delhi – 110041</div>
+          <div className="challan-co-addr" style={{ color: tpl.headerText, opacity: .82 }}>📞 +91 96671-91540  |  +91 80103-47835</div>
+        </div>
+        <div className="challan-title-block" style={{ borderLeftColor: tpl.id === 'minimal' ? tpl.accentColor : `${tpl.headerText}44` }}>
+          <div className="challan-title" style={{ color: tpl.id === 'minimal' ? tpl.accentColor : tpl.headerText }}>TAX INVOICE</div>
+          <div className="challan-inv-no" style={{ color: tpl.headerText, opacity: .78 }}>{inv.invoiceNo}</div>
+        </div>
+      </div>
+
+      <div className="challan-meta" style={{ borderColor: `${tpl.accentColor}28`, background: `${tpl.accentColor}06`, color: tpl.bodyText }}>
+        <div>
+          <div style={{ color: tpl.accentColor, fontWeight: 700, fontSize: '.72rem', textTransform: 'uppercase', letterSpacing: '.4px', marginBottom: 4 }}>Bill To</div>
+          <div style={{ fontWeight: 700 }}>{inv.customer}</div>
+          {inv.phone && <div style={{ opacity: .65, fontSize: '.8rem' }}>{inv.phone}</div>}
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ color: tpl.accentColor, fontWeight: 700, fontSize: '.72rem', textTransform: 'uppercase', letterSpacing: '.4px', marginBottom: 4 }}>Invoice Date</div>
+          <div style={{ fontWeight: 700 }}>{new Date(inv.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+          <div style={{ marginTop: 4 }}>
+            <span style={{
+              background: inv.status === 'Paid' ? 'rgba(22,163,74,.15)' : inv.status === 'Overdue' ? 'rgba(220,38,38,.15)' : 'rgba(217,119,6,.15)',
+              color: inv.status === 'Paid' ? '#16a34a' : inv.status === 'Overdue' ? '#dc2626' : '#d97706',
+              padding: '2px 10px', borderRadius: 12, fontSize: '.68rem', fontWeight: 700,
+            }}>{inv.status}</span>
+          </div>
+        </div>
+      </div>
+
+      <table className="challan-table" style={{ color: tpl.bodyText }}>
+        <thead>
+          <tr style={{ background: tpl.accentColor }}>
+            <th style={{ color: '#fff', width: '5%' }}>#</th>
+            <th style={{ color: '#fff' }}>Item Description</th>
+            <th style={{ color: '#fff', width: '10%', textAlign: 'center' }}>Qty</th>
+            <th style={{ color: '#fff', width: '18%', textAlign: 'right' }}>Unit Price</th>
+            <th style={{ color: '#fff', width: '18%', textAlign: 'right' }}>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {inv.items?.map((it, i) => (
+            <tr key={i} style={{ background: i % 2 === 0 ? `${tpl.accentColor}07` : 'transparent' }}>
+              <td style={{ color: tpl.bodyText }}>{i + 1}</td>
+              <td style={{ color: tpl.bodyText, fontWeight: 500 }}>{it.name}</td>
+              <td style={{ color: tpl.bodyText, textAlign: 'center' }}>{it.qty}</td>
+              <td style={{ color: tpl.bodyText, textAlign: 'right' }}>₹{Number(it.price).toLocaleString('en-IN')}</td>
+              <td style={{ color: tpl.bodyText, textAlign: 'right', fontWeight: 600 }}>₹{(it.qty * it.price).toLocaleString('en-IN')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="challan-totals" style={{ borderTopColor: `${tpl.accentColor}20`, color: tpl.bodyText }}>
+        <div className="challan-total-row" style={{ color: tpl.bodyText }}><span>Subtotal</span><span>₹{inv.subtotal?.toLocaleString('en-IN')}</span></div>
+        <div className="challan-total-row" style={{ color: tpl.bodyText }}><span>GST ({inv.gstRate}%)</span><span>₹{inv.gstAmt?.toFixed(2)}</span></div>
+        <div className="challan-grand-total" style={{ color: tpl.accentColor, borderTopColor: tpl.accentColor }}>
+          <span>Grand Total</span><span>₹{inv.total?.toLocaleString('en-IN')}</span>
+        </div>
+      </div>
+
+      <div className="challan-footer" style={{ borderTopColor: `${tpl.accentColor}20`, color: tpl.bodyText }}>
+        <div style={{ opacity: .55, fontSize: '.72rem' }}>Generated by Tech Nandu ERP • technandu.in</div>
+        <div style={{ opacity: .55, fontSize: '.72rem' }}>Thank you for your business!</div>
+      </div>
+    </div>
+  );
+}
 
 export default function BillingDemo() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const tBgOff = isDark ? 'rgba(255,255,255,.04)' : '#f8fafc';
-  const [tab,      setTab]      = useState(0);
-  const [invoices, setInvoices] = useState([]);
-  const [loading,  setLoading]  = useState(true);
-  const [modal,    setModal]    = useState(false);
-  const [preview,  setPreview]  = useState(null);
-  const [toast,    setToast]    = useState(null);
-  const [form,     setForm]     = useState({ customer:'', phone:'', gstRate:18, items:[{name:'',qty:1,price:''}] });
+  const [tab,             setTab]            = useState(0);
+  const [invoices,        setInvoices]       = useState([]);
+  const [loading,         setLoading]        = useState(true);
+  const [modal,           setModal]          = useState(false);
+  const [preview,         setPreview]        = useState(null);
+  const [toast,           setToast]          = useState(null);
+  const [form,            setForm]           = useState({ customer:'', phone:'', gstRate:18, items:[{name:'',qty:1,price:''}] });
+  const [challanTemplate, setChallanTemplate] = useState('classic');
+  const [printMode,       setPrintMode]      = useState(false);
+
+  const activeTpl = CHALLAN_TEMPLATES.find(t => t.id === challanTemplate) || CHALLAN_TEMPLATES[0];
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000); };
 
@@ -38,7 +140,7 @@ export default function BillingDemo() {
       const res  = await fetch(`${API}/api/billing`);
       const data = await res.json();
       setInvoices(data.data || []);
-    } catch { showToast('Load failed','error'); }
+    } catch { showToast('Failed to load invoices','error'); }
     finally { setLoading(false); }
   }, []);
 
@@ -49,8 +151,8 @@ export default function BillingDemo() {
     if (i === 2) setModal(true);
   };
 
-  const addItem    = () => setForm(p=>({...p, items:[...p.items,{name:'',qty:1,price:''}]}));
-  const removeItem = i => setForm(p=>({...p, items:p.items.filter((_,idx)=>idx!==i)}));
+  const addItem    = () => setForm(p=>({...p,items:[...p.items,{name:'',qty:1,price:''}]}));
+  const removeItem = i  => setForm(p=>({...p,items:p.items.filter((_,idx)=>idx!==i)}));
   const updateItem = (i,field,val) => setForm(p=>{ const items=[...p.items]; items[i]={...items[i],[field]:val}; return {...p,items}; });
 
   const calcTotals = () => {
@@ -60,12 +162,12 @@ export default function BillingDemo() {
   };
 
   const handleCreate = async () => {
-    if (!form.customer||!form.items[0].name) return showToast('Customer name aur item required!','error');
+    if (!form.customer||!form.items[0].name) return showToast('Customer name and at least one item are required!','error');
     try {
       const res  = await fetch(`${API}/api/billing`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,items:form.items.map(it=>({...it,qty:Number(it.qty),price:Number(it.price)}))})});
       const data = await res.json();
       if(data.success){ showToast(`Invoice ${data.data.invoiceNo} created!`); setModal(false); setForm({customer:'',phone:'',gstRate:18,items:[{name:'',qty:1,price:''}]}); load(); setTab(1); }
-    } catch { showToast('Create failed','error'); }
+    } catch { showToast('Failed to create invoice','error'); }
   };
 
   const updateStatus = async (id,status) => {
@@ -76,16 +178,17 @@ export default function BillingDemo() {
   const deleteInvoice = async (id) => {
     if(!confirm('Delete this invoice?')) return;
     await fetch(`${API}/api/billing/${id}`,{method:'DELETE'});
-    showToast('Deleted'); load();
+    showToast('Invoice deleted'); load();
   };
+
+  const cutChallan = (inv) => { setPreview(inv); setPrintMode(true); };
 
   const paid    = invoices.filter(i=>i.status==='Paid').reduce((s,i)=>s+i.total,0);
   const pending = invoices.filter(i=>i.status==='Pending').reduce((s,i)=>s+i.total,0);
   const overdue = invoices.filter(i=>i.status==='Overdue').reduce((s,i)=>s+i.total,0);
   const { subtotal, gst, total } = calcTotals();
 
-  // Unique customers from invoices
-  const customers = [...new Map(invoices.map(inv=>[ inv.customer, { name:inv.customer, phone:inv.phone, invoices:invoices.filter(i=>i.customer===inv.customer).length, total:invoices.filter(i=>i.customer===inv.customer).reduce((s,i)=>s+i.total,0) }])).values()];
+  const customers = [...new Map(invoices.map(inv=>[inv.customer,{name:inv.customer,phone:inv.phone,invoices:invoices.filter(i=>i.customer===inv.customer).length,total:invoices.filter(i=>i.customer===inv.customer).reduce((s,i)=>s+i.total,0)}])).values()];
 
   const InvoiceTable = () => (
     <div className="card">
@@ -99,7 +202,7 @@ export default function BillingDemo() {
             <thead><tr><th>Invoice#</th><th>Customer</th><th>Phone</th><th>Items</th><th>GST</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody>
               {invoices.length===0
-                ? <tr><td colSpan={8} className="empty-row">No invoices. Create one!</td></tr>
+                ? <tr><td colSpan={8} className="empty-row">No invoices yet. Create one to get started!</td></tr>
                 : invoices.map(inv=>(
                 <tr key={inv._id}>
                   <td style={{fontWeight:700,color:'#6C63FF',cursor:'pointer'}} onClick={()=>setPreview(inv)}>{inv.invoiceNo}</td>
@@ -113,6 +216,9 @@ export default function BillingDemo() {
                     <div style={{display:'flex',gap:5}}>
                       {inv.status!=='Paid'    && <button className="btn-edit" onClick={()=>updateStatus(inv._id,'Paid')}>✓ Paid</button>}
                       {inv.status!=='Overdue' && <button className="btn-del"  onClick={()=>updateStatus(inv._id,'Overdue')}>!</button>}
+                      <button className="btn-edit"
+                        style={{background:'rgba(108,99,255,.12)',color:'#6C63FF',border:'1px solid rgba(108,99,255,.25)'}}
+                        onClick={()=>cutChallan(inv)}>🖨️ Challan</button>
                       <button className="btn-del" onClick={()=>deleteInvoice(inv._id)}>🗑</button>
                     </div>
                   </td>
@@ -129,7 +235,6 @@ export default function BillingDemo() {
     <DemoLayout title="Billing & Invoicing" icon="🧾" color="#43E97B" variant="flat"
       menuItems={MENU} activeItem={tab} onMenuClick={handleMenuClick}>
 
-      {/* Stats always visible */}
       <div className="stats-grid">
         <div className="stat-card"><div className="s-label">Total Invoices</div><div className="s-val" style={{color:'#6C63FF'}}>{invoices.length}</div><div className="s-chg up">All time</div></div>
         <div className="stat-card"><div className="s-label">Paid Amount</div><div className="s-val" style={{color:'#43E97B'}}>₹{(paid/1000).toFixed(1)}K</div><div className="s-chg up">▲ Collected</div></div>
@@ -137,7 +242,6 @@ export default function BillingDemo() {
         <div className="stat-card"><div className="s-label">Overdue</div><div className="s-val" style={{color:'#FF6584'}}>₹{(overdue/1000).toFixed(1)}K</div><div className="s-chg down">⚠ Action needed</div></div>
       </div>
 
-      {/* TAB 0 — Dashboard */}
       {tab === 0 && (
         <>
           <InvoiceTable />
@@ -159,13 +263,9 @@ export default function BillingDemo() {
         </>
       )}
 
-      {/* TAB 1 — All Invoices */}
       {tab === 1 && <InvoiceTable />}
-
-      {/* TAB 2 — New Invoice (shows table + modal) */}
       {tab === 2 && <InvoiceTable />}
 
-      {/* TAB 3 — Customers */}
       {tab === 3 && (
         <div className="card">
           <div className="card-header">
@@ -173,7 +273,7 @@ export default function BillingDemo() {
             <button className="btn-add" onClick={()=>showToast('Customer added! (Demo)')}>+ Add Customer</button>
           </div>
           <div className="table-wrap">
-            {customers.length === 0
+            {customers.length===0
               ? <div className="demo-loading">No customers yet. Create some invoices first!</div>
               : (
               <table>
@@ -198,8 +298,104 @@ export default function BillingDemo() {
         </div>
       )}
 
-      {/* TAB 4 — Reports */}
+      {/* TAB 4 — Challan Templates */}
       {tab === 4 && (
+        <div>
+          <div className="card" style={{padding:'16px 20px',marginBottom:18,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <div>
+              <h3 style={{marginBottom:2}}>🖨️ Challan Templates</h3>
+              <div style={{fontSize:'.78rem',color:'var(--muted)'}}>Choose a template style for your invoice printouts. Active template is used when you click 🖨️ Challan on any invoice.</div>
+            </div>
+            <div style={{flexShrink:0,marginLeft:16}}>
+              <span style={{fontSize:'.72rem',color:'var(--muted)'}}>Active:</span>{' '}
+              <span style={{fontWeight:700,color:activeTpl.accent,fontSize:'.82rem'}}>{activeTpl.name}</span>
+            </div>
+          </div>
+
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(250px,1fr))',gap:16}}>
+            {CHALLAN_TEMPLATES.map(tpl => (
+              <div key={tpl.id}
+                className="challan-tpl-card"
+                style={challanTemplate===tpl.id ? {borderColor:tpl.accent,boxShadow:`0 0 0 2px ${tpl.accent}35`} : {}}
+                onClick={()=>setChallanTemplate(tpl.id)}
+              >
+                {/* Mini thumbnail */}
+                <div className="challan-thumb" style={{background: tpl.id==='modern'?'#0f172a':'#f8fafc', borderBottom:'1px solid rgba(0,0,0,.07)'}}>
+                  {/* Thumb header */}
+                  <div style={{background:tpl.headerBg,padding:'8px 10px',borderRadius:'6px 6px 0 0'}}>
+                    <div style={{color:tpl.headerText,fontSize:'8px',fontWeight:900,letterSpacing:'.3px'}}>TECH NANDU</div>
+                    <div style={{color:tpl.id==='minimal'?tpl.accentColor:tpl.headerText,fontSize:'6px',fontWeight:700,opacity:.8,marginTop:1}}>TAX INVOICE</div>
+                  </div>
+                  {/* Thumb body */}
+                  <div style={{padding:'8px 10px'}}>
+                    <div style={{fontSize:'6px',color:tpl.id==='modern'?'#94a3b8':'#64748b',marginBottom:5}}>Bill To: Customer Name &nbsp;|&nbsp; Date: Apr 2026</div>
+                    {/* Header row */}
+                    <div style={{background:tpl.accentColor,height:'9px',borderRadius:2,marginBottom:4}} />
+                    {/* Item rows */}
+                    {[1,2].map(i=>(
+                      <div key={i} style={{display:'flex',gap:3,marginBottom:3}}>
+                        <div style={{flex:3,height:5,background:tpl.id==='modern'?'rgba(255,255,255,.08)':'#e2e8f0',borderRadius:2}} />
+                        <div style={{flex:1,height:5,background:tpl.id==='modern'?'rgba(255,255,255,.08)':'#e2e8f0',borderRadius:2}} />
+                        <div style={{flex:1,height:5,background:tpl.id==='modern'?'rgba(255,255,255,.08)':'#e2e8f0',borderRadius:2}} />
+                      </div>
+                    ))}
+                    {/* Total */}
+                    <div style={{borderTop:`1px solid ${tpl.accentColor}`,paddingTop:4,marginTop:4,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                      <div style={{fontSize:'6px',color:tpl.id==='modern'?'#94a3b8':'#64748b'}}>Grand Total</div>
+                      <div style={{fontSize:'7px',fontWeight:900,color:tpl.accentColor}}>₹12,390</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card footer */}
+                <div style={{padding:'12px 14px'}}>
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:4}}>
+                    <div style={{fontWeight:700,fontSize:'.88rem'}}>{tpl.name}</div>
+                    {challanTemplate===tpl.id && (
+                      <span style={{background:`${tpl.accent}18`,color:tpl.accent,border:`1px solid ${tpl.accent}35`,padding:'2px 8px',borderRadius:10,fontSize:'.62rem',fontWeight:700}}>
+                        ✓ Active
+                      </span>
+                    )}
+                  </div>
+                  <div style={{fontSize:'.75rem',color:'var(--muted)',marginBottom:10}}>{tpl.desc}</div>
+                  <div style={{display:'flex',gap:8}}>
+                    <button
+                      className="btn-add"
+                      style={{
+                        flex:1,
+                        background:challanTemplate===tpl.id?`${tpl.accent}18`:'rgba(255,255,255,.05)',
+                        color:challanTemplate===tpl.id?tpl.accent:'var(--muted)',
+                        border:`1px solid ${challanTemplate===tpl.id?tpl.accent:'rgba(255,255,255,.12)'}`,
+                      }}
+                      onClick={e=>{e.stopPropagation();setChallanTemplate(tpl.id);showToast(`${tpl.name} template selected!`);}}
+                    >
+                      {challanTemplate===tpl.id?'✓ Selected':'Use Template'}
+                    </button>
+                    <button
+                      className="btn-edit"
+                      onClick={e=>{
+                        e.stopPropagation();
+                        if(invoices.length>0){ setChallanTemplate(tpl.id); setPreview(invoices[0]); setPrintMode(true); }
+                        else showToast('Create an invoice first to preview','error');
+                      }}
+                    >Preview</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="card" style={{padding:'14px 18px',marginTop:16,display:'flex',gap:12,alignItems:'center'}}>
+            <span style={{fontSize:'1.3rem'}}>💡</span>
+            <div>
+              <div style={{fontWeight:700,fontSize:'.83rem',marginBottom:2}}>How to print a challan</div>
+              <div style={{fontSize:'.76rem',color:'var(--muted)'}}>Select a template above, then go to the <strong>Invoices</strong> tab and click <strong>🖨️ Challan</strong> on any invoice row to open the print-ready view.</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tab === 5 && (
         <>
           <div className="card" style={{padding:'18px 20px'}}>
             <h3 style={{fontSize:'.88rem',marginBottom:14}}>📊 Revenue Summary</h3>
@@ -246,8 +442,42 @@ export default function BillingDemo() {
         </>
       )}
 
-      {/* PREVIEW MODAL */}
-      {preview && (
+      {/* PRINT / CUT CHALLAN FULL-SCREEN */}
+      {printMode && preview && (
+        <div className="challan-print-overlay" onClick={e=>e.target===e.currentTarget&&setPrintMode(false)}>
+          <div className="challan-print-container">
+            <div className="challan-controls no-print">
+              <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+                <span style={{fontWeight:700,fontSize:'.85rem',color:'#e2e8f0'}}>🖨️ {preview.invoiceNo}</span>
+                <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+                  {CHALLAN_TEMPLATES.map(tpl=>(
+                    <button key={tpl.id} onClick={()=>setChallanTemplate(tpl.id)}
+                      style={{
+                        padding:'4px 10px',borderRadius:7,fontSize:'.7rem',fontWeight:700,cursor:'pointer',
+                        background:challanTemplate===tpl.id?tpl.accent:'transparent',
+                        color:challanTemplate===tpl.id?'#fff':'rgba(255,255,255,.5)',
+                        border:`1px solid ${challanTemplate===tpl.id?tpl.accent:'rgba(255,255,255,.15)'}`,
+                        transition:'all .2s',
+                      }}
+                    >{tpl.name}</button>
+                  ))}
+                </div>
+              </div>
+              <div style={{display:'flex',gap:8}}>
+                <button onClick={()=>window.print()}
+                  style={{background:'#43E97B',color:'#0f172a',border:'none',padding:'8px 18px',borderRadius:8,fontWeight:800,cursor:'pointer',fontSize:'.82rem'}}>
+                  🖨️ Print
+                </button>
+                <button className="close-btn" onClick={()=>setPrintMode(false)}>✕</button>
+              </div>
+            </div>
+            <ChallanPaper inv={preview} tpl={activeTpl} />
+          </div>
+        </div>
+      )}
+
+      {/* INVOICE PREVIEW MODAL */}
+      {preview && !printMode && (
         <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setPreview(null)}>
           <div className="modal" style={{maxWidth:'500px'}}>
             <div className="modal-head">
@@ -275,15 +505,16 @@ export default function BillingDemo() {
                 <div className="inv-line"><span>GST ({preview.gstRate}%)</span><span>₹{preview.gstAmt?.toFixed(2)}</span></div>
                 <div className="inv-line" style={{fontWeight:800,fontSize:'1rem',color:'#43E97B'}}><span>Total</span><span>₹{preview.total?.toLocaleString('en-IN')}</span></div>
               </div>
-              <div style={{textAlign:'center',marginTop:14}}>
-                <button className="btn-add" onClick={()=>{showToast('PDF downloading!');setPreview(null);}}>📥 Download PDF</button>
+              <div style={{textAlign:'center',marginTop:14,display:'flex',gap:8,justifyContent:'center'}}>
+                <button className="btn-add" onClick={()=>setPrintMode(true)}>🖨️ Cut Challan</button>
+                <button className="btn-edit" onClick={()=>{showToast('PDF downloading!');setPreview(null);}}>📥 Download PDF</button>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* CREATE MODAL */}
+      {/* CREATE INVOICE MODAL */}
       {modal && (
         <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setModal(false)}>
           <div className="modal" style={{maxWidth:'620px'}}>

@@ -34,14 +34,14 @@ export default function AdminPanel() {
   }, [adminKey]);
 
   const handleLogin = async () => {
-    if (!keyInput.trim()) { setAuthErr('Admin key daalo'); return; }
+    if (!keyInput.trim()) { setAuthErr('Please enter the admin key.'); return; }
     setAuthLoad(true);
     setAuthErr('');
     try {
       const res = await fetch(`${API}/api/contact`, { headers: { 'x-admin-key': keyInput.trim() } });
-      if (res.status === 403) { setAuthErr('Wrong admin key. Dobara try karo.'); }
+      if (res.status === 403) { setAuthErr('Wrong admin key. Please try again.'); }
       else { setAdminKey(keyInput.trim()); }
-    } catch { setAuthErr('Server se connect nahi ho raha.'); }
+    } catch { setAuthErr('Unable to connect to server.'); }
     finally { setAuthLoad(false); }
   };
 
@@ -126,11 +126,11 @@ export default function AdminPanel() {
         <div className="admin-head">
           <div>
             <h1>📊 Lead Dashboard</h1>
-            <p>Saare demo requests yahan — real-time MongoDB data</p>
+            <p>All demo requests — real-time MongoDB data</p>
           </div>
           <div style={{display:'flex',gap:10}}>
             <button className="btn-export" onClick={exportCSV}>📥 Export CSV</button>
-            <button className="btn-refresh" onClick={load}>🔄 Refresh</button>
+            <button className="btn-refresh" onClick={() => load(adminKey)}>🔄 Refresh</button>
           </div>
         </div>
 
@@ -158,7 +158,7 @@ export default function AdminPanel() {
           ) : filtered.length === 0 ? (
             <div className="a-empty">
               <div style={{fontSize:'2.5rem',marginBottom:10}}>📭</div>
-              <div>{contacts.length===0 ? 'Koi lead nahi abhi. Website pe form fill hoga to yahan dikhega.' : 'No results for your search.'}</div>
+              <div>{contacts.length===0 ? 'No leads yet. When a visitor fills the contact form, it will appear here.' : 'No results for your search.'}</div>
             </div>
           ) : (
             <div style={{overflowX:'auto'}}>

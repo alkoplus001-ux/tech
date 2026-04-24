@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
-import Home          from './pages/Home.jsx';
-import InventoryDemo from './pages/InventoryDemo.jsx';
-import BillingDemo   from './pages/BillingDemo.jsx';
-import HRDemo        from './pages/HRDemo.jsx';
-import POSDemo       from './pages/POSDemo.jsx';
-import GenericDemo   from './pages/GenericDemo.jsx';
-import AdminPanel    from './pages/AdminPanel.jsx';
+import Home             from './pages/Home.jsx';
+import InventoryDemo    from './pages/InventoryDemo.jsx';
+import BillingDemo      from './pages/BillingDemo.jsx';
+import HRDemo           from './pages/HRDemo.jsx';
+import POSDemo          from './pages/POSDemo.jsx';
+import GenericDemo      from './pages/GenericDemo.jsx';
+import AdminPanel       from './pages/AdminPanel.jsx';
 
 export default function App() {
   return (

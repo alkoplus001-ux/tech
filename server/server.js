@@ -199,10 +199,11 @@ app.use('/api/', rateLimit({
 }));
 
 // Routes
-app.use('/api/inventory', require('./routes/inventory'));
-app.use('/api/billing', require('./routes/billing'));
-app.use('/api/hr', require('./routes/hr'));
-app.use('/api/contact', require('./routes/contact'));
+app.use('/api/inventory',  require('./routes/inventory'));
+app.use('/api/billing',    require('./routes/billing'));
+app.use('/api/hr',         require('./routes/hr'));
+app.use('/api/contact',    require('./routes/contact'));
+app.use('/api/cloudinary', require('./routes/cloudinary'));
 
 // Status check
 app.get('/api/status', (req, res) => {

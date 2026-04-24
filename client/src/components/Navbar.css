@@ -41,27 +41,95 @@
 .nav-admin       { color: #f59e0b !important; }
 .nav-admin:hover { background: rgba(245,158,11,0.1) !important; }
 
-/* ── Theme toggle button ──────────────────────────────────────────────── */
+/* ── Theme toggle ─────────────────────────────────────────────────────── */
 .theme-toggle {
   width: 36px; height: 36px; border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.12);
   background: rgba(255,255,255,0.06);
   cursor: pointer; font-size: 1rem;
   display: flex; align-items: center; justify-content: center;
-  transition: all .2s;
+  transition: all .2s; flex-shrink: 0;
 }
 .theme-toggle:hover { background: rgba(255,255,255,0.13); transform: scale(1.08); }
 
-/* ── Light mode ───────────────────────────────────────────────────────── */
-html.light .navbar        { background: rgba(255,255,255,0.97); border-bottom-color: rgba(108,99,255,0.15); }
-html.light .nav-btn       { color: rgba(0,0,0,0.6); }
-html.light .nav-btn:hover { color: #1a1a2e; background: rgba(0,0,0,0.05); }
-html.light .nav-wa        { color: #1da851 !important; }
-html.light .nav-admin     { color: #c07000 !important; }
-html.light .theme-toggle  { border-color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.05); }
-html.light .theme-toggle:hover { background: rgba(0,0,0,0.1); }
-
-@media(max-width: 900px) {
-  .navbar { padding: 0 16px; }
-  .nav-links { display: none; }
+/* ── Hamburger ────────────────────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  width: 40px; height: 40px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.07);
+  color: rgba(255,255,255,.9); cursor: pointer; font-size: 1.3rem;
+  align-items: center; justify-content: center;
+  transition: all .2s; flex-shrink: 0;
 }
+.hamburger:hover { background: rgba(255,255,255,.13); }
+.hamburger.open  { background: rgba(108,99,255,.2); border-color: rgba(108,99,255,.4); color: #fff; }
+
+/* ── Mobile backdrop ──────────────────────────────────────────────────── */
+.nav-backdrop {
+  display: none;
+  position: fixed; inset: 0; z-index: 998;
+  background: rgba(0,0,0,.55);
+}
+
+/* ── Mobile drawer ────────────────────────────────────────────────────── */
+.mobile-nav {
+  display: none;
+  position: fixed; top: 62px; left: 0; right: 0; z-index: 999;
+  background: rgba(8,8,18,.98);
+  border-bottom: 1px solid rgba(108,99,255,.25);
+  backdrop-filter: blur(24px);
+  padding: 10px 14px 18px;
+  flex-direction: column; gap: 3px;
+  animation: navSlideDown .2s ease;
+}
+@keyframes navSlideDown {
+  from { opacity:0; transform:translateY(-10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.mobile-nav .nav-btn {
+  padding: 13px 16px; border-radius: 10px;
+  font-size: .95rem; text-align: left;
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; color: rgba(255,255,255,.75);
+}
+.mobile-nav .nav-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
+.mobile-nav-divider {
+  height: 1px; background: rgba(255,255,255,.07); margin: 6px 0;
+}
+.mobile-nav-cta {
+  margin-top: 8px; padding: 14px; border-radius: 12px;
+  background: linear-gradient(135deg,#6C63FF,#FF6584);
+  color: #fff; font-weight: 700; font-size: 1rem;
+  border: none; cursor: pointer; width: 100%;
+  font-family: inherit; transition: opacity .2s;
+}
+.mobile-nav-cta:hover { opacity: .88; }
+
+/* ── Light mode ───────────────────────────────────────────────────────── */
+html.light .navbar          { background: rgba(255,255,255,.97); border-bottom-color: rgba(108,99,255,.15); }
+html.light .nav-btn         { color: rgba(0,0,0,.6); }
+html.light .nav-btn:hover   { color: #1a1a2e; background: rgba(0,0,0,.05); }
+html.light .nav-wa          { color: #1da851 !important; }
+html.light .nav-admin       { color: #c07000 !important; }
+html.light .theme-toggle    { border-color: rgba(0,0,0,.12); background: rgba(0,0,0,.05); }
+html.light .theme-toggle:hover { background: rgba(0,0,0,.1); }
+html.light .hamburger       { border-color: rgba(0,0,0,.15); background: rgba(0,0,0,.05); color: #1a1a2e; }
+html.light .hamburger.open  { background: rgba(108,99,255,.1); border-color: rgba(108,99,255,.3); }
+html.light .mobile-nav      { background: rgba(255,255,255,.98); border-bottom-color: rgba(108,99,255,.15); }
+html.light .mobile-nav .nav-btn { color: rgba(0,0,0,.65); }
+html.light .mobile-nav .nav-btn:hover { background: rgba(0,0,0,.04); color: #1a1a2e; }
+html.light .mobile-nav-divider { background: rgba(0,0,0,.08); }
+html.light .nav-backdrop    { background: rgba(0,0,0,.3); }
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media(max-width: 900px) {
+  .navbar       { padding: 0 16px; }
+  .nav-links    { display: none; }
+  .nav-demo-btn { display: none; }
+  .hamburger    { display: flex; }
+  .mobile-nav   { display: flex; }
+  .nav-backdrop { display: block; }
+}
+
+/* When menu is closed, hide mobile-nav and backdrop via JS (conditional render) */

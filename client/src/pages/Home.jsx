@@ -194,13 +194,13 @@ export default function Home() {
   const [pricingTab, setPricingTab] = useState('inventory');
 
   const handleBook = async () => {
-    if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name aur phone number dalna zaroori hai!' }); return; }
+    if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name and phone number are required.' }); return; }
     setSub(true);
     try {
       const res  = await fetch(`${API}/api/contact`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(form) });
       const data = await res.json();
       if (data.success) {
-        setMsg({ type:'success', text:`Demo booked, ${form.name}! Hamari team 2 hours mein aapko +91 96671-91540 ya WhatsApp se contact karegi.` });
+        setMsg({ type:'success', text:`Demo booked, ${form.name}! Our team will contact you within 2 hours at +91 96671-91540 or WhatsApp.` });
         setForm({ name:'', phone:'', email:'', business:'' });
       } else throw new Error(data.message);
     } catch (e) {
@@ -391,7 +391,7 @@ export default function Home() {
       <section className="cta-section" id="cta-section">
         <div className="cta-inner">
           <h2>Ready to Grow Your Business?</h2>
-          <p>Abhi contact karo — free demo, free setup consultation. Call ya WhatsApp karo <strong style={{color:'#43E97B'}}>+91 96671-91540</strong></p>
+          <p>Contact us today — free demo, free setup consultation. Call or WhatsApp us at <strong style={{color:'#43E97B'}}>+91 96671-91540</strong></p>
           <div className="cta-form">
             <input className="cta-input" placeholder="Your Name *" value={form.name}     onChange={e => setForm(p => ({...p, name:e.target.value}))} />
             <input className="cta-input" placeholder="WhatsApp Number *" type="tel" value={form.phone} onChange={e => setForm(p => ({...p, phone:e.target.value}))} />
@@ -411,7 +411,7 @@ export default function Home() {
         <p>Empowering Indian Businesses with Smart Technology</p>
         <div className="footer-links">
           <span>📞 <a href="tel:+919667191540" style={{color:'inherit',textDecoration:'none'}}>+91 96671-91540</a></span>
-          <span>📞 <a href="tel:+919306174393" style={{color:'inherit',textDecoration:'none'}}>+91 93061-74393</a></span>
+          <span>📞 <a href="tel:+918010347835" style={{color:'inherit',textDecoration:'none'}}>+91 80103-47835</a></span>
           <span>📧 <a href="mailto:kajal9306174@gmail.com" style={{color:'inherit',textDecoration:'none'}}>kajal9306174@gmail.com</a></span>
           <span>💬 <a href="https://wa.me/919667191540" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none'}}>WhatsApp Us</a></span>
           <span>📍 Tikri Border, Baba Haridas Colony, Delhi – 110041</span>

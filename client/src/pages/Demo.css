@@ -82,3 +82,119 @@ html.light .pos-grid .card { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,
 
 /* Invoice total summary block */
 html.light .inv-total-block { background: #f8fafc !important; border-color: #e2e8f0 !important; }
+
+/* ── Challan Templates ─────────────────────────────────────────────────── */
+.challan-tpl-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px; overflow: hidden;
+  cursor: pointer; transition: all .25s;
+}
+.challan-tpl-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,.18); }
+.challan-thumb { border-radius: 8px 8px 0 0; overflow: hidden; height: 155px; }
+
+/* Print overlay */
+.challan-print-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.88);
+  z-index: 9999; display: flex; flex-direction: column;
+  align-items: center; padding: 20px; overflow-y: auto;
+}
+.challan-print-container {
+  background: #fff; border-radius: 10px; overflow: hidden;
+  width: 100%; max-width: 700px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.55);
+  margin-bottom: 40px;
+}
+.challan-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px; background: #0f172a;
+  gap: 10px; flex-wrap: wrap;
+}
+
+/* Challan paper structure */
+.challan-paper { font-family: 'Segoe UI', Arial, sans-serif; }
+.challan-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 20px 24px;
+}
+.challan-co-name  { font-size: 1.35rem; font-weight: 900; letter-spacing: .5px; margin-bottom: 5px; }
+.challan-co-addr  { font-size: .75rem; opacity: .82; margin-bottom: 2px; }
+.challan-title-block {
+  text-align: right; padding-left: 18px;
+  border-left: 2px solid;
+}
+.challan-title    { font-size: .95rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+.challan-inv-no   { font-size: .78rem; margin-top: 4px; }
+.challan-meta {
+  display: flex; justify-content: space-between;
+  padding: 12px 24px; border-top: 1px solid; border-bottom: 1px solid;
+  font-size: .83rem;
+}
+.challan-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.challan-table th, .challan-table td { padding: 8px 12px; }
+.challan-table th { font-weight: 700; font-size: .72rem; letter-spacing: .3px; }
+.challan-totals {
+  padding: 12px 24px; border-top: 1px solid rgba(0,0,0,.06);
+}
+.challan-total-row {
+  display: flex; justify-content: space-between;
+  font-size: .82rem; padding: 4px 0;
+}
+.challan-grand-total {
+  display: flex; justify-content: space-between;
+  font-size: 1rem; font-weight: 800;
+  border-top: 2px solid; margin-top: 8px; padding-top: 10px;
+}
+.challan-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 24px; border-top: 1px solid rgba(0,0,0,.06);
+}
+
+/* Print media — show only challan paper */
+@media print {
+  .no-print { display: none !important; }
+  body * { visibility: hidden; }
+  .challan-paper, .challan-paper * { visibility: visible; }
+  .challan-paper { position: fixed; top: 0; left: 0; width: 100%; margin: 0; box-shadow: none; }
+}
+
+html.light .challan-tpl-card { background: #fff; border-color: #e2e8f0; }
+
+/* ── Catalogue Demo ─────────────────────────────────────────────────────── */
+.catalogue-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 14px; overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: all .25s;
+}
+.catalogue-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,.22); }
+.catalogue-img-wrap { position: relative; cursor: pointer; overflow: hidden; }
+.catalogue-img { width: 100%; height: 155px; object-fit: cover; display: block; transition: transform .3s; }
+.catalogue-img-wrap:hover .catalogue-img { transform: scale(1.04); }
+.catalogue-oos {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(220,38,38,.88); color: #fff;
+  font-size: .62rem; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+}
+.catalogue-sku {
+  position: absolute; bottom: 7px; left: 8px;
+  background: rgba(0,0,0,.55); color: #fff;
+  font-size: .6rem; padding: 2px 7px; border-radius: 4px;
+}
+.catalogue-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; }
+.catalogue-cat  { font-size: .63rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.catalogue-name { font-size: .86rem; font-weight: 700; margin-bottom: 4px; cursor: pointer; line-height: 1.35; }
+.catalogue-name:hover { color: #06b6d4; }
+.catalogue-desc { font-size: .73rem; color: var(--muted); line-height: 1.55; margin-bottom: 8px; flex: 1; }
+.catalogue-price { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.catalogue-price-main { font-size: 1.05rem; font-weight: 800; color: #06b6d4; }
+.catalogue-price-mrp  { font-size: .72rem; color: var(--muted); text-decoration: line-through; }
+.catalogue-discount   { font-size: .66rem; background: rgba(67,233,123,.15); color: #43E97B; padding: 2px 6px; border-radius: 5px; font-weight: 700; }
+
+html.light .catalogue-card { background: #fff; border-color: #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+html.light .catalogue-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,.1); }
+html.light .catalogue-name { color: #0f172a; }
+html.light .catalogue-name:hover { color: #0891b2; }
+html.light .catalogue-desc { color: #64748b; }
