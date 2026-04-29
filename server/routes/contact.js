@@ -9,7 +9,7 @@ const Contact  = () => useMongo() ? require('../models/Contact') : null;
 
 const esc = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const getResend = () => new Resend(process.env.RESEND_API_KEY);
 
 // Validate + sanitize incoming contact data
 const validateContact = (body) => {
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
 
     // Send notification email via Resend (HTTPS, works on Render free tier)
     if (process.env.RESEND_API_KEY) {
-      resend.emails.send({
+      getResend().emails.send({
         from:    'Tech Nandu <onboarding@resend.dev>',
         to:      process.env.ADMIN_EMAIL || 'tech.nandu.96@gmail.com',
         subject: `New Demo Request — ${esc(name)} | Tech Nandu`,
