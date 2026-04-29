@@ -214,7 +214,7 @@ app.get('/api/status', (req, res) => {
 app.get('/api/test-email', async (req, res) => {
   const nodemailer = require('nodemailer');
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', port: 465, secure: true, family: 4,
+    host: 'smtp.gmail.com', port: 587, secure: false, requireTLS: true, family: 4,
     auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
   });
   try {
