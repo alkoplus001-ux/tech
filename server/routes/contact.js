@@ -11,7 +11,9 @@ const Contact  = () => useMongo() ? require('../models/Contact') : null;
 const esc = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
 });
 
@@ -70,7 +72,7 @@ router.post('/', async (req, res) => {
               <strong>Quick Action:</strong> Call ${esc(name)} on ${esc(phone)} ASAP!
             </div>
           </div>`,
-      }).catch(() => {});
+      }).catch((err) => { console.error('[MAIL ERROR]', err.message); });
     }
 
     res.json({ success: true });

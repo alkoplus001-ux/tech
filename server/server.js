@@ -210,6 +210,27 @@ app.get('/api/status', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// Temporary: test email config
+app.get('/api/test-email', async (req, res) => {
+  const nodemailer = require('nodemailer');
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com', port: 465, secure: true,
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+  });
+  try {
+    await transporter.verify();
+    await transporter.sendMail({
+      from: `"Tech Nandu" <${process.env.EMAIL_USER}>`,
+      to: process.env.ADMIN_EMAIL,
+      subject: 'Test Email — Tech Nandu',
+      text: 'If you see this, email is working!',
+    });
+    res.json({ success: true, message: 'Test email sent!', to: process.env.ADMIN_EMAIL });
+  } catch (e) {
+    res.json({ success: false, error: e.message, user: process.env.EMAIL_USER });
+  }
+});
+
 // Error handler
 app.use((err, req, res, next) => {
   if (err.message === 'CORS not allowed')
