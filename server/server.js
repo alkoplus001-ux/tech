@@ -212,22 +212,18 @@ app.get('/api/status', (req, res) => {
 
 // Temporary: test email config
 app.get('/api/test-email', async (req, res) => {
-  const nodemailer = require('nodemailer');
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', port: 587, secure: false, requireTLS: true, family: 4,
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-  });
+  const { Resend } = require('resend');
+  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
-    await transporter.verify();
-    await transporter.sendMail({
-      from: `"Tech Nandu" <${process.env.EMAIL_USER}>`,
-      to: process.env.ADMIN_EMAIL,
+    const result = await resend.emails.send({
+      from: 'Tech Nandu <onboarding@resend.dev>',
+      to: process.env.ADMIN_EMAIL || 'tech.nandu.96@gmail.com',
       subject: 'Test Email — Tech Nandu',
       text: 'If you see this, email is working!',
     });
-    res.json({ success: true, message: 'Test email sent!', to: process.env.ADMIN_EMAIL });
+    res.json({ success: true, message: 'Test email sent!', to: process.env.ADMIN_EMAIL, result });
   } catch (e) {
-    res.json({ success: false, error: e.message, user: process.env.EMAIL_USER });
+    res.json({ success: false, error: e.message });
   }
 });
 

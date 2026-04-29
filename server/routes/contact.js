@@ -1,23 +1,15 @@
-const router     = require('express').Router();
-const mongoose   = require('mongoose');
-const nodemailer = require('nodemailer');
-const { mem }    = require('../db');
+const router   = require('express').Router();
+const mongoose = require('mongoose');
+const { Resend } = require('resend');
+const { mem }  = require('../db');
 
-const isProd  = process.env.NODE_ENV === 'production';
+const isProd   = process.env.NODE_ENV === 'production';
 const useMongo = () => mongoose.connection.readyState === 1;
 const Contact  = () => useMongo() ? require('../models/Contact') : null;
 
-// Escape HTML to prevent XSS in email body
 const esc = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  family: 4,
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Validate + sanitize incoming contact data
 const validateContact = (body) => {
@@ -53,11 +45,11 @@ router.post('/', async (req, res) => {
       doc = mem.contacts.create({ name, phone, email, business, message });
     }
 
-    // Send notification email — all values HTML-escaped before interpolation
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS && !process.env.EMAIL_PASS.includes('your_')) {
-      transporter.sendMail({
-        from:    `"Tech Nandu" <${process.env.EMAIL_USER}>`,
-        to:      process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+    // Send notification email via Resend (HTTPS, works on Render free tier)
+    if (process.env.RESEND_API_KEY) {
+      resend.emails.send({
+        from:    'Tech Nandu <onboarding@resend.dev>',
+        to:      process.env.ADMIN_EMAIL || 'tech.nandu.96@gmail.com',
         subject: `New Demo Request — ${esc(name)} | Tech Nandu`,
         html: `
           <div style="font-family:sans-serif;max-width:500px;background:#0f0f1a;color:#fff;padding:24px;border-radius:12px">
