@@ -32,9 +32,9 @@ export default function Navbar() {
         <ul className="nav-links">
           <li><button className="nav-btn" onClick={() => scrollTo('templates')}>Templates</button></li>
           <li><button className="nav-btn" onClick={() => scrollTo('features')}>Features</button></li>
-          <li><a href="tel:+919667191540" className="nav-btn">📞 Call</a></li>
+          <li><a href="tel:+919991327697" className="nav-btn">📞 Call</a></li>
           <li>
-            <a href="https://wa.me/919667191540" target="_blank" rel="noreferrer" className="nav-btn nav-wa">
+            <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" className="nav-btn nav-wa">
               💬 WhatsApp
             </a>
           </li>
@@ -65,8 +65,8 @@ export default function Navbar() {
           <button className="nav-btn" onClick={() => scrollTo('templates')}>📱 Templates</button>
           <button className="nav-btn" onClick={() => scrollTo('features')}>✨ Features</button>
           <div className="mobile-nav-divider" />
-          <a href="tel:+919667191540" className="nav-btn" onClick={close}>📞 Call Us</a>
-          <a href="https://wa.me/919667191540" target="_blank" rel="noreferrer"
+          <a href="tel:+919991327697" className="nav-btn" onClick={close}>📞 Call Us</a>
+          <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer"
             className="nav-btn nav-wa" onClick={close}>💬 WhatsApp</a>
           <Link to="/admin" className="nav-btn nav-admin" onClick={close}>🔐 Admin Panel</Link>
           <div className="mobile-nav-divider" />

@@ -52,9 +52,9 @@ export default function DemoLayout({ title, icon, color, menuItems, activeItem, 
               <span>⚡ Tech Nandu</span>
               <button onClick={() => setInfoOpen(false)}>✕</button>
             </div>
-            <a href="tel:+919667191540" className="demo-info-row">📞 +91 96671-91540</a>
-            <a href="tel:+918010347835" className="demo-info-row">📞 +91 80103-47835</a>
-            <a href="https://wa.me/919667191540" target="_blank" rel="noreferrer" className="demo-info-row" style={{color:'#25D366'}}>
+            <a href="tel:+919991327697" className="demo-info-row">📞 +91 99913-27697</a>
+            <a href="tel:+919811017225" className="demo-info-row">📞 +91 98110-17225</a>
+            <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" className="demo-info-row" style={{color:'#25D366'}}>
               💬 WhatsApp Chat
             </a>
             <div className="demo-info-row" style={{opacity:.6,fontSize:'.75rem'}}>
@@ -87,7 +87,7 @@ export default function DemoLayout({ title, icon, color, menuItems, activeItem, 
             <div>📞 +91 96671-91540</div>
             <div>📞 +91 80103-47835</div>
             <div>
-              💬 <a href="https://wa.me/919667191540" target="_blank" rel="noreferrer"
+              💬 <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer"
                 style={{ color:'#25D366', textDecoration:'none' }}>WhatsApp</a>
             </div>
             <div style={{ fontSize:'.65rem', lineHeight:1.5, marginTop:4, opacity:.6 }}>

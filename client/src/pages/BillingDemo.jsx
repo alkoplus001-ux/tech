@@ -1,8 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import DemoLayout from '../components/DemoLayout.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 const API = import.meta.env.VITE_API_URL;
 import './Demo.css';
+
+const hexRgb = (hex) => {
+  let h = (hex||'#888888').replace('#','');
+  if (h.length===3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+};
 
 const MENU = [
   { icon:'📊', label:'Dashboard'    },
@@ -182,6 +190,182 @@ export default function BillingDemo() {
   };
 
   const cutChallan = (inv) => { setPreview(inv); setPrintMode(true); };
+
+  const downloadChallanPDF = (inv, tpl) => {
+    const doc = new jsPDF({ unit:'mm', format:'a4' });
+    const W   = doc.internal.pageSize.getWidth();
+
+    const hRgb  = hexRgb(tpl.headerBg);
+    const htRgb = hexRgb(tpl.headerText === '#fff' ? '#ffffff' : tpl.headerText);
+    const aRgb  = hexRgb(tpl.accentColor);
+    const bRgb  = hexRgb(tpl.bodyBg === '#fff' || tpl.bodyBg === '#ffffff' ? '#ffffff' : tpl.bodyBg);
+    const btRgb = hexRgb(tpl.bodyText);
+    const isDark = tpl.id === 'modern';
+
+    // ── Header ────────────────────────────────────────────────────────
+    doc.setFillColor(...hRgb);
+    doc.rect(0, 0, W, 38, 'F');
+
+    doc.setTextColor(...htRgb);
+    doc.setFontSize(20); doc.setFont('helvetica','bold');
+    doc.text('TECH NANDU', 14, 14);
+
+    doc.setFontSize(8); doc.setFont('helvetica','normal');
+    doc.text('Tikri Border, Baba Haridas Colony, Delhi - 110041', 14, 20);
+    doc.text('+91 96671-91540  |  +91 80103-47835', 14, 26);
+
+    const titleClr = tpl.id === 'minimal' ? aRgb : htRgb;
+    doc.setTextColor(...titleClr);
+    doc.setFontSize(15); doc.setFont('helvetica','bold');
+    doc.text('TAX INVOICE', W - 14, 14, { align:'right' });
+
+    doc.setTextColor(...htRgb);
+    doc.setFontSize(9); doc.setFont('helvetica','normal');
+    doc.text(inv.invoiceNo, W - 14, 21, { align:'right' });
+
+    // ── Meta ──────────────────────────────────────────────────────────
+    const metaBg = isDark ? [20,33,54] : [248,248,255];
+    doc.setFillColor(...metaBg);
+    doc.rect(0, 38, W, 24, 'F');
+
+    doc.setTextColor(...aRgb);
+    doc.setFontSize(7); doc.setFont('helvetica','bold');
+    doc.text('BILL TO', 14, 47);
+
+    doc.setTextColor(...btRgb);
+    doc.setFontSize(11); doc.setFont('helvetica','bold');
+    doc.text(String(inv.customer||''), 14, 54);
+
+    if (inv.phone) {
+      doc.setFontSize(8.5); doc.setFont('helvetica','normal');
+      doc.text(String(inv.phone), 14, 59);
+    }
+
+    doc.setTextColor(...aRgb);
+    doc.setFontSize(7); doc.setFont('helvetica','bold');
+    doc.text('INVOICE DATE', W - 14, 47, { align:'right' });
+
+    const dateStr = new Date(inv.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+    doc.setTextColor(...btRgb);
+    doc.setFontSize(10); doc.setFont('helvetica','bold');
+    doc.text(dateStr, W - 14, 54, { align:'right' });
+
+    const sClr = inv.status==='Paid'?[22,163,74]:inv.status==='Overdue'?[220,38,38]:[217,119,6];
+    doc.setTextColor(...sClr);
+    doc.setFontSize(8); doc.setFont('helvetica','bold');
+    doc.text(`[ ${inv.status} ]`, W - 14, 60, { align:'right' });
+
+    // ── Items Table ───────────────────────────────────────────────────
+    const altRow = isDark ? [20,30,47] : [248,246,255];
+    autoTable(doc, {
+      startY: 68,
+      head: [['#', 'Item Description', 'Qty', 'Unit Price', 'Amount']],
+      body: (inv.items||[]).map((it,i) => [
+        i+1, it.name, it.qty,
+        `Rs.${Number(it.price).toLocaleString('en-IN')}`,
+        `Rs.${(it.qty*it.price).toLocaleString('en-IN')}`,
+      ]),
+      headStyles:      { fillColor:aRgb, textColor:[255,255,255], fontStyle:'bold', fontSize:9, cellPadding:4 },
+      bodyStyles:      { textColor:btRgb, fillColor:bRgb, fontSize:10 },
+      alternateRowStyles: { fillColor:altRow },
+      columnStyles: {
+        0: { cellWidth:12, halign:'center' },
+        2: { cellWidth:16, halign:'center' },
+        3: { cellWidth:34, halign:'right' },
+        4: { cellWidth:34, halign:'right' },
+      },
+      margin: { left:14, right:14 },
+    });
+
+    const fy = doc.lastAutoTable.finalY + 6;
+
+    // ── Totals ────────────────────────────────────────────────────────
+    doc.setTextColor(...btRgb);
+    doc.setFontSize(10); doc.setFont('helvetica','normal');
+    doc.text('Subtotal:', 130, fy);
+    doc.text(`Rs.${inv.subtotal?.toLocaleString('en-IN')}`, W-14, fy, { align:'right' });
+
+    doc.text(`GST (${inv.gstRate}%):`, 130, fy+7);
+    doc.text(`Rs.${inv.gstAmt?.toFixed(2)}`, W-14, fy+7, { align:'right' });
+
+    doc.setDrawColor(...aRgb);
+    doc.line(125, fy+11, W-14, fy+11);
+
+    doc.setTextColor(...aRgb);
+    doc.setFontSize(13); doc.setFont('helvetica','bold');
+    doc.text('Grand Total:', 130, fy+19);
+    doc.text(`Rs.${inv.total?.toLocaleString('en-IN')}`, W-14, fy+19, { align:'right' });
+
+    // ── Footer ────────────────────────────────────────────────────────
+    doc.setDrawColor(...aRgb);
+    doc.line(14, fy+26, W-14, fy+26);
+    doc.setTextColor(140,140,140);
+    doc.setFontSize(8); doc.setFont('helvetica','normal');
+    doc.text('Generated by Tech Nandu ERP', 14, fy+32);
+    doc.text('Thank you for your business!', W-14, fy+32, { align:'right' });
+
+    doc.save(`${inv.invoiceNo}-challan.pdf`);
+  };
+
+  // Print challan in a new window (clean print without page chrome)
+  const printChallan = (inv, tpl) => {
+    const rows = (inv.items||[]).map((it,i)=>`
+      <tr style="background:${i%2===0?`${tpl.accentColor}09`:'transparent'}">
+        <td>${i+1}</td><td>${it.name}</td>
+        <td style="text-align:center">${it.qty}</td>
+        <td style="text-align:right">&#8377;${Number(it.price).toLocaleString('en-IN')}</td>
+        <td style="text-align:right;font-weight:600">&#8377;${(it.qty*it.price).toLocaleString('en-IN')}</td>
+      </tr>`).join('');
+    const sBg = inv.status==='Paid'?'rgba(22,163,74,.15)':inv.status==='Overdue'?'rgba(220,38,38,.15)':'rgba(217,119,6,.15)';
+    const sClr= inv.status==='Paid'?'#16a34a':inv.status==='Overdue'?'#dc2626':'#d97706';
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${inv.invoiceNo}</title>
+      <style>*{margin:0;padding:0;box-sizing:border-box;}
+      body{font-family:'Segoe UI',Arial,sans-serif;background:${tpl.bodyBg};color:${tpl.bodyText};}
+      .w{max-width:794px;margin:0 auto;}
+      .h{background:${tpl.headerBg};color:${tpl.headerText};padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start;}
+      .cn{font-size:21px;font-weight:900;color:${tpl.headerText};}
+      .cs{font-size:10px;opacity:.8;margin-top:3px;color:${tpl.headerText};}
+      .tb{text-align:right;border-left:3px solid ${tpl.id==='minimal'?tpl.accentColor:`${tpl.headerText}44`};padding-left:14px;}
+      .tt{font-size:17px;font-weight:800;color:${tpl.id==='minimal'?tpl.accentColor:tpl.headerText};}
+      .tn{font-size:11px;opacity:.78;color:${tpl.headerText};margin-top:3px;}
+      .m{padding:14px 28px;display:flex;justify-content:space-between;background:${tpl.accentColor}07;border-bottom:1px solid ${tpl.accentColor}28;}
+      .ml{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:${tpl.accentColor};margin-bottom:3px;}
+      .mv{font-weight:700;font-size:13px;color:${tpl.bodyText};}
+      .ms{font-size:11px;opacity:.65;margin-top:2px;color:${tpl.bodyText};}
+      .badge{display:inline-block;background:${sBg};color:${sClr};padding:2px 10px;border-radius:10px;font-size:10px;font-weight:700;margin-top:5px;}
+      table{width:100%;border-collapse:collapse;}
+      th{background:${tpl.accentColor};color:#fff;padding:9px 11px;font-size:10px;text-transform:uppercase;letter-spacing:.3px;}
+      td{padding:8px 11px;border-bottom:1px solid ${tpl.accentColor}14;font-size:12px;color:${tpl.bodyText};}
+      .tot{padding:14px 28px;border-top:1px solid ${tpl.accentColor}20;}
+      .tr{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:${tpl.bodyText};}
+      .gt{display:flex;justify-content:space-between;padding:9px 0 0;margin-top:5px;border-top:2px solid ${tpl.accentColor};font-size:15px;font-weight:800;color:${tpl.accentColor};}
+      .ft{padding:12px 28px;border-top:1px solid ${tpl.accentColor}20;display:flex;justify-content:space-between;opacity:.5;font-size:10px;color:${tpl.bodyText};}
+      @media print{@page{margin:0;}body{padding:0;}}</style></head><body>
+      <div class="w"><div class="h">
+        <div><div class="cn">TECH NANDU</div>
+        <div class="cs">Tikri Border, Baba Haridas Colony, Delhi &#8211; 110041</div>
+        <div class="cs">+91 96671-91540 | +91 80103-47835</div></div>
+        <div class="tb"><div class="tt">TAX INVOICE</div><div class="tn">${inv.invoiceNo}</div></div>
+      </div>
+      <div class="m">
+        <div><div class="ml">Bill To</div><div class="mv">${inv.customer}</div>${inv.phone?`<div class="ms">${inv.phone}</div>`:''}</div>
+        <div style="text-align:right"><div class="ml">Invoice Date</div>
+        <div class="mv">${new Date(inv.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div>
+        <div class="badge">${inv.status}</div></div>
+      </div>
+      <table><thead><tr><th style="width:5%">#</th><th>Item</th><th style="width:10%;text-align:center">Qty</th><th style="width:18%;text-align:right">Rate</th><th style="width:18%;text-align:right">Amount</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+      <div class="tot">
+        <div class="tr"><span>Subtotal</span><span>&#8377;${inv.subtotal?.toLocaleString('en-IN')}</span></div>
+        <div class="tr"><span>GST (${inv.gstRate}%)</span><span>&#8377;${inv.gstAmt?.toFixed(2)}</span></div>
+        <div class="gt"><span>Grand Total</span><span>&#8377;${inv.total?.toLocaleString('en-IN')}</span></div>
+      </div>
+      <div class="ft"><span>Generated by Tech Nandu ERP</span><span>Thank you for your business!</span></div>
+      </div><script>window.onload=()=>{window.print();}</script></body></html>`;
+    const w = window.open('','_blank');
+    w.document.write(html);
+    w.document.close();
+  };;
 
   const paid    = invoices.filter(i=>i.status==='Paid').reduce((s,i)=>s+i.total,0);
   const pending = invoices.filter(i=>i.status==='Pending').reduce((s,i)=>s+i.total,0);
@@ -464,7 +648,11 @@ export default function BillingDemo() {
                 </div>
               </div>
               <div style={{display:'flex',gap:8}}>
-                <button onClick={()=>window.print()}
+                <button onClick={()=>downloadChallanPDF(preview, activeTpl)}
+                  style={{background:'#6C63FF',color:'#fff',border:'none',padding:'8px 18px',borderRadius:8,fontWeight:800,cursor:'pointer',fontSize:'.82rem'}}>
+                  📥 Download PDF
+                </button>
+                <button onClick={()=>printChallan(preview, activeTpl)}
                   style={{background:'#43E97B',color:'#0f172a',border:'none',padding:'8px 18px',borderRadius:8,fontWeight:800,cursor:'pointer',fontSize:'.82rem'}}>
                   🖨️ Print
                 </button>
@@ -507,7 +695,7 @@ export default function BillingDemo() {
               </div>
               <div style={{textAlign:'center',marginTop:14,display:'flex',gap:8,justifyContent:'center'}}>
                 <button className="btn-add" onClick={()=>setPrintMode(true)}>🖨️ Cut Challan</button>
-                <button className="btn-edit" onClick={()=>{showToast('PDF downloading!');setPreview(null);}}>📥 Download PDF</button>
+                <button className="btn-edit" onClick={()=>{ downloadChallanPDF(preview, activeTpl); setPreview(null); }}>📥 Download PDF</button>
               </div>
             </div>
           </div>
@@ -528,7 +716,7 @@ export default function BillingDemo() {
                 <div className="form-group"><label>Phone</label><input className="form-control" placeholder="+91 XXXXX" value={form.phone} onChange={e=>setForm(p=>({...p,phone:e.target.value}))} /></div>
                 <div className="form-group"><label>GST Rate (%)</label>
                   <select className="form-control" value={form.gstRate} onChange={e=>setForm(p=>({...p,gstRate:Number(e.target.value)}))}>
-                    {[0,5,12,18,28].map(r=><option key={r} value={r}>{r}%</option>)}
+                    {[5,18,40].map(r=><option key={r} value={r}>{r}%</option>)}
                   </select>
                 </div>
               </div>

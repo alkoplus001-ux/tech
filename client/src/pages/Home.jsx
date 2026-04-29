@@ -30,158 +30,122 @@ const STATS = [
 const PRICING = {
   inventory: {
     plans: [
-      { name:'Starter',    price:999,  desc:'Small shops & kirana stores', popular:false,
-        features:['Up to 500 products','Basic stock reports','1 user login','Low-stock alerts','WhatsApp support','GST billing (basic)'],
-        locked:['Multi-warehouse','Barcode scanner','Supplier portal','API access'] },
-      { name:'Business',   price:2499, desc:'Growing retail & wholesale',   popular:true,
-        features:['Unlimited products','Advanced analytics','5 user logins','Low-stock alerts','Barcode scanner','Supplier management','Purchase orders','Priority support'],
-        locked:['API access','Custom branding'] },
-      { name:'Enterprise', price:4999, desc:'Large chains & distributors',  popular:false,
-        features:['Unlimited products','Custom reports & dashboards','Unlimited users','Multi-warehouse','Barcode + RFID','Supplier portal','API access','Custom branding','Dedicated account manager','24/7 phone support'],
-        locked:[] },
+      { name:'Starter',    desc:'Small shops & kirana stores', popular:false,
+        features:['Up to 500 products','GST billing','Stock reports','Low-stock alerts','1 user login','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'Growing retail & wholesale',   popular:true,
+        features:['Unlimited products','Supplier management','Purchase orders','Barcode support','Advanced reports','5 users','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Large chains & distributors',  popular:false,
+        features:['Multi-warehouse support','Custom dashboards','Unlimited users','Dedicated account manager','Free training','24/7 support'], locked:[] },
     ],
   },
   billing: {
     plans: [
-      { name:'Starter',    price:799,  desc:'Freelancers & micro business', popular:false,
-        features:['50 invoices/month','GST invoice (PDF)','1 user','Basic payment tracking','WhatsApp support','UPI QR on invoice'],
-        locked:['Auto payment reminders','E-way bill','Recurring invoices','GSTIN filing'] },
-      { name:'Business',   price:1999, desc:'SMEs & service providers',     popular:true,
-        features:['Unlimited invoices','GST + E-Invoice','3 users','Auto payment reminders','E-way bill','Recurring invoices','Customer ledger','Priority support'],
-        locked:['GSTIN filing','Custom domain'] },
-      { name:'Enterprise', price:3999, desc:'CA firms & large businesses',  popular:false,
-        features:['Unlimited invoices','GST filing integration','Unlimited users','Auto reminders','E-way bill','Recurring invoices','Tally export','Custom branding','API access','24/7 support'],
-        locked:[] },
+      { name:'Starter',    desc:'Freelancers & small business', popular:false,
+        features:['GST invoice (PDF)','50 invoices/month','UPI QR on invoice','Payment tracking','1 user','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'SMEs & service providers',     popular:true,
+        features:['Unlimited invoices','Auto payment reminders','E-way bill','Customer ledger','Recurring invoices','3 users','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'CA firms & large businesses',  popular:false,
+        features:['Unlimited invoices','GST filing ready','Tally export','Unlimited users','Custom branding','Free training','24/7 support'], locked:[] },
     ],
   },
   hr: {
     plans: [
-      { name:'Starter',    price:1499, desc:'Up to 25 employees',           popular:false,
-        features:['25 employee profiles','Attendance tracking','Basic leave management','Monthly reports','WhatsApp support','Offer letter templates'],
-        locked:['Biometric integration','Appraisal module','Recruitment portal','Payroll link'] },
-      { name:'Business',   price:3499, desc:'Up to 100 employees',          popular:true,
-        features:['100 employee profiles','Biometric integration','Full leave management','Appraisal module','Onboarding workflow','Document management','Priority support'],
-        locked:['Recruitment portal','Custom HR policies'] },
-      { name:'Enterprise', price:6999, desc:'Unlimited employees',          popular:false,
-        features:['Unlimited employees','Biometric + RFID','Custom leave policies','360° appraisals','Recruitment portal','Org chart','Payroll integration','Custom branding','API access','Dedicated HR consultant'],
-        locked:[] },
+      { name:'Starter',    desc:'Up to 25 employees',           popular:false,
+        features:['25 employee profiles','Attendance tracking','Leave management','Monthly reports','Offer letter templates','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'Up to 100 employees',          popular:true,
+        features:['100 employee profiles','Biometric integration','Appraisal module','Onboarding workflow','Document management','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Unlimited employees',          popular:false,
+        features:['Unlimited employees','Custom leave policies','360° appraisals','Payroll integration','Dedicated HR consultant','24/7 support'], locked:[] },
     ],
   },
   pos: {
     plans: [
-      { name:'Starter',    price:999,  desc:'Single counter retail',        popular:false,
-        features:['1 POS counter','Cash + UPI payments','Daily sales report','Product catalog (500 items)','Thermal receipt print','WhatsApp support'],
-        locked:['Multiple counters','Card machine integration','Loyalty program','Online orders'] },
-      { name:'Business',   price:2499, desc:'Multi-counter shops',          popular:true,
-        features:['3 POS counters','Cash / UPI / Card','Advanced sales reports','Unlimited products','Loyalty program','Customer database','Barcode scanner','Priority support'],
-        locked:['Online order integration','Franchise management'] },
-      { name:'Enterprise', price:4499, desc:'Chains & franchise outlets',   popular:false,
-        features:['Unlimited counters','All payment modes','Custom dashboards','Unlimited products','Loyalty + gift cards','Online order integration','Franchise management','API access','24/7 support','Dedicated manager'],
-        locked:[] },
+      { name:'Starter',    desc:'Single counter retail',        popular:false,
+        features:['1 POS counter','Cash & UPI payments','Daily sales report','500 product catalog','Thermal receipt print','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'Multi-counter shops',          popular:true,
+        features:['3 POS counters','All payment modes','Loyalty program','Unlimited products','Customer database','Barcode scanner','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Chains & franchise outlets',   popular:false,
+        features:['Unlimited counters','Franchise management','Online order integration','Loyalty & gift cards','Custom dashboards','24/7 support'], locked:[] },
     ],
   },
   payroll: {
     plans: [
-      { name:'Starter',    price:1999, desc:'Up to 20 employees',           popular:false,
-        features:['20 employees','Auto salary calculation','PF & ESI computation','Basic payslips (PDF)','WhatsApp support','Monthly summary'],
-        locked:['TDS filing','Bonus & arrear processing','Bank bulk transfer','CTC structure builder'] },
-      { name:'Business',   price:4999, desc:'Up to 200 employees',          popular:true,
-        features:['200 employees','Auto salary + arrears','PF / ESI / TDS','Custom payslips','Bulk bank transfer file','Bonus processing','Form 16','Priority support'],
-        locked:['HR integration','Custom pay structures'] },
-      { name:'Enterprise', price:9999, desc:'Unlimited employees',          popular:false,
-        features:['Unlimited employees','Full statutory compliance','PF / ESI / TDS / PT','Custom CTC structures','Bulk bank transfer','Form 16 + 24Q filing','HR & attendance integration','API access','CA-reviewed templates','24/7 support'],
-        locked:[] },
+      { name:'Starter',    desc:'Up to 20 employees',           popular:false,
+        features:['20 employees','Auto salary calculation','PF & ESI','PDF payslips','Monthly summary','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'Up to 200 employees',          popular:true,
+        features:['200 employees','Full PF / ESI / TDS','Custom payslips','Bulk bank transfer','Bonus processing','Form 16','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Unlimited employees',          popular:false,
+        features:['Unlimited employees','Full statutory compliance','CTC structure builder','Form 16 & 24Q','CA-reviewed templates','24/7 support'], locked:[] },
     ],
   },
   crm: {
     plans: [
-      { name:'Starter',    price:1499, desc:'Solo sales reps & startups',   popular:false,
-        features:['500 leads','Basic pipeline (3 stages)','Follow-up reminders','WhatsApp templates','Call log','Basic reports'],
-        locked:['Email campaigns','Team performance','Lead scoring','API integration'] },
-      { name:'Business',   price:3499, desc:'Sales teams up to 10',         popular:true,
-        features:['Unlimited leads','Custom pipeline stages','Auto follow-up scheduler','Email + WhatsApp campaigns','Team performance dashboard','Lead scoring','Deal forecasting','Priority support'],
-        locked:['Advanced AI scoring','Custom domain'] },
-      { name:'Enterprise', price:7999, desc:'Large sales organisations',    popular:false,
-        features:['Unlimited leads','Multi-team pipelines','AI lead scoring','Email + WhatsApp + SMS','Revenue forecasting','Territory management','API + Webhook','Custom branding','Dedicated CRM consultant','24/7 support'],
-        locked:[] },
+      { name:'Starter',    desc:'Solo sales reps & startups',   popular:false,
+        features:['500 leads','Sales pipeline','Follow-up reminders','WhatsApp templates','Call log','Basic reports'], locked:[] },
+      { name:'Business',   desc:'Sales teams up to 10',         popular:true,
+        features:['Unlimited leads','Custom pipeline stages','Auto follow-up scheduler','Email & WhatsApp campaigns','Lead scoring','Team dashboard','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Large sales organisations',    popular:false,
+        features:['Multi-team pipelines','Revenue forecasting','Email + WhatsApp + SMS','Territory management','Custom branding','Dedicated consultant','24/7 support'], locked:[] },
     ],
   },
   hospital: {
     plans: [
-      { name:'Clinic',     price:2999, desc:'Small clinics & solo doctors', popular:false,
-        features:['50 patients/day','OPD management','Basic prescriptions','Appointment booking','Patient history','WhatsApp support'],
-        locked:['IPD management','Lab integration','Pharmacy link','Insurance billing'] },
-      { name:'Hospital',   price:6999, desc:'Multi-specialty hospitals',    popular:true,
-        features:['Unlimited patients','OPD + IPD management','Digital prescriptions','Lab integration','Pharmacy link','Bed management','Doctor scheduling','Priority support'],
-        locked:['Insurance billing','NABH compliance module'] },
-      { name:'Enterprise', price:12999,desc:'Hospital chains & groups',     popular:false,
-        features:['Unlimited patients','Complete HMS','OPD / IPD / Emergency','Lab + Radiology','Pharmacy','Insurance & TPA billing','NABH compliance','Multi-branch','HL7 / FHIR API','24/7 support'],
-        locked:[] },
+      { name:'Clinic',     desc:'Small clinics & solo doctors', popular:false,
+        features:['50 patients/day','OPD management','Digital prescriptions','Appointment booking','Patient history','WhatsApp support'], locked:[] },
+      { name:'Hospital',   desc:'Multi-specialty hospitals',    popular:true,
+        features:['Unlimited patients','OPD + IPD management','Lab integration','Pharmacy link','Bed management','Doctor scheduling','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Hospital chains & groups',     popular:false,
+        features:['Complete HMS','Lab + Radiology','Insurance & TPA billing','NABH compliance','Multi-branch support','24/7 support'], locked:[] },
     ],
   },
   school: {
     plans: [
-      { name:'Starter',    price:1999, desc:'Up to 200 students',           popular:false,
-        features:['200 students','Fee collection','Attendance tracking','Basic result entry','WhatsApp alerts to parents','Timetable'],
-        locked:['Online fee payment','Student app','Exam analytics','Library management'] },
-      { name:'Institution',price:4999, desc:'Up to 1000 students',          popular:true,
-        features:['1000 students','Online fee payment (UPI)','Biometric attendance','Detailed exam reports','Parent app + alerts','Library management','Transport tracking','Priority support'],
-        locked:['Multi-branch','Custom ERP integration'] },
-      { name:'Enterprise', price:9999, desc:'Multi-branch school groups',   popular:false,
-        features:['Unlimited students','Online admissions','Full fee module','Biometric + RFID','Exam analytics','Parent + student app','Library','Transport','Multi-branch dashboard','API access','24/7 support'],
-        locked:[] },
+      { name:'Starter',    desc:'Up to 200 students',           popular:false,
+        features:['200 students','Fee collection','Attendance tracking','Result entry','WhatsApp alerts to parents','Timetable'], locked:[] },
+      { name:'Institution',desc:'Up to 1000 students',          popular:true,
+        features:['1000 students','Online fee payment (UPI)','Exam reports','Parent app & alerts','Library management','Transport tracking','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Multi-branch school groups',   popular:false,
+        features:['Unlimited students','Online admissions','Biometric attendance','Multi-branch dashboard','Parent & student app','24/7 support'], locked:[] },
     ],
   },
   restaurant: {
     plans: [
-      { name:'Starter',    price:999,  desc:'Single outlet, small cafe',    popular:false,
-        features:['1 outlet','Table management (20 tables)','KOT printing','Basic menu management','Daily sales report','WhatsApp support'],
-        locked:['Online ordering','Delivery integration','Kitchen display system','Loyalty program'] },
-      { name:'Business',   price:2499, desc:'Full-service restaurants',     popular:true,
-        features:['1 outlet','Unlimited tables','KOT + kitchen display','Full menu with modifiers','Online ordering (own link)','Delivery boy management','Loyalty program','Priority support'],
-        locked:['Multi-outlet','Zomato / Swiggy integration'] },
-      { name:'Enterprise', price:4999, desc:'Restaurant chains & cloud kitchens', popular:false,
-        features:['Unlimited outlets','Kitchen display system','Online + delivery orders','Zomato / Swiggy integration','Multi-outlet dashboard','Loyalty + offers','Inventory link','Custom branding','API access','24/7 support'],
-        locked:[] },
+      { name:'Starter',    desc:'Single outlet, small cafe',    popular:false,
+        features:['1 outlet','Table management','KOT printing','Menu management','Daily sales report','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'Full-service restaurants',     popular:true,
+        features:['Unlimited tables','Kitchen display system','Online ordering','Delivery management','Loyalty program','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Restaurant chains & cloud kitchens', popular:false,
+        features:['Unlimited outlets','Zomato / Swiggy integration','Multi-outlet dashboard','Loyalty & offers','Inventory link','24/7 support'], locked:[] },
     ],
   },
   realestate: {
     plans: [
-      { name:'Agent',      price:1999, desc:'Individual agents & brokers',  popular:false,
-        features:['50 property listings','Basic buyer CRM','Follow-up reminders','WhatsApp templates','Commission tracking','Basic reports'],
-        locked:['EMI calculator portal','Site visit scheduler','Agent portal','API integration'] },
-      { name:'Builder',    price:4999, desc:'Builders & small developers',  popular:true,
-        features:['Unlimited listings','Full buyer CRM','EMI schedule generator','Site visit scheduler','Booking & agreement management','Agent portal','Revenue dashboard','Priority support'],
-        locked:['Multi-project','Channel partner portal'] },
-      { name:'Enterprise', price:9999, desc:'Large builders & RE groups',   popular:false,
-        features:['Unlimited listings','Multi-project management','Buyer + channel partner portal','EMI + loan integration','Document management','Legal checklist','Revenue forecasting','API access','Custom branding','24/7 support'],
-        locked:[] },
+      { name:'Agent',      desc:'Individual agents & brokers',  popular:false,
+        features:['50 property listings','Buyer CRM','Follow-up reminders','WhatsApp templates','Commission tracking','Basic reports'], locked:[] },
+      { name:'Builder',    desc:'Builders & small developers',  popular:true,
+        features:['Unlimited listings','Full buyer CRM','Booking & agreement management','EMI schedule generator','Agent portal','Revenue dashboard','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Large builders & RE groups',   popular:false,
+        features:['Multi-project management','Channel partner portal','Document management','Legal checklist','Revenue forecasting','Custom branding','24/7 support'], locked:[] },
     ],
   },
   pharmacy: {
     plans: [
-      { name:'Starter',    price:1499, desc:'Small pharmacies & medical shops', popular:false,
-        features:['500 medicines','Expiry date alerts','Basic billing (GST)','Reorder alerts','WhatsApp support','Daily stock report'],
-        locked:['Prescription management','Batch tracking','Supplier portal','Controlled drug register'] },
-      { name:'Business',   price:3499, desc:'Full-service pharmacies',      popular:true,
-        features:['Unlimited medicines','Expiry + batch tracking','GST billing + E-Invoice','Prescription management','Supplier purchase orders','Reorder automation','Controlled drug register','Priority support'],
-        locked:['Multi-branch','Insurance billing'] },
-      { name:'Enterprise', price:6999, desc:'Pharmacy chains & hospitals',  popular:false,
-        features:['Unlimited medicines','Multi-branch inventory','Full batch & expiry tracking','Doctor prescription link','Insurance billing','Supplier integration','Drug regulatory compliance','API access','Custom branding','24/7 support'],
-        locked:[] },
+      { name:'Starter',    desc:'Small pharmacies & medical shops', popular:false,
+        features:['500 medicines','Expiry date alerts','GST billing','Reorder alerts','Daily stock report','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'Full-service pharmacies',      popular:true,
+        features:['Unlimited medicines','Batch & expiry tracking','Prescription management','Supplier orders','Reorder automation','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Pharmacy chains & hospitals',  popular:false,
+        features:['Multi-branch inventory','Doctor prescription link','Insurance billing','Supplier integration','Free training','24/7 support'], locked:[] },
     ],
   },
   analytics: {
     plans: [
-      { name:'Starter',    price:2499, desc:'Small businesses & startups',  popular:false,
-        features:['5 dashboards','Basic KPI tracking','Sales & revenue charts','Excel / CSV export','WhatsApp support','Monthly email report'],
-        locked:['Custom data sources','Predictive forecasting','Team access','API / embed'] },
-      { name:'Business',   price:5999, desc:'Data-driven SMEs',             popular:true,
-        features:['Unlimited dashboards','Advanced KPIs','Revenue forecasting','Custom chart builder','Multi-user access (10)','Scheduled reports','Google Sheets integration','Priority support'],
-        locked:['White-label embed','AI insights'] },
-      { name:'Enterprise', price:11999,desc:'Large organisations & agencies',popular:false,
-        features:['Unlimited dashboards','AI-powered insights','Predictive forecasting','Custom data connectors','Unlimited users','White-label embed','API access','Custom branding','Dedicated analyst','24/7 support'],
-        locked:[] },
+      { name:'Starter',    desc:'Small businesses & startups',  popular:false,
+        features:['5 dashboards','Basic KPI tracking','Sales & revenue charts','Excel / CSV export','Monthly report','WhatsApp support'], locked:[] },
+      { name:'Business',   desc:'Data-driven SMEs',             popular:true,
+        features:['Unlimited dashboards','Revenue forecasting','Custom chart builder','Multi-user access','Scheduled reports','Google Sheets sync','Priority support'], locked:[] },
+      { name:'Enterprise', desc:'Large organisations & agencies',popular:false,
+        features:['AI-powered insights','Predictive forecasting','Custom dashboards','Unlimited users','Dedicated analyst','Free training','24/7 support'], locked:[] },
     ],
   },
 };
@@ -200,11 +164,11 @@ export default function Home() {
       const res  = await fetch(`${API}/api/contact`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(form) });
       const data = await res.json();
       if (data.success) {
-        setMsg({ type:'success', text:`Demo booked, ${form.name}! Our team will contact you within 2 hours at +91 96671-91540 or WhatsApp.` });
+        setMsg({ type:'success', text:`Demo booked, ${form.name}! Our team will contact you within 2 hours at +91 99913-27697 or WhatsApp.` });
         setForm({ name:'', phone:'', email:'', business:'' });
       } else throw new Error(data.message);
     } catch (e) {
-      setMsg({ type:'error', text: e.message || 'Kuch error hua, dobara try karo.' });
+      setMsg({ type:'error', text: e.message || 'Something went wrong. Please try again.' });
     } finally { setSub(false); }
   };
 
@@ -303,63 +267,82 @@ export default function Home() {
           <span className="pricing-label-badge" style={{ background:`${activeTpl.color}15`, color:activeTpl.color, border:`1px solid ${activeTpl.color}30` }}>{activeTpl.badge}</span>
         </div>
 
+        {/* Special offer banner */}
+        <div className="pricing-offer-banner">
+          <div className="pricing-offer-left">
+            <div className="pricing-offer-tag">SPECIAL OFFER</div>
+            <div className="pricing-offer-price">
+              <span className="pricing-offer-from">Starting from</span>
+              <span className="pricing-offer-amount">₹6,999</span>
+            </div>
+            <div className="pricing-offer-sub">Get your website or software today &amp; grow your business online!</div>
+          </div>
+          <div className="pricing-offer-checklist">
+            {['No Hidden Charges','Free Consultation','Free Basic Support','On Time Delivery'].map(f => (
+              <div key={f} className="pricing-offer-check"><span>✓</span> {f}</div>
+            ))}
+          </div>
+        </div>
+
         {/* Plan cards */}
         <div className="plans-grid">
-          {activePlans.map((plan, i) => (
-            <div key={i} className={`plan-card${plan.popular ? ' plan-popular' : ''}`}
-              style={plan.popular ? { borderColor: activeTpl.color, boxShadow: `0 0 0 1px ${activeTpl.color}40, 0 20px 50px ${activeTpl.color}20` } : {}}>
+          {activePlans.map((plan, i) => {
+            const isStarter = ['Starter','Agent','Clinic'].includes(plan.name);
+            const isEnterprise = plan.name === 'Enterprise';
+            const priceLabel  = isStarter ? '₹6,999' : isEnterprise ? 'Custom' : 'Contact Us';
+            const priceSub    = isStarter ? 'onwards' : isEnterprise ? 'Quote'  : 'for pricing';
+            return (
+              <div key={i} className={`plan-card${plan.popular ? ' plan-popular' : ''}`}
+                style={plan.popular ? { borderColor: activeTpl.color, boxShadow: `0 0 0 1px ${activeTpl.color}40, 0 20px 50px ${activeTpl.color}20` } : {}}>
 
-              {plan.popular && (
-                <div className="plan-badge" style={{ background: `linear-gradient(135deg, ${activeTpl.color}, ${activeTpl.color}bb)` }}>
-                  ⭐ Most Popular
+                {plan.popular && (
+                  <div className="plan-badge" style={{ background: `linear-gradient(135deg, ${activeTpl.color}, ${activeTpl.color}bb)` }}>
+                    ⭐ Most Popular
+                  </div>
+                )}
+
+                <div className="plan-name">{plan.name}</div>
+                <div className="plan-desc">{plan.desc}</div>
+
+                <div className="plan-price">
+                  <span className="plan-amount" style={plan.popular ? { color: activeTpl.color } : {}}>{priceLabel}</span>
+                  <span className="plan-period">{priceSub}</span>
                 </div>
-              )}
 
-              <div className="plan-name">{plan.name}</div>
-              <div className="plan-desc">{plan.desc}</div>
+                <button
+                  className="plan-btn"
+                  style={{ background: plan.popular ? `linear-gradient(135deg, ${activeTpl.color}, ${activeTpl.color}bb)` : 'transparent',
+                           border: `1px solid ${plan.popular ? activeTpl.color : 'rgba(255,255,255,.15)'}`,
+                           color: plan.popular ? '#fff' : 'inherit' }}
+                  onClick={() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' })}
+                >
+                  {plan.popular ? '🚀 Get Started' : 'Book Free Demo'}
+                </button>
 
-              <div className="plan-price">
-                <span className="plan-currency">₹</span>
-                <span className="plan-amount" style={plan.popular ? { color: activeTpl.color } : {}}>{plan.price.toLocaleString('en-IN')}</span>
-                <span className="plan-period">/month</span>
+                <div className="plan-divider" />
+
+                <ul className="plan-features">
+                  {plan.features.map((f, j) => (
+                    <li key={j} className="pf-yes">
+                      <span className="pf-icon" style={{ color: activeTpl.color }}>✓</span> {f}
+                    </li>
+                  ))}
+                  {plan.locked.map((f, j) => (
+                    <li key={j} className="pf-no">
+                      <span className="pf-icon">✕</span> {f}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="plan-annual">
-                Save ₹{Math.round(plan.price * 12 * 0.15).toLocaleString('en-IN')} on annual plan
-              </div>
-
-              <button
-                className="plan-btn"
-                style={{ background: plan.popular ? `linear-gradient(135deg, ${activeTpl.color}, ${activeTpl.color}bb)` : 'transparent',
-                         border: `1px solid ${plan.popular ? activeTpl.color : 'rgba(255,255,255,.15)'}`,
-                         color: plan.popular ? '#fff' : 'inherit' }}
-                onClick={() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' })}
-              >
-                {plan.popular ? '🚀 Get Started' : 'Book Free Demo'}
-              </button>
-
-              <div className="plan-divider" />
-
-              <ul className="plan-features">
-                {plan.features.map((f, j) => (
-                  <li key={j} className="pf-yes">
-                    <span className="pf-icon" style={{ color: activeTpl.color }}>✓</span> {f}
-                  </li>
-                ))}
-                {plan.locked.map((f, j) => (
-                  <li key={j} className="pf-no">
-                    <span className="pf-icon">✕</span> {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="pricing-footer">
           <span>🔒 No credit card required for demo</span>
-          <span>🎓 Free onboarding training included</span>
-          <span>📞 Call us: +91 96671-91540</span>
-          <span>↩️ 30-day money back guarantee</span>
+          <span>🎓 Free onboarding &amp; training included</span>
+          <span>📞 +91 99913-27697</span>
+          <span>📱 Mobile Friendly &amp; 100% Secure</span>
         </div>
       </section>
 
@@ -391,7 +374,7 @@ export default function Home() {
       <section className="cta-section" id="cta-section">
         <div className="cta-inner">
           <h2>Ready to Grow Your Business?</h2>
-          <p>Contact us today — free demo, free setup consultation. Call or WhatsApp us at <strong style={{color:'#43E97B'}}>+91 96671-91540</strong></p>
+          <p>Contact us today — free demo, free setup consultation. Call or WhatsApp us at <strong style={{color:'#43E97B'}}>+91 99913-27697</strong></p>
           <div className="cta-form">
             <input className="cta-input" placeholder="Your Name *" value={form.name}     onChange={e => setForm(p => ({...p, name:e.target.value}))} />
             <input className="cta-input" placeholder="WhatsApp Number *" type="tel" value={form.phone} onChange={e => setForm(p => ({...p, phone:e.target.value}))} />
@@ -410,10 +393,10 @@ export default function Home() {
         <div className="footer-logo">⚡ Tech Nandu</div>
         <p>Empowering Indian Businesses with Smart Technology</p>
         <div className="footer-links">
-          <span>📞 <a href="tel:+919667191540" style={{color:'inherit',textDecoration:'none'}}>+91 96671-91540</a></span>
-          <span>📞 <a href="tel:+918010347835" style={{color:'inherit',textDecoration:'none'}}>+91 80103-47835</a></span>
-          <span>📧 <a href="mailto:kajal9306174@gmail.com" style={{color:'inherit',textDecoration:'none'}}>kajal9306174@gmail.com</a></span>
-          <span>💬 <a href="https://wa.me/919667191540" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none'}}>WhatsApp Us</a></span>
+          <span>📞 <a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>+91 99913-27697</a></span>
+          <span>📞 <a href="tel:+919811017225" style={{color:'inherit',textDecoration:'none'}}>+91 98110-17225</a></span>
+          <span>📧 <a href="mailto:tech.nandu.96@gmail.com" style={{color:'inherit',textDecoration:'none'}}>tech.nandu.96@gmail.com</a></span>
+          <span>💬 <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none'}}>WhatsApp Us</a></span>
           <span>📍 Tikri Border, Baba Haridas Colony, Delhi – 110041</span>
         </div>
         <p className="footer-copy">© 2026 Tech Nandu. All rights reserved. | Tikri Border, Baba Haridas Colony, Delhi – 110041</p>
@@ -421,7 +404,7 @@ export default function Home() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/919667191540?text=Hi%20Tech%20Nandu%2C%20I%20want%20a%20free%20demo!"
+        href="https://wa.me/919991327697?text=Hi%20Tech%20Nandu%2C%20I%20want%20a%20free%20demo!"
         target="_blank" rel="noreferrer"
         style={{
           position:'fixed', bottom:28, right:28, zIndex:9999,
