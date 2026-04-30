@@ -126,28 +126,6 @@ const PRICING = {
   ]},
 };
 
-const WEB_PAGES = [
-  { id:'home',      icon:'🏠', label:'Home',
-    heading:'Welcome to Tech Nandu',
-    body:'India\'s trusted technology partner, delivering smart and affordable software solutions for businesses of every size — from local kirana stores to large multi-branch enterprises. We combine modern technology with a deep understanding of Indian business needs to give you software that actually works for you.',
-    points:['Custom Software Built for Your Business','GST & Compliance Ready from Day One','Free Demo & Expert Consultation','100% On-Time Delivery — Guaranteed'] },
-  { id:'about',     icon:'👥', label:'About Us',
-    heading:'Who We Are',
-    body:'Founded in Delhi, Tech Nandu was born from a simple belief — every Indian business deserves world-class software at an affordable price. With 500+ happy clients across 15+ industries, we have grown into one of Delhi\'s most trusted software companies. Our passionate team of developers, designers, and support specialists works round the clock to ensure your business never misses a beat.',
-    points:['500+ Happy Clients Across India','15+ Industries Served Successfully','Delhi-Based, India-Focused Company','Dedicated Team of Experts & Support Staff'] },
-  { id:'softwares', icon:'💻', label:'Softwares',
-    heading:'Our Software Solutions',
-    body:'We offer 12+ industry-specific ERP and management solutions — all tailored for Indian businesses. Each product is GST-compliant, mobile-friendly, and comes with WhatsApp integration and lifetime support. Whether you need inventory tracking, hospital management, school ERP, or a complete business solution — we have you covered.',
-    points:['Inventory, Billing & POS','HR, Payroll & CRM','Hospital, School & Pharmacy ERP','Restaurant, Real Estate & Analytics'] },
-  { id:'career',    icon:'💼', label:'Career',
-    heading:'Grow With Us',
-    body:'At Tech Nandu, our team is our greatest strength. We are always looking for passionate, driven individuals who want to make a real difference in India\'s tech ecosystem. We offer a supportive culture, competitive pay, clear growth paths, and the deep satisfaction of helping thousands of businesses succeed every day.',
-    points:['Software Developers (React, Node.js)','Sales & Business Development Executives','Customer Support & Onboarding Specialists','Send your CV: tech.nandu.96@gmail.com'] },
-  { id:'contact',   icon:'📞', label:'Contact Us',
-    heading:'Get In Touch',
-    body:'We are just a call or message away. Whether you want a free demo, need help with our software, or are looking for a custom solution built just for your business — our friendly team is ready to help. We typically respond within 2 hours during business hours.',
-    points:['📍 Tikri Border, Baba Haridas Colony, Delhi – 110041','📞 +91 99913-27697  |  +91 98110-17225','📧 tech.nandu.96@gmail.com','💬 WhatsApp: wa.me/919991327697'] },
-];
 
 export default function Home() {
   const navigate = useNavigate();
@@ -155,7 +133,6 @@ export default function Home() {
   const [submitting, setSub]    = useState(false);
   const [msg, setMsg]           = useState(null);
   const [pricingTab, setPricingTab] = useState('inventory');
-  const [webPage, setWebPage]       = useState('home');
 
   const handleBook = async () => {
     if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name and phone number are required.' }); return; }
@@ -343,51 +320,6 @@ export default function Home() {
           <span>🎓 Free onboarding &amp; training included</span>
           <span>📞 +91 99913-27697</span>
           <span>📱 Mobile Friendly &amp; 100% Secure</span>
-        </div>
-      </section>
-
-      {/* WEBSITE DEVELOPMENT */}
-      <section className="website-section" id="website">
-        <div className="section-head">
-          <div className="section-badge">🌐 Website Development</div>
-          <h2>We Build Your Business Website</h2>
-          <p>Professional, fast, and mobile-friendly websites — designed for Indian businesses, delivered on time.</p>
-        </div>
-
-        <div className="web-preview-shell">
-          <div className="web-browser-bar">
-            <div className="web-browser-dots"><span/><span/><span/></div>
-            <div className="web-browser-url">🌐 www.yourbusiness.com</div>
-          </div>
-          <nav className="web-nav-bar">
-            {WEB_PAGES.map(p => (
-              <button key={p.id} className={`web-nav-item${webPage === p.id ? ' active' : ''}`} onClick={() => setWebPage(p.id)}>
-                {p.icon} {p.label}
-              </button>
-            ))}
-          </nav>
-          {WEB_PAGES.filter(p => p.id === webPage).map(p => (
-            <div key={p.id} className="web-page-content">
-              <h3>{p.heading}</h3>
-              <p>{p.body}</p>
-              <ul className="web-points">
-                {p.points.map((pt, i) => <li key={i}><span className="web-point-check">✓</span>{pt}</li>)}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="web-features-row">
-          {['Custom Design','Mobile Friendly','SEO Optimized','Fast & Secure','Free Domain Setup','On-Time Delivery','Free Training','Lifetime Support'].map(f => (
-            <div key={f} className="web-feature-pill">✓ {f}</div>
-          ))}
-        </div>
-
-        <div className="web-cta">
-          <p>Starting from <strong>₹6,999</strong> — Includes design, development &amp; 1-year support</p>
-          <button className="btn btn-primary" onClick={() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' })}>
-            Get Your Website Today →
-          </button>
         </div>
       </section>
 

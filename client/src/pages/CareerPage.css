@@ -1,0 +1,115 @@
+.career-page { min-height:100vh; }
+
+/* HERO */
+.career-hero {
+  min-height:70vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:120px 24px 80px; position:relative; overflow:hidden;
+  background:radial-gradient(ellipse at 50% 0%,rgba(67,233,123,.15) 0%,transparent 65%);
+}
+.career-hero-bg { position:absolute; border-radius:50%; filter:blur(80px); opacity:.1; pointer-events:none; }
+.career-hero-bg.b1 { width:400px; height:400px; background:#43E97B; top:-80px; right:-80px; }
+.career-hero-bg.b2 { width:300px; height:300px; background:#6C63FF; bottom:-60px; left:-60px; }
+.career-hero-content { position:relative; z-index:1; max-width:750px; }
+.career-badge { display:inline-block; background:rgba(67,233,123,.1); border:1px solid rgba(67,233,123,.35); color:#43E97B; padding:6px 18px; border-radius:20px; font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:24px; }
+.career-hero-content h1 { font-size:clamp(2rem,5vw,3.8rem); font-weight:900; line-height:1.1; margin-bottom:20px; }
+.gradient-text { background:linear-gradient(135deg,#6C63FF,#FF6584,#43E97B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.career-hero-content p { font-size:1.05rem; color:rgba(255,255,255,.6); max-width:580px; margin:0 auto 36px; line-height:1.8; }
+
+/* PERKS */
+.career-perks-section { padding:80px 40px; max-width:1200px; margin:0 auto; }
+.career-perks-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.career-perk-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:16px; padding:28px 24px; transition:all .25s; }
+.career-perk-card:hover { background:rgba(255,255,255,.07); transform:translateY(-4px); }
+.perk-icon { font-size:2rem; margin-bottom:14px; }
+.career-perk-card h4 { font-size:.97rem; font-weight:700; margin-bottom:10px; }
+.career-perk-card p { font-size:.83rem; color:rgba(255,255,255,.52); line-height:1.7; }
+
+/* OPENINGS */
+.career-openings-section { padding:80px 40px; max-width:1100px; margin:0 auto; }
+.career-openings-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.job-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:28px; transition:all .25s; display:flex; flex-direction:column; gap:16px; }
+.job-card:hover { background:rgba(255,255,255,.06); transform:translateY(-3px); }
+.job-card-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.job-title { font-size:1.1rem; font-weight:800; margin-bottom:8px; }
+.job-meta { display:flex; flex-wrap:wrap; gap:8px; }
+.job-meta span { font-size:.75rem; color:rgba(255,255,255,.45); }
+.job-type-badge { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; white-space:nowrap; }
+.job-desc { font-size:.85rem; color:rgba(255,255,255,.55); line-height:1.75; }
+.job-skills { display:flex; flex-wrap:wrap; gap:8px; }
+.skill-pill { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:4px 12px; font-size:.74rem; color:rgba(255,255,255,.6); }
+.job-apply-btn { padding:12px 24px; border:none; border-radius:10px; color:#fff; font-weight:700; font-size:.88rem; cursor:pointer; transition:all .2s; margin-top:auto; }
+.job-apply-btn:hover { opacity:.9; transform:translateY(-2px); }
+
+/* MODAL */
+.career-modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.6); backdrop-filter:blur(4px); z-index:1000; }
+.career-modal { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1001; background:#13131f; border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:32px; width:min(520px,92vw); }
+.career-modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.career-modal-head h3 { font-size:1.1rem; font-weight:800; }
+.career-modal-head button { background:transparent; border:none; color:rgba(255,255,255,.5); font-size:1.1rem; cursor:pointer; }
+.career-modal-sub { font-size:.87rem; color:rgba(255,255,255,.5); line-height:1.7; margin-bottom:24px; }
+.career-apply-options { display:flex; flex-direction:column; gap:14px; }
+.apply-option { display:flex; align-items:center; gap:16px; padding:18px 20px; border-radius:14px; text-decoration:none; transition:all .2s; border:1px solid rgba(255,255,255,.1); }
+.email-option { background:rgba(108,99,255,.1); }
+.email-option:hover { background:rgba(108,99,255,.18); }
+.wa-option { background:rgba(37,211,102,.08); }
+.wa-option:hover { background:rgba(37,211,102,.15); }
+.apply-option span { font-size:1.8rem; }
+.apply-opt-title { font-weight:700; font-size:.92rem; color:rgba(255,255,255,.9); }
+.apply-opt-sub { font-size:.78rem; color:rgba(255,255,255,.45); margin-top:2px; }
+
+/* OPEN APPLICATION */
+.career-open-section { padding:80px 24px; }
+.career-open-inner { max-width:600px; margin:0 auto; text-align:center; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:24px; padding:52px 40px; }
+.co-icon { font-size:3rem; margin-bottom:16px; }
+.career-open-inner h3 { font-size:1.5rem; font-weight:800; margin-bottom:12px; }
+.career-open-inner p { color:rgba(255,255,255,.55); line-height:1.8; margin-bottom:28px; font-size:.9rem; }
+
+/* BUTTONS */
+.btn { padding:12px 28px; border-radius:12px; font-weight:700; font-size:.9rem; cursor:pointer; border:none; text-decoration:none; display:inline-flex; align-items:center; transition:all .2s; }
+.btn-primary { background:linear-gradient(135deg,#6C63FF,#FF6584); color:#fff; }
+.btn-primary:hover { opacity:.9; transform:translateY(-2px); }
+
+/* SECTION HEAD */
+.section-head { text-align:center; margin-bottom:52px; }
+.section-badge { display:inline-block; background:rgba(67,233,123,.1); border:1px solid rgba(67,233,123,.3); color:#43E97B; padding:6px 18px; border-radius:20px; font-size:.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+.section-head h2 { font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:800; margin-bottom:12px; }
+.section-head p { color:rgba(255,255,255,.5); font-size:.95rem; }
+
+/* FOOTER */
+.footer { text-align:center; padding:40px 20px; border-top:1px solid rgba(255,255,255,.06); }
+.footer-logo { font-size:1.3rem; font-weight:800; background:linear-gradient(90deg,#6C63FF,#FF6584); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; }
+.footer p { color:rgba(255,255,255,.35); font-size:.82rem; margin-bottom:10px; }
+.footer-links { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; color:rgba(255,255,255,.4); font-size:.8rem; margin-bottom:14px; }
+.footer-copy { font-size:.75rem !important; color:rgba(255,255,255,.2) !important; }
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+  .career-perks-grid { grid-template-columns:1fr 1fr; }
+  .career-openings-grid { grid-template-columns:1fr; }
+  .career-perks-section, .career-openings-section { padding:60px 20px; }
+}
+@media(max-width:480px) {
+  .career-perks-grid { grid-template-columns:1fr; }
+  .career-open-inner { padding:32px 20px; }
+}
+
+/* LIGHT MODE */
+html.light .career-perk-card { background:#fff; border-color:#e2e8f0; }
+html.light .career-perk-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.09); }
+html.light .career-perk-card p { color:#64748b; }
+html.light .job-card { background:#fff; border-color:#e2e8f0; }
+html.light .job-meta span { color:#94a3b8; }
+html.light .job-desc { color:#64748b; }
+html.light .skill-pill { background:#f1f5f9; border-color:#e2e8f0; color:#475569; }
+html.light .career-modal { background:#fff; border-color:#e2e8f0; }
+html.light .career-modal-head h3 { color:#0f172a; }
+html.light .career-modal-sub { color:#64748b; }
+html.light .apply-opt-title { color:#0f172a; }
+html.light .apply-opt-sub { color:#94a3b8; }
+html.light .career-open-inner { background:#fff; border-color:#e2e8f0; }
+html.light .career-open-inner p { color:#64748b; }
+html.light .section-head p { color:#64748b; }
+html.light .career-hero-content p { color:#475569; }
+html.light .footer p, html.light .footer-links { color:#94a3b8; }
+html.light .footer-copy { color:#cbd5e1 !important; }
+html.light .footer { border-top-color:#e2e8f0; }

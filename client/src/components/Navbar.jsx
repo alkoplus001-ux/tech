@@ -30,8 +30,9 @@ export default function Navbar() {
         </Link>
 
         <ul className="nav-links">
-          <li><button className="nav-btn" onClick={() => scrollTo('templates')}>Templates</button></li>
-          <li><button className="nav-btn" onClick={() => scrollTo('features')}>Features</button></li>
+          <li><Link to="/softwares" className="nav-btn">Softwares</Link></li>
+          <li><Link to="/about" className="nav-btn">About Us</Link></li>
+          <li><Link to="/career" className="nav-btn">Career</Link></li>
           <li><a href="tel:+919991327697" className="nav-btn">📞 Call</a></li>
           <li>
             <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" className="nav-btn nav-wa">
@@ -62,8 +63,9 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {menuOpen && (
         <div className="mobile-nav">
-          <button className="nav-btn" onClick={() => scrollTo('templates')}>📱 Templates</button>
-          <button className="nav-btn" onClick={() => scrollTo('features')}>✨ Features</button>
+          <Link to="/softwares" className="nav-btn" onClick={close}>💻 Softwares</Link>
+          <Link to="/about" className="nav-btn" onClick={close}>👥 About Us</Link>
+          <Link to="/career" className="nav-btn" onClick={close}>💼 Career</Link>
           <div className="mobile-nav-divider" />
           <a href="tel:+919991327697" className="nav-btn" onClick={close}>📞 Call Us</a>
           <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer"
