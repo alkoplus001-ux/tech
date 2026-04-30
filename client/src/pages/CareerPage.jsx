@@ -90,6 +90,22 @@ export default function CareerPage() {
         </div>
       </section>
 
+      {/* TEAM IMAGE — put file: client/public/images/career-team.jpg */}
+      <div className="career-img-section">
+        <div className="career-banner-wrap">
+          <img
+            src="/images/career-team.jpg"
+            alt="Tech Nandu Team"
+            className="career-banner-img"
+            onError={e => { e.target.closest('.career-banner-wrap').style.display='none'; e.target.closest('.career-banner-wrap').nextElementSibling.style.display='flex'; }}
+          />
+        </div>
+        <div className="career-img-placeholder" style={{display:'none'}}>
+          <span>🖼️</span>
+          <p>Add team photo → <code>client/public/images/career-team.jpg</code></p>
+        </div>
+      </div>
+
       {/* OPENINGS */}
       <section className="career-openings-section" id="openings">
         <div className="section-head">

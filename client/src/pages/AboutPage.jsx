@@ -62,12 +62,14 @@ export default function AboutPage() {
 
           {/* IMAGE SLOT 1 — put file: client/public/images/about-story.jpg */}
           <div className="about-story-visual">
-            <img
-              src="/images/about-story.jpg"
-              alt="Our Story"
-              className="about-img"
-              onError={e => { e.target.style.display='none'; e.target.nextElementSibling.style.display='flex'; }}
-            />
+            <div className="about-img-wrap">
+              <img
+                src="/images/about-story.jpg"
+                alt="Our Story"
+                className="about-img"
+                onError={e => { e.target.closest('.about-img-wrap').style.display='none'; e.target.closest('.about-img-wrap').nextElementSibling.style.display='flex'; }}
+              />
+            </div>
             <div className="about-img-placeholder" style={{display:'none'}}>
               <span>🖼️</span>
               <p>Add image: <code>client/public/images/about-story.jpg</code></p>
@@ -94,15 +96,17 @@ export default function AboutPage() {
 
       {/* IMAGE BANNER SLOT — put file: client/public/images/about-office.jpg */}
       <section className="about-img-banner-section">
-        <img
-          src="/images/about-office.jpg"
-          alt="Tech Nandu Office"
-          className="about-banner-img"
-          onError={e => { e.target.style.display='none'; e.target.nextElementSibling.style.display='flex'; }}
-        />
+        <div className="about-banner-wrap">
+          <img
+            src="/images/about-office.jpg"
+            alt="Tech Nandu Office"
+            className="about-banner-img"
+            onError={e => { e.target.closest('.about-banner-wrap').style.display='none'; e.target.closest('.about-banner-wrap').nextElementSibling.style.display='flex'; }}
+          />
+        </div>
         <div className="about-img-placeholder about-banner-placeholder" style={{display:'none'}}>
           <span>🖼️</span>
-          <p>Optional: Add office/team photo → <code>client/public/images/about-office.jpg</code></p>
+          <p>Add office/team photo → <code>client/public/images/about-office.jpg</code></p>
         </div>
       </section>
 

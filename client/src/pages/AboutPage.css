@@ -36,7 +36,7 @@
 
 /* STORY */
 .about-story-section { padding:80px 40px; max-width:1200px; margin:0 auto; }
-.about-story-inner { display:grid; grid-template-columns:1fr 400px; gap:60px; align-items:start; }
+.about-story-inner { display:grid; grid-template-columns:1fr 400px; gap:60px; align-items:center; }
 .about-story-text .section-badge { display:inline-block; margin-bottom:16px; }
 .about-story-text h2 { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; margin-bottom:20px; }
 .about-story-text p { color:rgba(255,255,255,.62); line-height:1.85; margin-bottom:16px; font-size:.95rem; }
@@ -45,10 +45,24 @@
 .about-story-highlight p { margin:0; color:rgba(255,255,255,.7); font-style:italic; }
 
 /* IMAGE SLOTS */
-.about-story-visual { display:flex; flex-direction:column; gap:0; }
-.about-img { width:100%; border-radius:16px; object-fit:cover; max-height:400px; display:block; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+.about-story-visual { display:flex; flex-direction:column; }
+
+/* story image */
+.about-img-wrap {
+  width:100%; border-radius:16px; overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+}
+.about-img {
+  width:100%; height:420px; object-fit:cover; object-position:center top;
+  display:block; transition:transform .4s;
+}
+.about-img-wrap:hover .about-img { transform:scale(1.03); }
+@media(max-width:900px) {
+  .about-img { height:260px; }
+}
+
 .about-img-placeholder {
-  width:100%; min-height:200px; border:2px dashed rgba(255,255,255,.12); border-radius:16px;
+  width:100%; min-height:220px; border:2px dashed rgba(255,255,255,.12); border-radius:16px;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:10px; color:rgba(255,255,255,.3); text-align:center; padding:24px;
 }
@@ -56,10 +70,22 @@
 .about-img-placeholder p { font-size:.8rem; line-height:1.6; }
 .about-img-placeholder code { background:rgba(255,255,255,.08); padding:2px 6px; border-radius:4px; font-size:.74rem; }
 
-/* IMAGE BANNER */
+/* office banner — fixed height, image fills & crops to center-top */
 .about-img-banner-section { max-width:1200px; margin:0 auto; padding:0 40px 60px; }
-.about-banner-img { width:100%; max-height:320px; object-fit:cover; border-radius:20px; display:block; box-shadow:0 12px 40px rgba(0,0,0,.35); }
-.about-banner-placeholder { min-height:140px; }
+.about-banner-wrap {
+  width:100%; border-radius:20px; overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,.35);
+}
+.about-banner-img {
+  width:100%; height:400px; object-fit:cover; object-position:center top;
+  display:block; transition:transform .4s;
+}
+.about-banner-wrap:hover .about-banner-img { transform:scale(1.03); }
+.about-banner-placeholder { width:100%; height:160px; }
+@media(max-width:900px) {
+  .about-banner-img { height:220px; }
+  .about-img-banner-section { padding:0 20px 40px; }
+}
 
 /* MISSION VISION */
 .about-mv-section { padding:60px 40px; max-width:1000px; margin:0 auto; }
