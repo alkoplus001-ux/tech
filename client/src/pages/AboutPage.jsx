@@ -143,6 +143,29 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* MILESTONES */}
+      <section className="about-milestones-section">
+        <div className="section-head">
+          <div className="section-badge">📈 Our Journey</div>
+          <h2>Growing Every Year</h2>
+        </div>
+        <div className="about-milestone-grid">
+          {[
+            { year:'2020', icon:'🌱', title:'Founded', desc:'Started in Delhi with 3 clients and a big dream to make software affordable for every business.' },
+            { year:'2021', icon:'📦', title:'First 100 Clients', desc:'Launched Inventory & Billing modules. Reached our first 100 happy clients across Delhi NCR.' },
+            { year:'2022', icon:'🏥', title:'12 Industries', desc:'Expanded to Hospital, School, Restaurant and 9 more industries. 250+ clients served.' },
+            { year:'2024', icon:'🚀', title:'500+ Businesses', desc:'Serving 500+ businesses with 12 specialised software products and 24/7 support.' },
+          ].map((m,i) => (
+            <div key={i} className="about-milestone-card">
+              <div className="amc-year">{m.year}</div>
+              <div className="amc-icon">{m.icon}</div>
+              <div className="amc-title">{m.title}</div>
+              <p>{m.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="about-cta-section">
         <h2>Ready to Work With Us?</h2>

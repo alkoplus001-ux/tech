@@ -40,6 +40,24 @@
 .sw-enquire-btn { padding:10px 16px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:transparent; color:rgba(255,255,255,.7); font-weight:600; font-size:.84rem; cursor:pointer; transition:all .2s; }
 .sw-enquire-btn:hover { background:rgba(255,255,255,.07); }
 
+/* HOW IT WORKS */
+.sw-how-section { padding:80px 40px; max-width:1100px; margin:0 auto; }
+.sw-how-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:40px; }
+.sw-how-card {
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  border-radius:20px; padding:32px 28px; text-align:center; position:relative;
+  transition:all .25s;
+}
+.sw-how-card:hover { background:rgba(255,255,255,.07); transform:translateY(-5px); }
+.sw-how-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--hw-color); border-radius:20px 20px 0 0; }
+.sw-how-num { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:12px; font-size:.85rem; font-weight:800; letter-spacing:.5px; margin-bottom:18px; }
+.sw-how-icon { font-size:2.6rem; margin-bottom:14px; }
+.sw-how-card h3 { font-size:1.05rem; font-weight:800; margin-bottom:10px; }
+.sw-how-card p { font-size:.84rem; color:rgba(255,255,255,.55); line-height:1.75; }
+.sw-how-trust { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+.sw-trust-pill { display:inline-flex; align-items:center; gap:6px; padding:8px 18px; background:rgba(67,233,123,.08); border:1px solid rgba(67,233,123,.25); border-radius:30px; font-size:.8rem; font-weight:600; color:rgba(255,255,255,.75); }
+.sw-trust-pill span { color:#43E97B; font-weight:800; }
+
 /* CTA */
 .sw-cta-section { padding:80px 24px; }
 .sw-cta-inner { max-width:640px; margin:0 auto; text-align:center; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:24px; padding:56px 40px; }
@@ -64,6 +82,7 @@
 
 /* RESPONSIVE */
 @media(max-width:1100px) { .sw-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:768px) { .sw-how-grid { grid-template-columns:1fr; } .sw-how-section { padding:60px 20px; } }
 @media(max-width:680px) {
   .sw-grid { grid-template-columns:1fr; }
   .sw-grid-section { padding:40px 16px 60px; }
@@ -71,6 +90,9 @@
 }
 
 /* LIGHT MODE */
+html.light .sw-how-card { background:#fff; border-color:#e2e8f0; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+html.light .sw-how-card p { color:#64748b; }
+html.light .sw-trust-pill { background:rgba(67,233,123,.06); color:#334155; }
 html.light .sw-card { background:#fff; border-color:#e2e8f0; }
 html.light .sw-card:hover { box-shadow:0 10px 30px rgba(0,0,0,.1); }
 html.light .sw-desc { color:#64748b; }

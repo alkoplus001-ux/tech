@@ -133,6 +133,7 @@ export default function Home() {
   const [submitting, setSub]    = useState(false);
   const [msg, setMsg]           = useState(null);
   const [pricingTab, setPricingTab] = useState('inventory');
+  const [billMode,   setBillMode]   = useState('monthly');
 
   const handleBook = async () => {
     if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name and phone number are required.' }); return; }
@@ -161,25 +162,68 @@ export default function Home() {
         <div className="hero-bg-blob blob1" />
         <div className="hero-bg-blob blob2" />
         <div className="hero-bg-blob blob3" />
-        <div className="hero-content">
-          <div className="hero-badge">🚀 India's Trusted Business Software</div>
-          <h1>Smart Software for<br /><span className="gradient-text">Every Business</span></h1>
-          <p>Complete ERP & management solutions — from Inventory to HR, Billing to CRM. One platform, infinite possibilities for your business.</p>
-          <div className="hero-btns">
-            <button className="btn btn-primary" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior:'smooth' })}>
-              Explore Templates
-            </button>
-            <button className="btn btn-outline" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior:'smooth' })}>
-              View Pricing
-            </button>
+        <div className="hero-inner">
+          <div className="hero-left">
+            <div className="hero-badge">🚀 India's Trusted Business Software</div>
+            <h1>Smart Software for<br /><span className="gradient-text">Every Business</span></h1>
+            <p>Complete ERP & management solutions — Inventory, HR, Billing, CRM & more. Built for Indian businesses, starting at ₹2,000/month.</p>
+            <div className="hero-btns">
+              <button className="btn btn-primary" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior:'smooth' })}>
+                Explore Templates
+              </button>
+              <button className="btn btn-outline" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior:'smooth' })}>
+                View Pricing
+              </button>
+            </div>
+            <div className="hero-stats">
+              {STATS.map(s => (
+                <div key={s.label} className="hero-stat">
+                  <div className="hero-stat-num">{s.num}</div>
+                  <div className="hero-stat-label">{s.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="hero-stats">
-            {STATS.map(s => (
-              <div key={s.label} className="hero-stat">
-                <div className="hero-stat-num">{s.num}</div>
-                <div className="hero-stat-label">{s.label}</div>
+
+          <div className="hero-right">
+            <div className="hero-mockup">
+              <div className="hm-main">
+                <div className="hm-head">
+                  <span className="hm-title">📊 Business Dashboard</span>
+                  <span className="hm-live">● Live</span>
+                </div>
+                <div className="hm-stats-row">
+                  <div className="hm-stat"><span className="hm-sv" style={{color:'#6C63FF'}}>₹2.4L</span><span>Sales Today</span></div>
+                  <div className="hm-stat"><span className="hm-sv" style={{color:'#43E97B'}}>1,247</span><span>Products</span></div>
+                  <div className="hm-stat"><span className="hm-sv" style={{color:'#f59e0b'}}>98</span><span>Orders</span></div>
+                </div>
+                <div className="hm-chart-area">
+                  {[45,70,55,80,65,90,75,85,100,70].map((h,i)=>(
+                    <div key={i} className="hm-bar" style={{height:`${h}%`}}/>
+                  ))}
+                </div>
+                <div className="hm-table">
+                  {[['Sharma Traders','#6C63FF'],['Khan Pharmacy','#43E97B'],['Patel Textiles','#f59e0b']].map(([n,c],i)=>(
+                    <div key={i} className="hm-row">
+                      <span className="hm-row-dot" style={{background:c}}/>
+                      <span className="hm-row-nm">{n}</span>
+                      <span className="hm-row-badge">Paid</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+              <div className="hm-floaters">
+                <div className="hm-floater hm-f1">
+                  <span className="hm-fi">🧾</span>
+                  <div><div className="hm-ft">GST Invoice Sent</div><div className="hm-fs">Sharma Traders · ₹12,400</div></div>
+                  <span className="hm-ok">✓</span>
+                </div>
+                <div className="hm-floater hm-f2">
+                  <span className="hm-fi">📱</span>
+                  <div><div className="hm-ft">WhatsApp Alert Sent</div><div className="hm-fs">147 customers notified</div></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -247,12 +291,16 @@ export default function Home() {
         {/* Special offer banner */}
         <div className="pricing-offer-banner">
           <div className="pricing-offer-left">
-            <div className="pricing-offer-tag">SPECIAL OFFER</div>
+            <div className="pricing-offer-tag">{billMode==='monthly' ? 'SUBSCRIPTION PLAN' : 'ONE-TIME CUSTOM'}</div>
             <div className="pricing-offer-price">
-              <span className="pricing-offer-from">Starting from</span>
-              <span className="pricing-offer-amount">₹6,999</span>
+              <span className="pricing-offer-from">{billMode==='monthly' ? 'Starting from' : 'One-time from'}</span>
+              <span className="pricing-offer-amount">{billMode==='monthly' ? '₹2,000' : '₹6,999'}</span>
             </div>
-            <div className="pricing-offer-sub">Get your website or software today &amp; grow your business online!</div>
+            <div className="pricing-offer-sub">
+              {billMode==='monthly'
+                ? '₹2,000/month subscription — free updates, support & training included!'
+                : '₹6,999 one-time — fully customised, lifetime licence, no monthly fees!'}
+            </div>
           </div>
           <div className="pricing-offer-checklist">
             {['No Hidden Charges','Free Consultation','Free Basic Support','On Time Delivery'].map(f => (
@@ -261,13 +309,33 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Billing mode toggle */}
+        <div className="billing-toggle">
+          <button className={`btog-btn${billMode==='monthly'?' btog-active':''}`} onClick={()=>setBillMode('monthly')}>
+            💳 Monthly Subscription
+          </button>
+          <button className={`btog-btn${billMode==='onetime'?' btog-active':''}`} onClick={()=>setBillMode('onetime')}>
+            🔧 One-Time Custom
+          </button>
+        </div>
+        <p className="billing-note">
+          {billMode==='monthly'
+            ? '📅 Pay monthly, cancel anytime. Includes free updates & WhatsApp support.'
+            : '🛠️ One-time purchase with lifetime licence. Fully customised for your business.'}
+        </p>
+
         {/* Plan cards */}
         <div className="plans-grid">
           {activePlans.map((plan, i) => {
-            const isStarter = ['Starter','Agent','Clinic'].includes(plan.name);
+            const isStarter    = ['Starter','Agent','Clinic'].includes(plan.name);
             const isEnterprise = plan.name === 'Enterprise';
-            const priceLabel  = isStarter ? '₹6,999' : isEnterprise ? 'Custom' : 'Contact Us';
-            const priceSub    = isStarter ? 'onwards' : isEnterprise ? 'Quote'  : 'for pricing';
+            const isMid        = !isStarter && !isEnterprise;
+            const priceLabel   = billMode === 'monthly'
+              ? (isStarter ? '₹2,000' : isEnterprise ? 'Custom' : '₹4,999')
+              : (isStarter ? '₹6,999' : isEnterprise ? 'Get Quote' : '₹14,999');
+            const priceSub     = billMode === 'monthly'
+              ? (isEnterprise ? 'Quote' : '/month')
+              : (isEnterprise ? 'customized' : 'one-time');
             return (
               <div key={i} className={`plan-card${plan.popular ? ' plan-popular' : ''}`}
                 style={plan.popular ? { borderColor: activeTpl.color, boxShadow: `0 0 0 1px ${activeTpl.color}40, 0 20px 50px ${activeTpl.color}20` } : {}}>

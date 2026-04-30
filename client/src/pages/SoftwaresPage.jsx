@@ -95,6 +95,34 @@ export default function SoftwaresPage() {
         </div>
       </section>
 
+      {/* HOW IT WORKS */}
+      <section className="sw-how-section">
+        <div className="section-head">
+          <div className="section-badge">🔄 Simple Process</div>
+          <h2>From Demo to Live in 3 Steps</h2>
+          <p>We handle everything — setup, training, and ongoing support. You just focus on your business.</p>
+        </div>
+        <div className="sw-how-grid">
+          {[
+            { step:'01', icon:'📞', color:'#6C63FF', title:'Book Free Demo',     desc:'Call us or fill the enquiry form. Our expert will reach you within 2 hours with a live walkthrough of your software.' },
+            { step:'02', icon:'⚙️', color:'#43E97B', title:'We Set Up For You', desc:'Our team installs and configures the software for your specific business — no technical knowledge needed from you.' },
+            { step:'03', icon:'🚀', color:'#f59e0b', title:'Train & Go Live',   desc:'Free hands-on training for you and your team. Go live confidently — we are always a WhatsApp message away.' },
+          ].map((s,i) => (
+            <div key={i} className="sw-how-card" style={{ '--hw-color': s.color }}>
+              <div className="sw-how-num" style={{ background:`${s.color}18`, color:s.color, border:`1px solid ${s.color}30` }}>{s.step}</div>
+              <div className="sw-how-icon">{s.icon}</div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div className="sw-how-trust">
+          {['Free Setup','Free Training','No Hidden Charges','WhatsApp Support','GST Ready'].map(f => (
+            <span key={f} className="sw-trust-pill"><span>✓</span> {f}</span>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="sw-cta-section" id="sw-cta">
         <div className="sw-cta-inner">
@@ -109,7 +137,7 @@ export default function SoftwaresPage() {
               📞 Call Us Now
             </a>
           </div>
-          <p className="sw-cta-note">Starting from <strong>₹6,999</strong> &nbsp;·&nbsp; Free setup &amp; training &nbsp;·&nbsp; No hidden charges</p>
+          <p className="sw-cta-note">Starting from <strong>₹2,000/month</strong> &nbsp;·&nbsp; Free setup &amp; training &nbsp;·&nbsp; No hidden charges</p>
         </div>
       </section>
 

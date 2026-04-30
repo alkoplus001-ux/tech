@@ -51,7 +51,7 @@ export default function Navbar() {
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
-          <button className="btn btn-primary btn-sm nav-demo-btn" onClick={goToDemo}>
+          <button className="nav-demo-btn" onClick={goToDemo}>
             Free Demo
           </button>
           <button className={`hamburger${menuOpen ? ' open' : ''}`}

@@ -135,13 +135,13 @@ export default function POSDemo() {
               <div style={{flex:1,overflowY:'auto',maxHeight:260}}>
                 {cart.map(item=>(
                   <div key={item.id} className="cart-item">
-                    <div>{item.icon} {item.name}</div>
+                    <div className="cart-item-name">{item.icon} {item.name}</div>
                     <div className="cart-qty">
                       <button className="qty-btn" onClick={()=>updateQty(item.id,-1)}>−</button>
                       <span style={{minWidth:20,textAlign:'center',fontWeight:700}}>{item.qty}</span>
                       <button className="qty-btn" onClick={()=>updateQty(item.id,1)}>+</button>
                     </div>
-                    <div style={{color:'#43E97B',fontWeight:700}}>₹{item.price*item.qty}</div>
+                    <div className="cart-item-price">₹{item.price*item.qty}</div>
                   </div>
                 ))}
               </div>

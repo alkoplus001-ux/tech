@@ -11,16 +11,26 @@ export default function ContactPage() {
 
   const handleSubmit = async () => {
     if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name and phone number are required.' }); return; }
-    setSub(true);
+    setSub(true); setMsg(null);
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 20000);
     try {
-      const res  = await fetch(`${API}/api/contact`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(form) });
+      const res  = await fetch(`${API}/api/contact`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(form), signal: ctrl.signal,
+      });
+      clearTimeout(tid);
       const data = await res.json();
       if (data.success) {
         setMsg({ type:'success', text:`Thank you, ${form.name}! We'll contact you within 2 hours at +91 99913-27697 or WhatsApp.` });
         setForm({ name:'', phone:'', email:'', business:'', message:'' });
       } else throw new Error(data.message);
     } catch (e) {
-      setMsg({ type:'error', text: e.message || 'Something went wrong. Please try again.' });
+      clearTimeout(tid);
+      const text = e.name === 'AbortError'
+        ? 'Request timed out. Please try WhatsApp or call us directly.'
+        : (e.message || 'Something went wrong. Please try again.');
+      setMsg({ type:'error', text });
     } finally { setSub(false); }
   };
 
@@ -172,6 +182,45 @@ export default function ContactPage() {
               <p>{w.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* MAP / LOCATION VISUAL */}
+      <section className="contact-map-section">
+        <div className="contact-map-inner">
+          <div className="contact-map-visual">
+            <div className="cmap-bg">
+              {/* CSS grid map lines */}
+              <div className="cmap-grid" />
+              <div className="cmap-pin">
+                <div className="cmap-pin-dot" />
+                <div className="cmap-pin-pulse" />
+              </div>
+              <div className="cmap-label">
+                <span>📍</span>
+                <div>
+                  <div className="cmap-label-title">Tech Nandu Office</div>
+                  <div className="cmap-label-sub">Tikri Border, Delhi – 110041</div>
+                </div>
+              </div>
+              <div className="cmap-road cmap-r1" />
+              <div className="cmap-road cmap-r2" />
+              <div className="cmap-road cmap-r3" />
+            </div>
+          </div>
+          <div className="contact-map-info">
+            <div className="section-badge" style={{display:'inline-block',marginBottom:16}}>📍 Find Us Here</div>
+            <h2>Visit Our Office</h2>
+            <p>We're located at Tikri Border, West Delhi — easily accessible from Delhi Metro and major roads.</p>
+            <div className="cmap-details">
+              <div className="cmap-detail-row"><span>📍</span><span>Baba Haridas Colony, Tikri Border, Delhi – 110041</span></div>
+              <div className="cmap-detail-row"><span>📞</span><span>+91 99913-27697 &nbsp;|&nbsp; +91 98110-17225</span></div>
+              <div className="cmap-detail-row"><span>🕐</span><span>Mon–Sat: 9 AM – 8 PM &nbsp;|&nbsp; Sun: 10 AM – 6 PM</span></div>
+            </div>
+            <a href="https://maps.google.com/?q=Tikri+Border+Delhi" target="_blank" rel="noreferrer" className="cmap-directions-btn">
+              🗺️ Get Directions
+            </a>
+          </div>
         </div>
       </section>
 

@@ -43,6 +43,16 @@
 .nav-admin       { color: #f59e0b !important; }
 .nav-admin:hover { background: rgba(245,158,11,0.1) !important; }
 
+/* ── Free Demo button ────────────────────────────────────────────────── */
+.nav-demo-btn {
+  padding: 8px 18px; border-radius: 10px; font-weight: 700; font-size: .85rem;
+  cursor: pointer; border: none; text-decoration: none;
+  display: inline-flex; align-items: center; transition: all .2s;
+  background: linear-gradient(135deg,#6C63FF,#FF6584); color: #fff;
+  white-space: nowrap;
+}
+.nav-demo-btn:hover { opacity: .9; transform: translateY(-1px); }
+
 /* ── Theme toggle ─────────────────────────────────────────────────────── */
 .theme-toggle {
   width: 36px; height: 36px; border-radius: 10px;

@@ -4,7 +4,12 @@
 .career-hero {
   min-height:70vh; display:flex; align-items:center; justify-content:center;
   text-align:center; padding:120px 24px 80px; position:relative; overflow:hidden;
-  background:radial-gradient(ellipse at 50% 0%,rgba(67,233,123,.15) 0%,transparent 65%);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(67,233,123,.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 70%, rgba(108,99,255,.12) 0%, transparent 40%),
+    radial-gradient(ellipse at 15% 75%, rgba(255,101,132,.08) 0%, transparent 35%),
+    radial-gradient(rgba(67,233,123,.12) 1px, transparent 1px);
+  background-size: auto, auto, auto, 24px 24px;
 }
 .career-hero-bg { position:absolute; border-radius:50%; filter:blur(80px); opacity:.1; pointer-events:none; }
 .career-hero-bg.b1 { width:400px; height:400px; background:#43E97B; top:-80px; right:-80px; }
@@ -109,6 +114,12 @@ html.light .apply-opt-sub { color:#94a3b8; }
 html.light .career-open-inner { background:#fff; border-color:#e2e8f0; }
 html.light .career-open-inner p { color:#64748b; }
 html.light .section-head p { color:#64748b; }
+html.light .career-hero {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(67,233,123,.1) 0%, transparent 55%),
+    radial-gradient(rgba(67,233,123,.09) 1px, transparent 1px);
+  background-size: auto, 24px 24px;
+}
 html.light .career-hero-content p { color:#475569; }
 html.light .footer p, html.light .footer-links { color:#94a3b8; }
 html.light .footer-copy { color:#cbd5e1 !important; }
