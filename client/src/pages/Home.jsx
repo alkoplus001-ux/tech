@@ -28,127 +28,126 @@ const STATS = [
 
 // ── Per-software pricing plans ──────────────────────────────────────────────
 const PRICING = {
-  inventory: {
-    plans: [
-      { name:'Starter',    desc:'Small shops & kirana stores', popular:false,
-        features:['Up to 500 products','GST billing','Stock reports','Low-stock alerts','1 user login','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'Growing retail & wholesale',   popular:true,
-        features:['Unlimited products','Supplier management','Purchase orders','Barcode support','Advanced reports','5 users','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Large chains & distributors',  popular:false,
-        features:['Multi-warehouse support','Custom dashboards','Unlimited users','Dedicated account manager','Free training','24/7 support'], locked:[] },
-    ],
-  },
-  billing: {
-    plans: [
-      { name:'Starter',    desc:'Freelancers & small business', popular:false,
-        features:['GST invoice (PDF)','50 invoices/month','UPI QR on invoice','Payment tracking','1 user','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'SMEs & service providers',     popular:true,
-        features:['Unlimited invoices','Auto payment reminders','E-way bill','Customer ledger','Recurring invoices','3 users','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'CA firms & large businesses',  popular:false,
-        features:['Unlimited invoices','GST filing ready','Tally export','Unlimited users','Custom branding','Free training','24/7 support'], locked:[] },
-    ],
-  },
-  hr: {
-    plans: [
-      { name:'Starter',    desc:'Up to 25 employees',           popular:false,
-        features:['25 employee profiles','Attendance tracking','Leave management','Monthly reports','Offer letter templates','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'Up to 100 employees',          popular:true,
-        features:['100 employee profiles','Biometric integration','Appraisal module','Onboarding workflow','Document management','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Unlimited employees',          popular:false,
-        features:['Unlimited employees','Custom leave policies','360° appraisals','Payroll integration','Dedicated HR consultant','24/7 support'], locked:[] },
-    ],
-  },
-  pos: {
-    plans: [
-      { name:'Starter',    desc:'Single counter retail',        popular:false,
-        features:['1 POS counter','Cash & UPI payments','Daily sales report','500 product catalog','Thermal receipt print','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'Multi-counter shops',          popular:true,
-        features:['3 POS counters','All payment modes','Loyalty program','Unlimited products','Customer database','Barcode scanner','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Chains & franchise outlets',   popular:false,
-        features:['Unlimited counters','Franchise management','Online order integration','Loyalty & gift cards','Custom dashboards','24/7 support'], locked:[] },
-    ],
-  },
-  payroll: {
-    plans: [
-      { name:'Starter',    desc:'Up to 20 employees',           popular:false,
-        features:['20 employees','Auto salary calculation','PF & ESI','PDF payslips','Monthly summary','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'Up to 200 employees',          popular:true,
-        features:['200 employees','Full PF / ESI / TDS','Custom payslips','Bulk bank transfer','Bonus processing','Form 16','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Unlimited employees',          popular:false,
-        features:['Unlimited employees','Full statutory compliance','CTC structure builder','Form 16 & 24Q','CA-reviewed templates','24/7 support'], locked:[] },
-    ],
-  },
-  crm: {
-    plans: [
-      { name:'Starter',    desc:'Solo sales reps & startups',   popular:false,
-        features:['500 leads','Sales pipeline','Follow-up reminders','WhatsApp templates','Call log','Basic reports'], locked:[] },
-      { name:'Business',   desc:'Sales teams up to 10',         popular:true,
-        features:['Unlimited leads','Custom pipeline stages','Auto follow-up scheduler','Email & WhatsApp campaigns','Lead scoring','Team dashboard','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Large sales organisations',    popular:false,
-        features:['Multi-team pipelines','Revenue forecasting','Email + WhatsApp + SMS','Territory management','Custom branding','Dedicated consultant','24/7 support'], locked:[] },
-    ],
-  },
-  hospital: {
-    plans: [
-      { name:'Clinic',     desc:'Small clinics & solo doctors', popular:false,
-        features:['50 patients/day','OPD management','Digital prescriptions','Appointment booking','Patient history','WhatsApp support'], locked:[] },
-      { name:'Hospital',   desc:'Multi-specialty hospitals',    popular:true,
-        features:['Unlimited patients','OPD + IPD management','Lab integration','Pharmacy link','Bed management','Doctor scheduling','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Hospital chains & groups',     popular:false,
-        features:['Complete HMS','Lab + Radiology','Insurance & TPA billing','NABH compliance','Multi-branch support','24/7 support'], locked:[] },
-    ],
-  },
-  school: {
-    plans: [
-      { name:'Starter',    desc:'Up to 200 students',           popular:false,
-        features:['200 students','Fee collection','Attendance tracking','Result entry','WhatsApp alerts to parents','Timetable'], locked:[] },
-      { name:'Institution',desc:'Up to 1000 students',          popular:true,
-        features:['1000 students','Online fee payment (UPI)','Exam reports','Parent app & alerts','Library management','Transport tracking','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Multi-branch school groups',   popular:false,
-        features:['Unlimited students','Online admissions','Biometric attendance','Multi-branch dashboard','Parent & student app','24/7 support'], locked:[] },
-    ],
-  },
-  restaurant: {
-    plans: [
-      { name:'Starter',    desc:'Single outlet, small cafe',    popular:false,
-        features:['1 outlet','Table management','KOT printing','Menu management','Daily sales report','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'Full-service restaurants',     popular:true,
-        features:['Unlimited tables','Kitchen display system','Online ordering','Delivery management','Loyalty program','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Restaurant chains & cloud kitchens', popular:false,
-        features:['Unlimited outlets','Zomato / Swiggy integration','Multi-outlet dashboard','Loyalty & offers','Inventory link','24/7 support'], locked:[] },
-    ],
-  },
-  realestate: {
-    plans: [
-      { name:'Agent',      desc:'Individual agents & brokers',  popular:false,
-        features:['50 property listings','Buyer CRM','Follow-up reminders','WhatsApp templates','Commission tracking','Basic reports'], locked:[] },
-      { name:'Builder',    desc:'Builders & small developers',  popular:true,
-        features:['Unlimited listings','Full buyer CRM','Booking & agreement management','EMI schedule generator','Agent portal','Revenue dashboard','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Large builders & RE groups',   popular:false,
-        features:['Multi-project management','Channel partner portal','Document management','Legal checklist','Revenue forecasting','Custom branding','24/7 support'], locked:[] },
-    ],
-  },
-  pharmacy: {
-    plans: [
-      { name:'Starter',    desc:'Small pharmacies & medical shops', popular:false,
-        features:['500 medicines','Expiry date alerts','GST billing','Reorder alerts','Daily stock report','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'Full-service pharmacies',      popular:true,
-        features:['Unlimited medicines','Batch & expiry tracking','Prescription management','Supplier orders','Reorder automation','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Pharmacy chains & hospitals',  popular:false,
-        features:['Multi-branch inventory','Doctor prescription link','Insurance billing','Supplier integration','Free training','24/7 support'], locked:[] },
-    ],
-  },
-  analytics: {
-    plans: [
-      { name:'Starter',    desc:'Small businesses & startups',  popular:false,
-        features:['5 dashboards','Basic KPI tracking','Sales & revenue charts','Excel / CSV export','Monthly report','WhatsApp support'], locked:[] },
-      { name:'Business',   desc:'Data-driven SMEs',             popular:true,
-        features:['Unlimited dashboards','Revenue forecasting','Custom chart builder','Multi-user access','Scheduled reports','Google Sheets sync','Priority support'], locked:[] },
-      { name:'Enterprise', desc:'Large organisations & agencies',popular:false,
-        features:['AI-powered insights','Predictive forecasting','Custom dashboards','Unlimited users','Dedicated analyst','Free training','24/7 support'], locked:[] },
-    ],
-  },
+  inventory: { plans: [
+    { name:'Starter',    desc:'Small shops & kirana stores', popular:false, note:null,
+      features:['Up to 500 products','GST billing','Stock reports','Low-stock alerts','1 user login','WhatsApp support'] },
+    { name:'Business',   desc:'Growing retail & wholesale',   popular:true,  note:'Includes everything in Starter, plus:',
+      features:['Unlimited products','Supplier management','Purchase orders','Barcode support','5 users','Priority support'] },
+    { name:'Enterprise', desc:'Large chains & distributors',  popular:false, note:'Includes everything in Business, plus:',
+      features:['Multi-warehouse support','Custom dashboards','Unlimited users','Dedicated manager','Free training','24/7 support'] },
+  ]},
+  billing: { plans: [
+    { name:'Starter',    desc:'Freelancers & small business', popular:false, note:null,
+      features:['GST invoice (PDF)','50 invoices/month','UPI QR on invoice','Payment tracking','1 user','WhatsApp support'] },
+    { name:'Business',   desc:'SMEs & service providers',     popular:true,  note:'Includes everything in Starter, plus:',
+      features:['Unlimited invoices','Auto payment reminders','E-way bill','Customer ledger','Recurring invoices','3 users','Priority support'] },
+    { name:'Enterprise', desc:'CA firms & large businesses',  popular:false, note:'Includes everything in Business, plus:',
+      features:['GST filing ready','Tally export','Unlimited users','Custom branding','Free training','24/7 support'] },
+  ]},
+  hr: { plans: [
+    { name:'Starter',    desc:'Up to 25 employees',           popular:false, note:null,
+      features:['25 employee profiles','Attendance tracking','Leave management','Monthly reports','Offer letter templates','WhatsApp support'] },
+    { name:'Business',   desc:'Up to 100 employees',          popular:true,  note:'Includes everything in Starter, plus:',
+      features:['100 employees','Biometric integration','Appraisal module','Onboarding workflow','Document management','Priority support'] },
+    { name:'Enterprise', desc:'Unlimited employees',          popular:false, note:'Includes everything in Business, plus:',
+      features:['Unlimited employees','Custom leave policies','360° appraisals','Payroll integration','Dedicated consultant','24/7 support'] },
+  ]},
+  pos: { plans: [
+    { name:'Starter',    desc:'Single counter retail',        popular:false, note:null,
+      features:['1 POS counter','Cash & UPI payments','Daily sales report','500 product catalog','Thermal receipt print','WhatsApp support'] },
+    { name:'Business',   desc:'Multi-counter shops',          popular:true,  note:'Includes everything in Starter, plus:',
+      features:['3 POS counters','All payment modes','Loyalty program','Unlimited products','Customer database','Barcode scanner','Priority support'] },
+    { name:'Enterprise', desc:'Chains & franchise outlets',   popular:false, note:'Includes everything in Business, plus:',
+      features:['Unlimited counters','Franchise management','Online order integration','Loyalty & gift cards','Custom dashboards','24/7 support'] },
+  ]},
+  payroll: { plans: [
+    { name:'Starter',    desc:'Up to 20 employees',           popular:false, note:null,
+      features:['20 employees','Auto salary calculation','PF & ESI','PDF payslips','Monthly summary','WhatsApp support'] },
+    { name:'Business',   desc:'Up to 200 employees',          popular:true,  note:'Includes everything in Starter, plus:',
+      features:['200 employees','Full PF / ESI / TDS','Custom payslips','Bulk bank transfer','Bonus processing','Form 16','Priority support'] },
+    { name:'Enterprise', desc:'Unlimited employees',          popular:false, note:'Includes everything in Business, plus:',
+      features:['Unlimited employees','Full statutory compliance','CTC structure builder','Form 16 & 24Q','CA-reviewed templates','24/7 support'] },
+  ]},
+  crm: { plans: [
+    { name:'Starter',    desc:'Solo sales reps & startups',   popular:false, note:null,
+      features:['500 leads','Sales pipeline','Follow-up reminders','WhatsApp templates','Call log','Basic reports'] },
+    { name:'Business',   desc:'Sales teams up to 10',         popular:true,  note:'Includes everything in Starter, plus:',
+      features:['Unlimited leads','Custom pipeline stages','Auto follow-up scheduler','Email & WhatsApp campaigns','Lead scoring','Team dashboard','Priority support'] },
+    { name:'Enterprise', desc:'Large sales organisations',    popular:false, note:'Includes everything in Business, plus:',
+      features:['Multi-team pipelines','Revenue forecasting','Territory management','Custom branding','Dedicated consultant','24/7 support'] },
+  ]},
+  hospital: { plans: [
+    { name:'Clinic',     desc:'Small clinics & solo doctors', popular:false, note:null,
+      features:['50 patients/day','OPD management','Digital prescriptions','Appointment booking','Patient history','WhatsApp support'] },
+    { name:'Hospital',   desc:'Multi-specialty hospitals',    popular:true,  note:'Includes everything in Clinic, plus:',
+      features:['Unlimited patients','IPD management','Lab integration','Pharmacy link','Bed management','Doctor scheduling','Priority support'] },
+    { name:'Enterprise', desc:'Hospital chains & groups',     popular:false, note:'Includes everything in Hospital, plus:',
+      features:['Complete HMS','Lab + Radiology','Insurance & TPA billing','NABH compliance','Multi-branch support','24/7 support'] },
+  ]},
+  school: { plans: [
+    { name:'Starter',    desc:'Up to 200 students',           popular:false, note:null,
+      features:['200 students','Fee collection','Attendance tracking','Result entry','Parent WhatsApp alerts','Timetable'] },
+    { name:'Institution',desc:'Up to 1000 students',          popular:true,  note:'Includes everything in Starter, plus:',
+      features:['1000 students','Online fee payment (UPI)','Exam reports','Parent app & alerts','Library management','Transport tracking','Priority support'] },
+    { name:'Enterprise', desc:'Multi-branch school groups',   popular:false, note:'Includes everything in Institution, plus:',
+      features:['Unlimited students','Online admissions','Biometric attendance','Multi-branch dashboard','Parent & student app','24/7 support'] },
+  ]},
+  restaurant: { plans: [
+    { name:'Starter',    desc:'Single outlet, small cafe',    popular:false, note:null,
+      features:['1 outlet','Table management','KOT printing','Menu management','Daily sales report','WhatsApp support'] },
+    { name:'Business',   desc:'Full-service restaurants',     popular:true,  note:'Includes everything in Starter, plus:',
+      features:['Unlimited tables','Kitchen display system','Online ordering','Delivery management','Loyalty program','Priority support'] },
+    { name:'Enterprise', desc:'Restaurant chains & cloud kitchens', popular:false, note:'Includes everything in Business, plus:',
+      features:['Unlimited outlets','Zomato / Swiggy integration','Multi-outlet dashboard','Loyalty & offers','Inventory link','24/7 support'] },
+  ]},
+  realestate: { plans: [
+    { name:'Agent',      desc:'Individual agents & brokers',  popular:false, note:null,
+      features:['50 property listings','Buyer CRM','Follow-up reminders','WhatsApp templates','Commission tracking','Basic reports'] },
+    { name:'Builder',    desc:'Builders & small developers',  popular:true,  note:'Includes everything in Agent, plus:',
+      features:['Unlimited listings','Booking & agreement management','EMI schedule generator','Agent portal','Revenue dashboard','Priority support'] },
+    { name:'Enterprise', desc:'Large builders & RE groups',   popular:false, note:'Includes everything in Builder, plus:',
+      features:['Multi-project management','Channel partner portal','Document management','Legal checklist','Revenue forecasting','24/7 support'] },
+  ]},
+  pharmacy: { plans: [
+    { name:'Starter',    desc:'Small pharmacies & medical shops', popular:false, note:null,
+      features:['500 medicines','Expiry date alerts','GST billing','Reorder alerts','Daily stock report','WhatsApp support'] },
+    { name:'Business',   desc:'Full-service pharmacies',      popular:true,  note:'Includes everything in Starter, plus:',
+      features:['Unlimited medicines','Batch & expiry tracking','Prescription management','Supplier orders','Reorder automation','Priority support'] },
+    { name:'Enterprise', desc:'Pharmacy chains & hospitals',  popular:false, note:'Includes everything in Business, plus:',
+      features:['Multi-branch inventory','Doctor prescription link','Insurance billing','Free training','Custom branding','24/7 support'] },
+  ]},
+  analytics: { plans: [
+    { name:'Starter',    desc:'Small businesses & startups',  popular:false, note:null,
+      features:['5 dashboards','Basic KPI tracking','Sales & revenue charts','Excel / CSV export','Monthly report','WhatsApp support'] },
+    { name:'Business',   desc:'Data-driven SMEs',             popular:true,  note:'Includes everything in Starter, plus:',
+      features:['Unlimited dashboards','Revenue forecasting','Custom chart builder','Multi-user access','Scheduled reports','Google Sheets sync','Priority support'] },
+    { name:'Enterprise', desc:'Large organisations & agencies',popular:false, note:'Includes everything in Business, plus:',
+      features:['AI-powered insights','Predictive forecasting','Custom data connectors','Unlimited users','Dedicated analyst','24/7 support'] },
+  ]},
 };
+
+const WEB_PAGES = [
+  { id:'home',      icon:'🏠', label:'Home',
+    heading:'Welcome to Tech Nandu',
+    body:'India\'s trusted technology partner, delivering smart and affordable software solutions for businesses of every size — from local kirana stores to large multi-branch enterprises. We combine modern technology with a deep understanding of Indian business needs to give you software that actually works for you.',
+    points:['Custom Software Built for Your Business','GST & Compliance Ready from Day One','Free Demo & Expert Consultation','100% On-Time Delivery — Guaranteed'] },
+  { id:'about',     icon:'👥', label:'About Us',
+    heading:'Who We Are',
+    body:'Founded in Delhi, Tech Nandu was born from a simple belief — every Indian business deserves world-class software at an affordable price. With 500+ happy clients across 15+ industries, we have grown into one of Delhi\'s most trusted software companies. Our passionate team of developers, designers, and support specialists works round the clock to ensure your business never misses a beat.',
+    points:['500+ Happy Clients Across India','15+ Industries Served Successfully','Delhi-Based, India-Focused Company','Dedicated Team of Experts & Support Staff'] },
+  { id:'softwares', icon:'💻', label:'Softwares',
+    heading:'Our Software Solutions',
+    body:'We offer 12+ industry-specific ERP and management solutions — all tailored for Indian businesses. Each product is GST-compliant, mobile-friendly, and comes with WhatsApp integration and lifetime support. Whether you need inventory tracking, hospital management, school ERP, or a complete business solution — we have you covered.',
+    points:['Inventory, Billing & POS','HR, Payroll & CRM','Hospital, School & Pharmacy ERP','Restaurant, Real Estate & Analytics'] },
+  { id:'career',    icon:'💼', label:'Career',
+    heading:'Grow With Us',
+    body:'At Tech Nandu, our team is our greatest strength. We are always looking for passionate, driven individuals who want to make a real difference in India\'s tech ecosystem. We offer a supportive culture, competitive pay, clear growth paths, and the deep satisfaction of helping thousands of businesses succeed every day.',
+    points:['Software Developers (React, Node.js)','Sales & Business Development Executives','Customer Support & Onboarding Specialists','Send your CV: tech.nandu.96@gmail.com'] },
+  { id:'contact',   icon:'📞', label:'Contact Us',
+    heading:'Get In Touch',
+    body:'We are just a call or message away. Whether you want a free demo, need help with our software, or are looking for a custom solution built just for your business — our friendly team is ready to help. We typically respond within 2 hours during business hours.',
+    points:['📍 Tikri Border, Baba Haridas Colony, Delhi – 110041','📞 +91 99913-27697  |  +91 98110-17225','📧 tech.nandu.96@gmail.com','💬 WhatsApp: wa.me/919991327697'] },
+];
 
 export default function Home() {
   const navigate = useNavigate();
@@ -156,6 +155,7 @@ export default function Home() {
   const [submitting, setSub]    = useState(false);
   const [msg, setMsg]           = useState(null);
   const [pricingTab, setPricingTab] = useState('inventory');
+  const [webPage, setWebPage]       = useState('home');
 
   const handleBook = async () => {
     if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name and phone number are required.' }); return; }
@@ -322,14 +322,14 @@ export default function Home() {
                 <div className="plan-divider" />
 
                 <ul className="plan-features">
+                  {plan.note && (
+                    <li className="pf-note" style={{ borderColor: `${activeTpl.color}40`, background: `${activeTpl.color}0d` }}>
+                      <span style={{ color: activeTpl.color }}>✦</span> {plan.note}
+                    </li>
+                  )}
                   {plan.features.map((f, j) => (
                     <li key={j} className="pf-yes">
                       <span className="pf-icon" style={{ color: activeTpl.color }}>✓</span> {f}
-                    </li>
-                  ))}
-                  {plan.locked.map((f, j) => (
-                    <li key={j} className="pf-no">
-                      <span className="pf-icon">✕</span> {f}
                     </li>
                   ))}
                 </ul>
@@ -343,6 +343,51 @@ export default function Home() {
           <span>🎓 Free onboarding &amp; training included</span>
           <span>📞 +91 99913-27697</span>
           <span>📱 Mobile Friendly &amp; 100% Secure</span>
+        </div>
+      </section>
+
+      {/* WEBSITE DEVELOPMENT */}
+      <section className="website-section" id="website">
+        <div className="section-head">
+          <div className="section-badge">🌐 Website Development</div>
+          <h2>We Build Your Business Website</h2>
+          <p>Professional, fast, and mobile-friendly websites — designed for Indian businesses, delivered on time.</p>
+        </div>
+
+        <div className="web-preview-shell">
+          <div className="web-browser-bar">
+            <div className="web-browser-dots"><span/><span/><span/></div>
+            <div className="web-browser-url">🌐 www.yourbusiness.com</div>
+          </div>
+          <nav className="web-nav-bar">
+            {WEB_PAGES.map(p => (
+              <button key={p.id} className={`web-nav-item${webPage === p.id ? ' active' : ''}`} onClick={() => setWebPage(p.id)}>
+                {p.icon} {p.label}
+              </button>
+            ))}
+          </nav>
+          {WEB_PAGES.filter(p => p.id === webPage).map(p => (
+            <div key={p.id} className="web-page-content">
+              <h3>{p.heading}</h3>
+              <p>{p.body}</p>
+              <ul className="web-points">
+                {p.points.map((pt, i) => <li key={i}><span className="web-point-check">✓</span>{pt}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="web-features-row">
+          {['Custom Design','Mobile Friendly','SEO Optimized','Fast & Secure','Free Domain Setup','On-Time Delivery','Free Training','Lifetime Support'].map(f => (
+            <div key={f} className="web-feature-pill">✓ {f}</div>
+          ))}
+        </div>
+
+        <div className="web-cta">
+          <p>Starting from <strong>₹6,999</strong> — Includes design, development &amp; 1-year support</p>
+          <button className="btn btn-primary" onClick={() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' })}>
+            Get Your Website Today →
+          </button>
         </div>
       </section>
 
