@@ -36,6 +36,8 @@
   text-decoration: none; display: inline-block; white-space: nowrap;
 }
 .nav-btn:hover   { color: #fff; background: rgba(255,255,255,0.07); }
+.nav-active      { color: #a78bfa !important; background: rgba(108,99,255,0.12) !important; font-weight: 700 !important; }
+.nav-active:hover{ color: #c4b5fd !important; background: rgba(108,99,255,0.18) !important; }
 .nav-wa          { color: #25D366 !important; }
 .nav-wa:hover    { background: rgba(37,211,102,0.1) !important; }
 .nav-admin       { color: #f59e0b !important; }

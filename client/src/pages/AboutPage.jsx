@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './AboutPage.css';
 
 const STATS = [
@@ -19,13 +19,15 @@ const VALUES = [
 ];
 
 const TEAM = [
-  { name:'Nandu Sir',     role:'Founder & CEO',           emoji:'👨‍💼', desc:'Visionary leader with 10+ years of experience in software and business consulting.' },
-  { name:'Dev Team',      role:'Software Development',     emoji:'👨‍💻', desc:'Expert React & Node.js developers building fast, secure, and scalable software.' },
-  { name:'Design Team',   role:'UI/UX Design',             emoji:'🎨', desc:'Creative designers crafting beautiful, intuitive interfaces your team will love.' },
-  { name:'Support Team',  role:'Customer Success',         emoji:'📞', desc:'Dedicated support specialists available 24/7 to resolve any issue instantly.' },
+  { name:'Kajal Kumari',  role:'Co-Founder & CEO',         emoji:'👩‍💼', desc:'Visionary leader driving Tech Nandu\'s mission to bring world-class software to every Indian business.' },
+  { name:'Sushil Kumar',  role:'Co-Founder & Director',    emoji:'👨‍💼', desc:'Business strategist and operations head ensuring every client gets the best experience and support.' },
+  { name:'Dev Team',      role:'Software Development',     emoji:'👨‍💻', desc:'Expert React & Node.js developers building fast, secure, and scalable software solutions.' },
+  { name:'Support Team',  role:'Customer Success',         emoji:'📞', desc:'Dedicated support specialists available 24/7 to resolve any issue instantly via WhatsApp or call.' },
 ];
 
 export default function AboutPage() {
+  const navigate = useNavigate();
+  const goToDemo = () => { navigate('/'); setTimeout(() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' }), 600); };
   return (
     <div className="about-page">
       <Navbar />
@@ -39,7 +41,7 @@ export default function AboutPage() {
           <h1>Empowering Indian Businesses<br /><span className="gradient-text">Through Smart Technology</span></h1>
           <p>We are a Delhi-based software company on a mission to make world-class business software accessible to every Indian entrepreneur — affordable, simple, and built for how India works.</p>
           <div className="about-hero-btns">
-            <Link to="/#cta-section" className="btn btn-primary">Book Free Demo</Link>
+            <button className="btn btn-primary" onClick={goToDemo}>Book Free Demo</button>
             <Link to="/softwares" className="btn btn-outline">View Our Softwares</Link>
           </div>
         </div>
@@ -147,7 +149,7 @@ export default function AboutPage() {
         <p>Join 500+ businesses who trust Tech Nandu as their technology partner.</p>
         <div className="about-cta-btns">
           <Link to="/contact" className="btn btn-primary">Contact Us</Link>
-          <Link to="/softwares" className="btn btn-outline">Explore Softwares</Link>
+          <button className="btn btn-outline" onClick={goToDemo}>Book Free Demo</button>
         </div>
       </section>
 

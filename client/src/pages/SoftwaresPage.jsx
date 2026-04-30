@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './SoftwaresPage.css';
 
 const SOFTWARES = [

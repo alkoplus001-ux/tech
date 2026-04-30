@@ -10,14 +10,17 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const close = () => setMenuOpen(false);
+  const path  = location.pathname;
 
-  const scrollTo = (id) => {
+  const isActive = (p) => path === p ? 'nav-btn nav-active' : 'nav-btn';
+
+  const goToDemo = () => {
     close();
-    if (location.pathname === '/') {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (path === '/') {
+      document.getElementById('cta-section')?.scrollIntoView({ behavior: 'smooth' });
     } else {
       navigate('/');
-      setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 300);
+      setTimeout(() => document.getElementById('cta-section')?.scrollIntoView({ behavior: 'smooth' }), 600);
     }
   };
 
@@ -30,9 +33,10 @@ export default function Navbar() {
         </Link>
 
         <ul className="nav-links">
-          <li><Link to="/softwares" className="nav-btn">Softwares</Link></li>
-          <li><Link to="/about" className="nav-btn">About Us</Link></li>
-          <li><Link to="/career" className="nav-btn">Career</Link></li>
+          <li><Link to="/softwares" className={isActive('/softwares')}>Softwares</Link></li>
+          <li><Link to="/about"     className={isActive('/about')}>About Us</Link></li>
+          <li><Link to="/career"    className={isActive('/career')}>Career</Link></li>
+          <li><Link to="/contact"   className={isActive('/contact')}>Contact Us</Link></li>
           <li><a href="tel:+919991327697" className="nav-btn">📞 Call</a></li>
           <li>
             <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" className="nav-btn nav-wa">
@@ -47,7 +51,7 @@ export default function Navbar() {
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
-          <button className="btn btn-primary btn-sm nav-demo-btn" onClick={() => scrollTo('cta-section')}>
+          <button className="btn btn-primary btn-sm nav-demo-btn" onClick={goToDemo}>
             Free Demo
           </button>
           <button className={`hamburger${menuOpen ? ' open' : ''}`}
@@ -63,16 +67,17 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {menuOpen && (
         <div className="mobile-nav">
-          <Link to="/softwares" className="nav-btn" onClick={close}>💻 Softwares</Link>
-          <Link to="/about" className="nav-btn" onClick={close}>👥 About Us</Link>
-          <Link to="/career" className="nav-btn" onClick={close}>💼 Career</Link>
+          <Link to="/softwares" className={isActive('/softwares')} onClick={close}>💻 Softwares</Link>
+          <Link to="/about"     className={isActive('/about')}     onClick={close}>👥 About Us</Link>
+          <Link to="/career"    className={isActive('/career')}    onClick={close}>💼 Career</Link>
+          <Link to="/contact"   className={isActive('/contact')}   onClick={close}>📞 Contact Us</Link>
           <div className="mobile-nav-divider" />
           <a href="tel:+919991327697" className="nav-btn" onClick={close}>📞 Call Us</a>
           <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer"
             className="nav-btn nav-wa" onClick={close}>💬 WhatsApp</a>
           <Link to="/admin" className="nav-btn nav-admin" onClick={close}>🔐 Admin Panel</Link>
           <div className="mobile-nav-divider" />
-          <button className="mobile-nav-cta" onClick={() => scrollTo('cta-section')}>
+          <button className="mobile-nav-cta" onClick={goToDemo}>
             🎯 Get Free Demo
           </button>
         </div>
