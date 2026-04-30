@@ -25,44 +25,37 @@
 .hero-stat-num { font-size:1.8rem; font-weight:900; background:linear-gradient(135deg,#6C63FF,#43E97B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 .hero-stat-label { font-size:.72rem; color:rgba(255,255,255,.45); margin-top:2px; text-transform:uppercase; letter-spacing:.5px; }
 
-/* ── Hero dashboard mockup ── */
+/* ── Hero offer card ── */
 .hero-right { display:flex; align-items:center; justify-content:center; }
-.hero-mockup { width:100%; max-width:440px; }
-.hm-main {
-  background:rgba(10,10,25,.9); border:1px solid rgba(255,255,255,.13);
-  border-radius:18px; padding:22px;
-  box-shadow:0 30px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
-  margin-bottom:10px;
+.hero-offer-card {
+  width:100%; max-width:440px;
+  background:rgba(10,10,25,.88); border:1px solid rgba(255,255,255,.12);
+  border-radius:20px; padding:24px;
+  box-shadow:0 24px 64px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
 }
-.hm-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
-.hm-title { font-size:.83rem; font-weight:700; color:rgba(255,255,255,.9); }
-.hm-live { font-size:.72rem; color:#43E97B; font-weight:700; }
-.hm-stats-row { display:flex; gap:0; margin-bottom:18px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,.06); }
-.hm-stat { flex:1; display:flex; flex-direction:column; gap:3px; }
-.hm-sv { font-size:1.35rem; font-weight:800; line-height:1; }
-.hm-stat > span:last-child { font-size:.65rem; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.4px; }
-.hm-chart-area { display:flex; align-items:flex-end; gap:4px; height:72px; margin-bottom:16px; }
-.hm-bar { flex:1; border-radius:3px 3px 0 0; background:linear-gradient(to top,#6C63FF,#43E97B); min-height:4px; transition:height .3s; }
-.hm-table { display:flex; flex-direction:column; gap:0; }
-.hm-row { display:flex; align-items:center; gap:8px; padding:7px 0; border-top:1px solid rgba(255,255,255,.04); font-size:.78rem; }
-.hm-row-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-.hm-row-nm { flex:1; color:rgba(255,255,255,.75); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.hm-row-badge { background:rgba(67,233,123,.15); color:#43E97B; border:1px solid rgba(67,233,123,.3); padding:2px 8px; border-radius:20px; font-size:.65rem; font-weight:700; flex-shrink:0; }
-
-/* Floating notification cards */
-.hm-floaters { display:flex; flex-direction:column; gap:8px; }
-.hm-floater {
-  display:flex; align-items:center; gap:12px; padding:12px 16px;
-  background:rgba(12,12,28,.9); border:1px solid rgba(255,255,255,.11);
-  border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.35);
-  animation:hm-float 3.5s ease-in-out infinite;
+.hoc-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.hoc-logo {
+  width:40px; height:40px; border-radius:10px; flex-shrink:0;
+  background:linear-gradient(135deg,#6C63FF,#FF6584);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:900; color:#fff;
 }
-.hm-f2 { animation-delay:1.8s; }
-@keyframes hm-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-.hm-fi { font-size:1.5rem; flex-shrink:0; }
-.hm-ft { font-size:.8rem; font-weight:700; color:rgba(255,255,255,.9); }
-.hm-fs { font-size:.7rem; color:rgba(255,255,255,.4); margin-top:1px; }
-.hm-ok { color:#43E97B; font-weight:700; font-size:1rem; margin-left:auto; flex-shrink:0; }
+.hoc-title { font-size:.92rem; font-weight:800; color:rgba(255,255,255,.95); }
+.hoc-sub { font-size:.68rem; color:rgba(255,255,255,.38); margin-top:2px; letter-spacing:.3px; }
+.hoc-divider { height:1px; background:rgba(255,255,255,.07); margin:14px 0; }
+.hoc-label { font-size:.63rem; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px; }
+.hoc-modules { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:4px; }
+.hoc-module {
+  display:flex; align-items:center; gap:7px; padding:8px 10px; border-radius:10px;
+  font-size:.72rem; transition:all .2s;
+}
+.hoc-module:hover { filter:brightness(1.15); }
+.hoc-mname { font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hoc-footer { display:flex; flex-direction:column; gap:8px; }
+.hoc-tag { font-size:.7rem; color:rgba(255,255,255,.42); text-align:center; }
+.hoc-contact { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; font-size:.72rem; }
+.hoc-contact a { color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s; }
+.hoc-contact a:hover { color:#fff; }
 
 /* TEMPLATES */
 .templates-section { padding:80px 40px; max-width:1400px; margin:0 auto; }
@@ -159,6 +152,7 @@
 .plan-price   { display:flex; align-items:baseline; gap:6px; margin-bottom:20px; flex-wrap:wrap; }
 .plan-amount  { font-size:2rem; font-weight:900; line-height:1; }
 .plan-period  { font-size:.8rem; color:rgba(255,255,255,.4); }
+.plan-maint-note { font-size:.74rem; color:#43E97B; background:rgba(67,233,123,.08); border:1px solid rgba(67,233,123,.2); border-radius:8px; padding:8px 12px; margin-top:6px; line-height:1.5; }
 
 /* ── Special Offer Banner ─────────────────────────────────────────── */
 .pricing-offer-banner {
@@ -317,13 +311,14 @@ html.light .hero {
 html.light .hero-left p       { color: #475569; }
 html.light .hero-stat-label   { color: #64748b; }
 html.light .hero-badge        { background:rgba(108,99,255,.08); border-color:rgba(108,99,255,.25); }
-html.light .hm-main           { background:rgba(255,255,255,.95); border-color:#e2e8f0; box-shadow:0 20px 60px rgba(0,0,0,.12); }
-html.light .hm-title          { color:#0f172a; }
-html.light .hm-stat > span:last-child { color:#64748b; }
-html.light .hm-row-nm         { color:#334155; }
-html.light .hm-floater        { background:rgba(255,255,255,.97); border-color:#e2e8f0; box-shadow:0 8px 24px rgba(0,0,0,.1); }
-html.light .hm-ft             { color:#0f172a; }
-html.light .hm-fs             { color:#94a3b8; }
+html.light .hero-offer-card   { background:rgba(255,255,255,.97); border-color:#e2e8f0; box-shadow:0 20px 60px rgba(0,0,0,.1); }
+html.light .hoc-title         { color:#0f172a; }
+html.light .hoc-sub           { color:#94a3b8; }
+html.light .hoc-divider       { background:#e2e8f0; }
+html.light .hoc-label         { color:#94a3b8; }
+html.light .hoc-tag           { color:#94a3b8; }
+html.light .hoc-contact a     { color:#64748b; }
+html.light .hoc-contact a:hover { color:#0f172a; }
 
 html.light .section-head p    { color: #64748b; }
 

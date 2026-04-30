@@ -28,12 +28,17 @@ export default function Navbar() {
     <>
       <nav className="navbar">
         <Link to="/" className="nav-logo" onClick={close}>
-          <div className="nav-logo-icon">⚡</div>
-          <span className="nav-logo-text">Tech Nandu</span>
+          <div className="nav-logo-icon">TN</div>
+          <div className="nav-logo-wrap">
+            <span className="nav-logo-text">Tech Nandu</span>
+            <span className="nav-logo-sub">SOFTWARE</span>
+          </div>
         </Link>
 
         <ul className="nav-links">
           <li><Link to="/softwares" className={isActive('/softwares')}>Softwares</Link></li>
+          <li><Link to="/services"  className={isActive('/services')}>Services</Link></li>
+          <li><Link to="/blog"      className={isActive('/blog')}>Blog</Link></li>
           <li><Link to="/about"     className={isActive('/about')}>About Us</Link></li>
           <li><Link to="/career"    className={isActive('/career')}>Career</Link></li>
           <li><Link to="/contact"   className={isActive('/contact')}>Contact Us</Link></li>
@@ -68,6 +73,8 @@ export default function Navbar() {
       {menuOpen && (
         <div className="mobile-nav">
           <Link to="/softwares" className={isActive('/softwares')} onClick={close}>💻 Softwares</Link>
+          <Link to="/services"  className={isActive('/services')}  onClick={close}>🛠️ Services</Link>
+          <Link to="/blog"      className={isActive('/blog')}      onClick={close}>📝 Blog</Link>
           <Link to="/about"     className={isActive('/about')}     onClick={close}>👥 About Us</Link>
           <Link to="/career"    className={isActive('/career')}    onClick={close}>💼 Career</Link>
           <Link to="/contact"   className={isActive('/contact')}   onClick={close}>📞 Contact Us</Link>

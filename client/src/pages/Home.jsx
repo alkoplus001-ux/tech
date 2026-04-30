@@ -20,10 +20,10 @@ const TEMPLATES = [
 ];
 
 const STATS = [
-  { num:'500+', label:'Happy Clients' },
-  { num:'15+',  label:'Industries' },
+  { num:'12+',  label:'Software Modules' },
   { num:'99.9%',label:'Uptime' },
   { num:'24/7', label:'Support' },
+  { num:'Free', label:'Setup & Training' },
 ];
 
 // ── Per-software pricing plans ──────────────────────────────────────────────
@@ -186,41 +186,44 @@ export default function Home() {
           </div>
 
           <div className="hero-right">
-            <div className="hero-mockup">
-              <div className="hm-main">
-                <div className="hm-head">
-                  <span className="hm-title">📊 Business Dashboard</span>
-                  <span className="hm-live">● Live</span>
-                </div>
-                <div className="hm-stats-row">
-                  <div className="hm-stat"><span className="hm-sv" style={{color:'#6C63FF'}}>₹2.4L</span><span>Sales Today</span></div>
-                  <div className="hm-stat"><span className="hm-sv" style={{color:'#43E97B'}}>1,247</span><span>Products</span></div>
-                  <div className="hm-stat"><span className="hm-sv" style={{color:'#f59e0b'}}>98</span><span>Orders</span></div>
-                </div>
-                <div className="hm-chart-area">
-                  {[45,70,55,80,65,90,75,85,100,70].map((h,i)=>(
-                    <div key={i} className="hm-bar" style={{height:`${h}%`}}/>
-                  ))}
-                </div>
-                <div className="hm-table">
-                  {[['Sharma Traders','#6C63FF'],['Khan Pharmacy','#43E97B'],['Patel Textiles','#f59e0b']].map(([n,c],i)=>(
-                    <div key={i} className="hm-row">
-                      <span className="hm-row-dot" style={{background:c}}/>
-                      <span className="hm-row-nm">{n}</span>
-                      <span className="hm-row-badge">Paid</span>
-                    </div>
-                  ))}
+            <div className="hero-offer-card">
+              <div className="hoc-header">
+                <span className="hoc-logo">TN</span>
+                <div>
+                  <div className="hoc-title">Tech Nandu Software</div>
+                  <div className="hoc-sub">Smart Software for Every Business</div>
                 </div>
               </div>
-              <div className="hm-floaters">
-                <div className="hm-floater hm-f1">
-                  <span className="hm-fi">🧾</span>
-                  <div><div className="hm-ft">GST Invoice Sent</div><div className="hm-fs">Sharma Traders · ₹12,400</div></div>
-                  <span className="hm-ok">✓</span>
-                </div>
-                <div className="hm-floater hm-f2">
-                  <span className="hm-fi">📱</span>
-                  <div><div className="hm-ft">WhatsApp Alert Sent</div><div className="hm-fs">147 customers notified</div></div>
+              <div className="hoc-divider" />
+              <div className="hoc-label">What We Offer</div>
+              <div className="hoc-modules">
+                {[
+                  { icon:'📦', name:'Inventory',   color:'#6C63FF' },
+                  { icon:'🧾', name:'GST Billing', color:'#43E97B' },
+                  { icon:'👥', name:'HR & Payroll', color:'#FF6584' },
+                  { icon:'🏪', name:'POS System',  color:'#f59e0b' },
+                  { icon:'🤝', name:'CRM & Leads', color:'#8B5CF6' },
+                  { icon:'🏥', name:'Hospital',    color:'#ef4444' },
+                  { icon:'🎓', name:'School ERP',  color:'#06b6d4' },
+                  { icon:'🍽️', name:'Restaurant', color:'#fb923c' },
+                  { icon:'🌐', name:'Website Dev', color:'#10b981' },
+                  { icon:'📈', name:'Analytics',   color:'#ec4899' },
+                  { icon:'🏗️', name:'Real Estate', color:'#3B82F6' },
+                  { icon:'💊', name:'Pharmacy',    color:'#a855f7' },
+                ].map(m => (
+                  <div key={m.name} className="hoc-module" style={{ background:`${m.color}14`, border:`1px solid ${m.color}30` }}>
+                    <span>{m.icon}</span>
+                    <span className="hoc-mname" style={{color:m.color}}>{m.name}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="hoc-divider" />
+              <div className="hoc-footer">
+                <div className="hoc-tag">🌐 Website · ⚙️ Custom Software · ☁️ Subscription</div>
+                <div className="hoc-contact">
+                  <a href="tel:+919991327697">📞 +91 99913-27697</a>
+                  <span>·</span>
+                  <a href="mailto:tech.nandu.96@gmail.com">📧 tech.nandu.96@gmail.com</a>
                 </div>
               </div>
             </div>
@@ -294,12 +297,12 @@ export default function Home() {
             <div className="pricing-offer-tag">{billMode==='monthly' ? 'SUBSCRIPTION PLAN' : 'ONE-TIME CUSTOM'}</div>
             <div className="pricing-offer-price">
               <span className="pricing-offer-from">{billMode==='monthly' ? 'Starting from' : 'One-time from'}</span>
-              <span className="pricing-offer-amount">{billMode==='monthly' ? '₹2,000' : '₹6,999'}</span>
+              <span className="pricing-offer-amount">{billMode==='monthly' ? '₹2,000' : '₹50,000'}</span>
             </div>
             <div className="pricing-offer-sub">
               {billMode==='monthly'
                 ? '₹2,000/month subscription — free updates, support & training included!'
-                : '₹6,999 one-time — fully customised, lifetime licence, no monthly fees!'}
+                : '₹50,000 one-time — fully customised, 1 year free maintenance, then maintenance charges apply!'}
             </div>
           </div>
           <div className="pricing-offer-checklist">
@@ -332,7 +335,7 @@ export default function Home() {
             const isMid        = !isStarter && !isEnterprise;
             const priceLabel   = billMode === 'monthly'
               ? (isStarter ? '₹2,000' : isEnterprise ? 'Custom' : '₹4,999')
-              : (isStarter ? '₹6,999' : isEnterprise ? 'Get Quote' : '₹14,999');
+              : (isStarter ? '₹50,000' : isEnterprise ? 'Get Quote' : '₹80,000');
             const priceSub     = billMode === 'monthly'
               ? (isEnterprise ? 'Quote' : '/month')
               : (isEnterprise ? 'customized' : 'one-time');
@@ -353,6 +356,9 @@ export default function Home() {
                   <span className="plan-amount" style={plan.popular ? { color: activeTpl.color } : {}}>{priceLabel}</span>
                   <span className="plan-period">{priceSub}</span>
                 </div>
+                {billMode === 'onetime' && isStarter && (
+                  <div className="plan-maint-note">✓ 1 Year Free Maintenance Included<br/>After 1 year, maintenance charges apply</div>
+                )}
 
                 <button
                   className="plan-btn"

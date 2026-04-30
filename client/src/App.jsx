@@ -11,6 +11,8 @@ import AboutPage        from './pages/AboutPage.jsx';
 import CareerPage       from './pages/CareerPage.jsx';
 import SoftwaresPage    from './pages/SoftwaresPage.jsx';
 import ContactPage      from './pages/ContactPage.jsx';
+import ServicePage      from './pages/ServicePage.jsx';
+import BlogPage         from './pages/BlogPage.jsx';
 
 export default function App() {
   return (
@@ -22,6 +24,8 @@ export default function App() {
         <Route path="/softwares"          element={<SoftwaresPage />} />
         <Route path="/career"             element={<CareerPage />} />
         <Route path="/contact"            element={<ContactPage />} />
+        <Route path="/services"           element={<ServicePage />} />
+        <Route path="/blog"               element={<BlogPage />} />
         <Route path="/demo/inventory"     element={<InventoryDemo />} />
         <Route path="/demo/billing"       element={<BillingDemo />} />
         <Route path="/demo/hr"            element={<HRDemo />} />

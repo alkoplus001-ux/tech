@@ -54,6 +54,7 @@ export default function DemoLayout({ title, icon, color, menuItems, activeItem, 
             </div>
             <a href="tel:+919991327697" className="demo-info-row">📞 +91 99913-27697</a>
             <a href="tel:+919811017225" className="demo-info-row">📞 +91 98110-17225</a>
+            <a href="mailto:tech.nandu.96@gmail.com" className="demo-info-row">📧 tech.nandu.96@gmail.com</a>
             <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" className="demo-info-row" style={{color:'#25D366'}}>
               💬 WhatsApp Chat
             </a>
@@ -84,8 +85,9 @@ export default function DemoLayout({ title, icon, color, menuItems, activeItem, 
           <div className="sidebar-section-label">Quick Info</div>
           <div className="sidebar-info">
             <div>⚡ Tech Nandu</div>
-            <div>📞 +91 96671-91540</div>
-            <div>📞 +91 80103-47835</div>
+            <div><a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>📞 +91 99913-27697</a></div>
+            <div><a href="tel:+919811017225" style={{color:'inherit',textDecoration:'none'}}>📞 +91 98110-17225</a></div>
+            <div><a href="mailto:tech.nandu.96@gmail.com" style={{color:'inherit',textDecoration:'none'}}>📧 tech.nandu.96@gmail.com</a></div>
             <div>
               💬 <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer"
                 style={{ color:'#25D366', textDecoration:'none' }}>WhatsApp</a>

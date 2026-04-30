@@ -2,32 +2,30 @@ import Navbar from '../components/Navbar.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import './AboutPage.css';
 
-const STATS = [
-  { num:'500+',  label:'Happy Clients' },
-  { num:'15+',   label:'Industries Served' },
-  { num:'99.9%', label:'Uptime Guaranteed' },
-  { num:'24/7',  label:'Customer Support' },
-];
-
 const VALUES = [
-  { icon:'🎯', title:'Customer First',    desc:'Every decision we make starts with one question — how does this help our customer? Your success is our success, and we never lose sight of that.' },
-  { icon:'💡', title:'Innovation',        desc:'We continuously improve our products to stay ahead of the curve. From GST updates to new features, we bring the best technology to your doorstep.' },
-  { icon:'🤝', title:'Trust & Honesty',  desc:'No hidden charges, no confusing contracts. We believe in complete transparency — what you see is what you get, every single time.' },
-  { icon:'⚡', title:'Speed & Reliability',desc:'Your business cannot afford downtime. Our software is built for speed and runs on secure cloud infrastructure with 99.9% uptime.' },
-  { icon:'🇮🇳', title:'Made for India',  desc:'Our software is designed specifically for Indian businesses — GST-ready, Hindi/regional friendly, and built for the way India does business.' },
-  { icon:'🔧', title:'Lifetime Support',  desc:'We don\'t disappear after the sale. Our support team is always available via WhatsApp, phone, and email to help you every step of the way.' },
+  { icon:'🎯', title:'Customer First',      desc:'Every decision starts with one question — how does this help our customer? Your growth is our priority.' },
+  { icon:'💡', title:'Practical Innovation', desc:'We build simple, useful tools instead of complex systems no one knows how to use.' },
+  { icon:'🤝', title:'Trust & Transparency', desc:'No hidden charges, no confusing contracts — just honest work and clear communication.' },
+  { icon:'⚡', title:'Speed & Reliability',  desc:'Fast, dependable software built for everyday business use without crashes or lag.' },
+  { icon:'🇮🇳', title:'Built for India',     desc:'Designed for Indian businesses — GST-ready, simple UI, and workflows that match how India operates.' },
+  { icon:'🔧', title:'Lifetime Support',     desc:'We stay with you even after delivery — always ready to help via WhatsApp, call, or email.' },
 ];
 
 const TEAM = [
-  { name:'Kajal Kumari',  role:'Co-Founder & CEO',         emoji:'👩‍💼', desc:'Visionary leader driving Tech Nandu\'s mission to bring world-class software to every Indian business.' },
-  { name:'Sushil Kumar',  role:'Co-Founder & Director',    emoji:'👨‍💼', desc:'Business strategist and operations head ensuring every client gets the best experience and support.' },
-  { name:'Dev Team',      role:'Software Development',     emoji:'👨‍💻', desc:'Expert React & Node.js developers building fast, secure, and scalable software solutions.' },
-  { name:'Support Team',  role:'Customer Success',         emoji:'📞', desc:'Dedicated support specialists available 24/7 to resolve any issue instantly via WhatsApp or call.' },
+  { name:'Kajal Kumari',    role:'Co-Founder & CEO',         emoji:'👩‍💼', desc:'Leading the vision and building impactful, easy-to-use solutions for businesses.' },
+  { name:'Sushil Kumar',    role:'Co-Founder & Operations',  emoji:'👨‍💼', desc:'Ensuring smooth operations and a great experience for every client.' },
+  { name:'Development Team',role:'Engineering',              emoji:'👨‍💻', desc:'Building secure, fast, and scalable software using modern technologies.' },
+  { name:'Support Team',    role:'Customer Success',         emoji:'📞', desc:'Available on WhatsApp and call to help clients resolve issues quickly.' },
 ];
 
 export default function AboutPage() {
   const navigate = useNavigate();
-  const goToDemo = () => { navigate('/'); setTimeout(() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' }), 600); };
+
+  const goToDemo = () => {
+    navigate('/');
+    setTimeout(() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' }), 500);
+  };
+
   return (
     <div className="about-page">
       <Navbar />
@@ -38,71 +36,73 @@ export default function AboutPage() {
         <div className="about-hero-bg blob2" />
         <div className="about-hero-content">
           <div className="about-badge">⚡ About Tech Nandu</div>
-          <h1>Empowering Indian Businesses<br /><span className="gradient-text">Through Smart Technology</span></h1>
-          <p>We are a Delhi-based software company on a mission to make world-class business software accessible to every Indian entrepreneur — affordable, simple, and built for how India works.</p>
+          <h1>Empowering Businesses<br /><span className="gradient-text">Through Smart Technology</span></h1>
+          <p>We build simple, reliable, and affordable software solutions that help businesses reduce manual work, improve efficiency, and grow faster.</p>
           <div className="about-hero-btns">
             <button className="btn btn-primary" onClick={goToDemo}>Book Free Demo</button>
-            <Link to="/softwares" className="btn btn-outline">View Our Softwares</Link>
+            <Link to="/softwares" className="btn btn-outline">View Softwares</Link>
           </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="about-stats-section">
-        <div className="about-stats-grid">
-          {STATS.map(s => (
-            <div key={s.label} className="about-stat-card">
-              <div className="about-stat-num">{s.num}</div>
-              <div className="about-stat-label">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* OUR STORY */}
+      {/* STORY WITH IMAGE */}
       <section className="about-story-section">
         <div className="about-story-inner">
           <div className="about-story-text">
             <div className="section-badge">📖 Our Story</div>
             <h2>Started with a Simple Idea</h2>
-            <p>Tech Nandu was founded in the heart of Delhi with one goal — to bring affordable, powerful software to Indian businesses that have long been ignored by expensive foreign software companies.</p>
-            <p>We saw small shop owners struggling with manual billing, kirana stores losing track of stock, clinics managing patient records in notebooks, and schools collecting fees with paper registers. We knew technology could solve all of this — and we set out to make it happen.</p>
-            <p>Today, we serve 500+ businesses across Delhi and beyond, from single-counter retail shops to multi-branch hospitals and school chains. Every product we build is crafted with care, keeping the real needs of Indian businesses at the center.</p>
+            <p>Tech Nandu was started with a simple belief — technology should make business easier, not more complicated. We saw many small and growing businesses still relying on manual processes, registers, and outdated systems.</p>
+            <p>From retail shops managing stock manually, to service businesses struggling with operations — the problem was clear. Good software was either too expensive or too complex.</p>
+            <p>That's why we focused on building simple, practical, and affordable solutions that anyone can use without technical knowledge. We are growing step by step — building trust, delivering value, and improving with every product we create.</p>
             <div className="about-story-highlight">
-              <span>🏆</span>
-              <p>Our clients don't just buy software — they gain a long-term technology partner who is always there for them.</p>
+              <span>🚀</span>
+              <p>Our goal is to become a long-term technology partner for every business we serve.</p>
             </div>
           </div>
+
+          {/* IMAGE SLOT 1 — put file: client/public/images/about-story.jpg */}
           <div className="about-story-visual">
-            <div className="about-visual-card">
-              <div className="avc-icon">⚡</div>
-              <div className="avc-title">Tech Nandu</div>
-              <div className="avc-sub">Est. Delhi, India</div>
-              <div className="avc-divider" />
-              <div className="avc-row"><span>📍</span><span>Tikri Border, Delhi – 110041</span></div>
-              <div className="avc-row"><span>📞</span><span>+91 99913-27697</span></div>
-              <div className="avc-row"><span>📧</span><span>tech.nandu.96@gmail.com</span></div>
-              <div className="avc-row"><span>🏢</span><span>500+ Clients Served</span></div>
-              <div className="avc-row"><span>💻</span><span>12+ Software Solutions</span></div>
-              <div className="avc-row"><span>🌍</span><span>15+ Industries</span></div>
+            <img
+              src="/images/about-story.jpg"
+              alt="Our Story"
+              className="about-img"
+              onError={e => { e.target.style.display='none'; e.target.nextElementSibling.style.display='flex'; }}
+            />
+            <div className="about-img-placeholder" style={{display:'none'}}>
+              <span>🖼️</span>
+              <p>Add image: <code>client/public/images/about-story.jpg</code></p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* MISSION & VISION */}
+      {/* MISSION VISION */}
       <section className="about-mv-section">
         <div className="about-mv-grid">
           <div className="about-mv-card mission">
             <div className="mv-icon">🎯</div>
             <h3>Our Mission</h3>
-            <p>To empower every Indian business — big or small — with affordable, easy-to-use software that saves time, reduces errors, and drives real growth. We believe technology should work for you, not the other way around.</p>
+            <p>To empower every Indian business — big or small — with affordable, easy-to-use software that saves time, reduces errors, and drives real growth. Technology should work for you.</p>
           </div>
           <div className="about-mv-card vision">
             <div className="mv-icon">🔭</div>
             <h3>Our Vision</h3>
-            <p>To become India's most trusted business software company — one that every entrepreneur thinks of first when they need a technology partner. We want to be in every shop, clinic, school, and office across India.</p>
+            <p>To become a trusted software partner for businesses across India — one that every entrepreneur thinks of first when they need a reliable technology solution.</p>
           </div>
+        </div>
+      </section>
+
+      {/* IMAGE BANNER SLOT — put file: client/public/images/about-office.jpg */}
+      <section className="about-img-banner-section">
+        <img
+          src="/images/about-office.jpg"
+          alt="Tech Nandu Office"
+          className="about-banner-img"
+          onError={e => { e.target.style.display='none'; e.target.nextElementSibling.style.display='flex'; }}
+        />
+        <div className="about-img-placeholder about-banner-placeholder" style={{display:'none'}}>
+          <span>🖼️</span>
+          <p>Optional: Add office/team photo → <code>client/public/images/about-office.jpg</code></p>
         </div>
       </section>
 
@@ -134,6 +134,7 @@ export default function AboutPage() {
         <div className="about-team-grid">
           {TEAM.map(t => (
             <div key={t.name} className="about-team-card">
+              {/* IMAGE SLOT — put file: client/public/images/team-[name].jpg (optional) */}
               <div className="atc-emoji">{t.emoji}</div>
               <div className="atc-name">{t.name}</div>
               <div className="atc-role">{t.role}</div>
@@ -141,26 +142,28 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+        <p className="about-team-note">💡 To add team photos, place images in <code>client/public/images/</code> and update the img src in AboutPage.jsx</p>
       </section>
 
-      {/* MILESTONES */}
-      <section className="about-milestones-section">
+      {/* WHY CHOOSE US */}
+      <section className="about-why-section">
         <div className="section-head">
-          <div className="section-badge">📈 Our Journey</div>
-          <h2>Growing Every Year</h2>
+          <div className="section-badge">✅ Why Choose Tech Nandu</div>
+          <h2>What Makes Us Different</h2>
         </div>
-        <div className="about-milestone-grid">
+        <div className="about-why-grid">
           {[
-            { year:'2020', icon:'🌱', title:'Founded', desc:'Started in Delhi with 3 clients and a big dream to make software affordable for every business.' },
-            { year:'2021', icon:'📦', title:'First 100 Clients', desc:'Launched Inventory & Billing modules. Reached our first 100 happy clients across Delhi NCR.' },
-            { year:'2022', icon:'🏥', title:'12 Industries', desc:'Expanded to Hospital, School, Restaurant and 9 more industries. 250+ clients served.' },
-            { year:'2024', icon:'🚀', title:'500+ Businesses', desc:'Serving 500+ businesses with 12 specialised software products and 24/7 support.' },
-          ].map((m,i) => (
-            <div key={i} className="about-milestone-card">
-              <div className="amc-year">{m.year}</div>
-              <div className="amc-icon">{m.icon}</div>
-              <div className="amc-title">{m.title}</div>
-              <p>{m.desc}</p>
+            { icon:'💰', title:'Affordable Pricing',  desc:'Subscription from ₹2,000/month or one-time custom. No hidden charges, ever.' },
+            { icon:'🎓', title:'Free Training',        desc:'Every client gets full onboarding training — no extra cost, no rush.' },
+            { icon:'📱', title:'Mobile Friendly',      desc:'Works perfectly on any device — desktop, tablet, or phone.' },
+            { icon:'🇮🇳', title:'GST & Compliance',   desc:'Fully GST compliant, invoice-ready, and built for Indian tax requirements.' },
+            { icon:'⚡', title:'Quick Setup',          desc:'We set everything up for you. You can go live the same day.' },
+            { icon:'📞', title:'Always Reachable',     desc:'WhatsApp, call, or email — we\'re always there when you need help.' },
+          ].map(w => (
+            <div key={w.title} className="about-why-card">
+              <div className="awy-icon">{w.icon}</div>
+              <h4>{w.title}</h4>
+              <p>{w.desc}</p>
             </div>
           ))}
         </div>
@@ -168,8 +171,8 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className="about-cta-section">
-        <h2>Ready to Work With Us?</h2>
-        <p>Join 500+ businesses who trust Tech Nandu as their technology partner.</p>
+        <h2>Let's Build Something Together</h2>
+        <p>Book a free demo and see how our software can simplify your business operations.</p>
         <div className="about-cta-btns">
           <Link to="/contact" className="btn btn-primary">Contact Us</Link>
           <button className="btn btn-outline" onClick={goToDemo}>Book Free Demo</button>
@@ -177,7 +180,7 @@ export default function AboutPage() {
       </section>
 
       <footer className="footer">
-        <div className="footer-logo">⚡ Tech Nandu</div>
+        <div className="footer-logo">TN Tech Nandu</div>
         <p>Empowering Indian Businesses with Smart Technology</p>
         <div className="footer-links">
           <span>📞 <a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>+91 99913-27697</a></span>
