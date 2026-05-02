@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
+import SEOHead from '../components/SEOHead.jsx';
 import './ContactPage.css';
+
+const CONTACT_SEO = {
+  title: 'Contact Tech Nandu | Free Demo | GST Billing & ERP Software Delhi',
+  description: 'Contact Tech Nandu for a free demo of GST billing software, inventory management & ERP. Call +91 99913-27697 or WhatsApp. Office: Tikri Border, Delhi – 110041.',
+  keywords: 'contact Tech Nandu, free demo billing software, ERP consultation Delhi, GST software demo India, inventory software contact',
+  canonical: 'https://technandu.com/contact',
+};
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -45,6 +53,7 @@ export default function ContactPage() {
 
   return (
     <div className="contact-page">
+      <SEOHead {...CONTACT_SEO} />
       <Navbar />
 
       {/* HERO */}
@@ -227,10 +236,20 @@ export default function ContactPage() {
       <footer className="footer">
         <div className="footer-logo">⚡ Tech Nandu</div>
         <p>Empowering Indian Businesses with Smart Technology</p>
+        <nav className="footer-links" aria-label="Site Navigation">
+          <a href="/" style={{color:'inherit',textDecoration:'none'}}>Home</a>
+          <a href="/softwares" style={{color:'inherit',textDecoration:'none'}}>Softwares</a>
+          <a href="/services" style={{color:'inherit',textDecoration:'none'}}>Services</a>
+          <a href="/blog" style={{color:'inherit',textDecoration:'none'}}>Blog</a>
+          <a href="/about" style={{color:'inherit',textDecoration:'none'}}>About</a>
+          <a href="/career" style={{color:'inherit',textDecoration:'none'}}>Careers</a>
+          <a href="/contact" style={{color:'inherit',textDecoration:'none'}}>Contact</a>
+        </nav>
         <div className="footer-links">
           <span>📞 <a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>+91 99913-27697</a></span>
           <span>📞 <a href="tel:+919811017225" style={{color:'inherit',textDecoration:'none'}}>+91 98110-17225</a></span>
           <span>📧 <a href="mailto:tech.nandu.96@gmail.com" style={{color:'inherit',textDecoration:'none'}}>tech.nandu.96@gmail.com</a></span>
+          <span>💬 <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none'}}>WhatsApp Us</a></span>
           <span>📍 Tikri Border, Baba Haridas Colony, Delhi – 110041</span>
         </div>
         <p className="footer-copy">© 2026 Tech Nandu. All rights reserved.</p>

@@ -1,6 +1,14 @@
 import Navbar from '../components/Navbar.jsx';
+import SEOHead from '../components/SEOHead.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import './AboutPage.css';
+
+const ABOUT_SEO = {
+  title: 'About Tech Nandu | Affordable Business Software Company in Delhi',
+  description: 'Tech Nandu is a Delhi-based software company building affordable GST billing, inventory management, ERP & CRM solutions for Indian businesses. Know our story, mission & team.',
+  keywords: 'Tech Nandu about, business software company Delhi, ERP company India, affordable software Delhi, GST software company',
+  canonical: 'https://technandu.com/about',
+};
 
 const VALUES = [
   { icon:'🎯', title:'Customer First',      desc:'Every decision starts with one question — how does this help our customer? Your growth is our priority.' },
@@ -28,6 +36,7 @@ export default function AboutPage() {
 
   return (
     <div className="about-page">
+      <SEOHead {...ABOUT_SEO} />
       <Navbar />
 
       {/* HERO */}
@@ -65,8 +74,11 @@ export default function AboutPage() {
             <div className="about-img-wrap">
               <img
                 src="/images/about-story.jpg"
-                alt="Our Story"
+                alt="Tech Nandu founders working on business software solutions for Indian SMEs"
                 className="about-img"
+                loading="lazy"
+                width="600"
+                height="400"
                 onError={e => { e.target.closest('.about-img-wrap').style.display='none'; e.target.closest('.about-img-wrap').nextElementSibling.style.display='flex'; }}
               />
             </div>
@@ -99,8 +111,11 @@ export default function AboutPage() {
         <div className="about-banner-wrap">
           <img
             src="/images/about-office.jpg"
-            alt="Tech Nandu Office"
+            alt="Tech Nandu office in Tikri Border Delhi - GST billing and ERP software company"
             className="about-banner-img"
+            loading="lazy"
+            width="1200"
+            height="500"
             onError={e => { e.target.closest('.about-banner-wrap').style.display='none'; e.target.closest('.about-banner-wrap').nextElementSibling.style.display='flex'; }}
           />
         </div>
@@ -184,12 +199,22 @@ export default function AboutPage() {
       </section>
 
       <footer className="footer">
-        <div className="footer-logo">TN Tech Nandu</div>
+        <div className="footer-logo">⚡ Tech Nandu</div>
         <p>Empowering Indian Businesses with Smart Technology</p>
+        <nav className="footer-links" aria-label="Site Navigation">
+          <a href="/" style={{color:'inherit',textDecoration:'none'}}>Home</a>
+          <a href="/softwares" style={{color:'inherit',textDecoration:'none'}}>Softwares</a>
+          <a href="/services" style={{color:'inherit',textDecoration:'none'}}>Services</a>
+          <a href="/blog" style={{color:'inherit',textDecoration:'none'}}>Blog</a>
+          <a href="/about" style={{color:'inherit',textDecoration:'none'}}>About</a>
+          <a href="/career" style={{color:'inherit',textDecoration:'none'}}>Careers</a>
+          <a href="/contact" style={{color:'inherit',textDecoration:'none'}}>Contact</a>
+        </nav>
         <div className="footer-links">
           <span>📞 <a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>+91 99913-27697</a></span>
           <span>📞 <a href="tel:+919811017225" style={{color:'inherit',textDecoration:'none'}}>+91 98110-17225</a></span>
           <span>📧 <a href="mailto:tech.nandu.96@gmail.com" style={{color:'inherit',textDecoration:'none'}}>tech.nandu.96@gmail.com</a></span>
+          <span>💬 <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none'}}>WhatsApp Us</a></span>
           <span>📍 Tikri Border, Baba Haridas Colony, Delhi – 110041</span>
         </div>
         <p className="footer-copy">© 2026 Tech Nandu. All rights reserved.</p>

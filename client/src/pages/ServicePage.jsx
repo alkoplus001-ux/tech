@@ -1,6 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
+import SEOHead from '../components/SEOHead.jsx';
 import './ServicePage.css';
+
+const SERVICE_SEO = {
+  title: 'Website & Custom Software Services | ERP, Digital Solutions | Tech Nandu Delhi',
+  description: 'Website from ₹6,999, custom ERP & billing software, subscription software, digital marketing & 24/7 support. Tech Nandu serves all businesses across Delhi NCR & India.',
+  keywords: 'website development Delhi, custom software development India, ERP services Delhi, billing software development, digital marketing Delhi, GST software service',
+  canonical: 'https://technandu.com/services',
+};
 
 const SERVICES = [
   {
@@ -58,6 +66,7 @@ export default function ServicePage() {
 
   return (
     <div className="service-page">
+      <SEOHead {...SERVICE_SEO} />
       <Navbar />
 
       {/* HERO */}
@@ -187,12 +196,22 @@ export default function ServicePage() {
       </section>
 
       <footer className="footer">
-        <div className="footer-logo">TN Tech Nandu</div>
+        <div className="footer-logo">⚡ Tech Nandu</div>
         <p>Empowering Indian Businesses with Smart Technology</p>
+        <nav className="footer-links" aria-label="Site Navigation">
+          <a href="/" style={{color:'inherit',textDecoration:'none'}}>Home</a>
+          <a href="/softwares" style={{color:'inherit',textDecoration:'none'}}>Softwares</a>
+          <a href="/services" style={{color:'inherit',textDecoration:'none'}}>Services</a>
+          <a href="/blog" style={{color:'inherit',textDecoration:'none'}}>Blog</a>
+          <a href="/about" style={{color:'inherit',textDecoration:'none'}}>About</a>
+          <a href="/career" style={{color:'inherit',textDecoration:'none'}}>Careers</a>
+          <a href="/contact" style={{color:'inherit',textDecoration:'none'}}>Contact</a>
+        </nav>
         <div className="footer-links">
           <span>📞 <a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>+91 99913-27697</a></span>
           <span>📞 <a href="tel:+919811017225" style={{color:'inherit',textDecoration:'none'}}>+91 98110-17225</a></span>
           <span>📧 <a href="mailto:tech.nandu.96@gmail.com" style={{color:'inherit',textDecoration:'none'}}>tech.nandu.96@gmail.com</a></span>
+          <span>💬 <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none'}}>WhatsApp Us</a></span>
           <span>📍 Tikri Border, Baba Haridas Colony, Delhi – 110041</span>
         </div>
         <p className="footer-copy">© 2026 Tech Nandu. All rights reserved.</p>

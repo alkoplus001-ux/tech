@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
+import SEOHead from '../components/SEOHead.jsx';
 const API = import.meta.env.VITE_API_URL;
 import './Home.css';
+
+const HOME_SEO = {
+  title: 'GST Billing Software India | ERP & Inventory Software | Tech Nandu',
+  description: 'Tech Nandu offers GST billing software, inventory management, ERP & CRM for Indian businesses. 12+ modules, starting ₹2,000/month. Free demo & setup. Delhi. Call +91 99913-27697.',
+  keywords: 'GST billing software India, inventory management software, ERP software India, billing software for small business, inventory software Delhi, GST billing software, custom ERP software India',
+  canonical: 'https://technandu.com/',
+};
 
 const TEMPLATES = [
   { id:'inventory',  icon:'📦', title:'Inventory Management', badge:'Retail / Warehouse',  color:'#6C63FF', desc:'Real-time stock tracking, low-stock alerts, barcode & supplier management.', features:['Stock Tracking','Low-Stock Alerts','Multi-Warehouse','Barcode'] },
@@ -155,6 +163,7 @@ export default function Home() {
 
   return (
     <div className="home">
+      <SEOHead {...HOME_SEO} />
       <Navbar />
 
       {/* HERO */}
@@ -442,6 +451,15 @@ export default function Home() {
       <footer className="footer">
         <div className="footer-logo">⚡ Tech Nandu</div>
         <p>Empowering Indian Businesses with Smart Technology</p>
+        <nav className="footer-links" aria-label="Site Navigation">
+          <a href="/" style={{color:'inherit',textDecoration:'none'}}>Home</a>
+          <a href="/softwares" style={{color:'inherit',textDecoration:'none'}}>Softwares</a>
+          <a href="/services" style={{color:'inherit',textDecoration:'none'}}>Services</a>
+          <a href="/blog" style={{color:'inherit',textDecoration:'none'}}>Blog</a>
+          <a href="/about" style={{color:'inherit',textDecoration:'none'}}>About</a>
+          <a href="/career" style={{color:'inherit',textDecoration:'none'}}>Careers</a>
+          <a href="/contact" style={{color:'inherit',textDecoration:'none'}}>Contact</a>
+        </nav>
         <div className="footer-links">
           <span>📞 <a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>+91 99913-27697</a></span>
           <span>📞 <a href="tel:+919811017225" style={{color:'inherit',textDecoration:'none'}}>+91 98110-17225</a></span>

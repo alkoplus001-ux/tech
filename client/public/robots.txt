@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /demo/
+
+Sitemap: https://technandu.com/sitemap.xml

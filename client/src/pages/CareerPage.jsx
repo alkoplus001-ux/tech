@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
+import SEOHead from '../components/SEOHead.jsx';
 import { Link } from 'react-router-dom';
 import './CareerPage.css';
+
+const CAREER_SEO = {
+  title: 'Careers at Tech Nandu | Software Jobs in Delhi | React, Sales, Support',
+  description: 'Join Tech Nandu\'s growing team in Delhi. We\'re hiring React.js developers, sales executives & support staff. Growth culture, competitive pay. Apply now.',
+  keywords: 'jobs in Delhi software company, React developer job Delhi, sales executive job Delhi, tech jobs Delhi, software company career India',
+  canonical: 'https://technandu.com/career',
+};
 
 const PERKS = [
   { icon:'💰', title:'Competitive Pay',       desc:'We offer market-competitive salaries with performance-based bonuses and increments.' },
@@ -56,6 +64,7 @@ export default function CareerPage() {
 
   return (
     <div className="career-page">
+      <SEOHead {...CAREER_SEO} />
       <Navbar />
 
       {/* HERO */}
@@ -95,8 +104,11 @@ export default function CareerPage() {
         <div className="career-banner-wrap">
           <img
             src="/images/career-team.jpg"
-            alt="Tech Nandu Team"
+            alt="Tech Nandu team at office in Delhi - business software development company"
             className="career-banner-img"
+            loading="lazy"
+            width="1200"
+            height="500"
             onError={e => { e.target.closest('.career-banner-wrap').style.display='none'; e.target.closest('.career-banner-wrap').nextElementSibling.style.display='flex'; }}
           />
         </div>
@@ -200,9 +212,20 @@ export default function CareerPage() {
       <footer className="footer">
         <div className="footer-logo">⚡ Tech Nandu</div>
         <p>Empowering Indian Businesses with Smart Technology</p>
+        <nav className="footer-links" aria-label="Site Navigation">
+          <a href="/" style={{color:'inherit',textDecoration:'none'}}>Home</a>
+          <a href="/softwares" style={{color:'inherit',textDecoration:'none'}}>Softwares</a>
+          <a href="/services" style={{color:'inherit',textDecoration:'none'}}>Services</a>
+          <a href="/blog" style={{color:'inherit',textDecoration:'none'}}>Blog</a>
+          <a href="/about" style={{color:'inherit',textDecoration:'none'}}>About</a>
+          <a href="/career" style={{color:'inherit',textDecoration:'none'}}>Careers</a>
+          <a href="/contact" style={{color:'inherit',textDecoration:'none'}}>Contact</a>
+        </nav>
         <div className="footer-links">
           <span>📞 <a href="tel:+919991327697" style={{color:'inherit',textDecoration:'none'}}>+91 99913-27697</a></span>
+          <span>📞 <a href="tel:+919811017225" style={{color:'inherit',textDecoration:'none'}}>+91 98110-17225</a></span>
           <span>📧 <a href="mailto:tech.nandu.96@gmail.com" style={{color:'inherit',textDecoration:'none'}}>tech.nandu.96@gmail.com</a></span>
+          <span>💬 <a href="https://wa.me/919991327697" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none'}}>WhatsApp Us</a></span>
           <span>📍 Tikri Border, Baba Haridas Colony, Delhi – 110041</span>
         </div>
         <p className="footer-copy">© 2026 Tech Nandu. All rights reserved.</p>
