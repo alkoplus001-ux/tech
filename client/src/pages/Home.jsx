@@ -350,7 +350,6 @@ export default function Home() {
                 )}
 
                 <div className="plan-name">{plan.name}</div>
-                <div className="plan-desc">{plan.desc}</div>
 
                 <div className="plan-price">
                   <span className="plan-amount" style={plan.popular ? { color: activeTpl.color } : {}}>{priceLabel}</span>
