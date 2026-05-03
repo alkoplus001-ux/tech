@@ -174,6 +174,8 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
   'https://verdant-naiad-df12c8.netlify.app',
+   'https://www.technandu.com',   // ✅ ADD THIS
+  'https://technandu.com',       // ✅ (without www bhi add kar)
   ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
 ];
 
