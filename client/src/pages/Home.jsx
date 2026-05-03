@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
@@ -143,6 +143,15 @@ export default function Home() {
   const [pricingTab, setPricingTab] = useState('inventory');
   const [billMode,   setBillMode]   = useState('monthly');
 
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
   const handleBook = async () => {
     if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name and phone number are required.' }); return; }
     setSub(true);
@@ -242,15 +251,15 @@ export default function Home() {
 
       {/* TEMPLATES */}
       <section className="templates-section" id="templates">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">Live Interactive Demos</div>
           <h2>Choose Your Business Domain</h2>
           <p>Click any card to open a fully working demo — add data, view reports, interact live</p>
         </div>
 
         <div className="templates-grid">
-          {TEMPLATES.map(t => (
-            <div key={t.id} className="template-card" style={{ '--card-accent': t.color }}>
+          {TEMPLATES.map((t, i) => (
+            <div key={t.id} className="template-card reveal" style={{ '--card-accent': t.color, transitionDelay: `${i * 0.06}s` }}>
               <div className="tc-top">
                 <div className="tc-icon" style={{ background: `${t.color}20` }}>{t.icon}</div>
                 <span className="tc-badge" style={{ background:`${t.color}18`, color:t.color, border:`1px solid ${t.color}33` }}>{t.badge}</span>
@@ -274,7 +283,7 @@ export default function Home() {
 
       {/* PRICING */}
       <section className="pricing-section" id="pricing">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">Transparent Pricing</div>
           <h2>Simple Plans for Every Business</h2>
           <p>No hidden charges. Cancel anytime. All plans include free setup & training.</p>
@@ -349,8 +358,8 @@ export default function Home() {
               ? (isEnterprise ? 'Quote' : '/month')
               : (isEnterprise ? 'customized' : 'one-time');
             return (
-              <div key={i} className={`plan-card${plan.popular ? ' plan-popular' : ''}`}
-                style={plan.popular ? { borderColor: activeTpl.color, boxShadow: `0 0 0 1px ${activeTpl.color}40, 0 20px 50px ${activeTpl.color}20` } : {}}>
+              <div key={i} className={`plan-card${plan.popular ? ' plan-popular' : ''} reveal`}
+                style={{ ...(plan.popular ? { borderColor: activeTpl.color, boxShadow: `0 0 0 1px ${activeTpl.color}40, 0 20px 50px ${activeTpl.color}20` } : {}), transitionDelay: `${i * 0.13}s` }}>
 
                 {plan.popular && (
                   <div className="plan-badge" style={{ background: `linear-gradient(135deg, ${activeTpl.color}, ${activeTpl.color}bb)` }}>
@@ -407,7 +416,7 @@ export default function Home() {
 
       {/* WHY US */}
       <section className="why-section" id="features">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">Why Tech Nandu?</div>
           <h2>Everything Your Business Needs</h2>
         </div>
@@ -419,8 +428,8 @@ export default function Home() {
             { icon:'🎯', title:'GST Ready',         desc:'Fully GST compliant. File returns directly from the software.' },
             { icon:'🔧', title:'Free Training',     desc:'Free onboarding training and setup for every client.' },
             { icon:'📞', title:'24/7 Support',      desc:'Our team is always available via WhatsApp, call, or email.' },
-          ].map(w => (
-            <div key={w.title} className="why-card">
+          ].map((w, i) => (
+            <div key={w.title} className="why-card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
               <div className="why-icon">{w.icon}</div>
               <h4>{w.title}</h4>
               <p>{w.desc}</p>
@@ -431,7 +440,7 @@ export default function Home() {
 
       {/* CTA */}
       <section className="cta-section" id="cta-section">
-        <div className="cta-inner">
+        <div className="cta-inner reveal">
           <h2>Ready to Grow Your Business?</h2>
           <p>Contact us today — free demo, free setup consultation. Call or WhatsApp us at <strong style={{color:'#43E97B'}}>+91 99913-27697</strong></p>
           <div className="cta-form">

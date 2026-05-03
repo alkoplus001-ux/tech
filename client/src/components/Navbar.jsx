@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.jsx';
 import './Navbar.css';
@@ -8,6 +8,13 @@ export default function Navbar() {
   const location  = useLocation();
   const { theme, toggle } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 55);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const close = () => setMenuOpen(false);
   const path  = location.pathname;
@@ -26,7 +33,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="navbar">
+      <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
         <Link to="/" className="nav-logo" onClick={close}>
           <div className="nav-logo-icon">TN</div>
           <div className="nav-logo-wrap">
