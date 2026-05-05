@@ -88,6 +88,32 @@ export default function InventoryDemo() {
     load();
   };
 
+  const exportCSV = () => {
+    const headers = ['Product Name','SKU','Category','Stock (pcs)','Price (₹)','Stock Value (₹)','Supplier','Status'];
+    const rows = products.map(p => [
+      p.name,
+      p.sku || '',
+      p.category,
+      p.stock,
+      p.price,
+      p.stock * p.price,
+      p.supplier || '',
+      p.status,
+    ]);
+    const csv = [headers, ...rows]
+      .map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const bom = '﻿';
+    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `Tech_Nandu_Inventory_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Inventory exported to Excel (CSV)!');
+  };
+
   const exportPDF = () => {
     const now  = new Date().toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
     const rows = products.map(p => `
@@ -354,7 +380,7 @@ export default function InventoryDemo() {
             </div>
             <div style={{textAlign:'right',marginTop:14,display:'flex',gap:10,justifyContent:'flex-end'}}>
               <button className="btn-add" onClick={exportPDF}>📥 Export PDF</button>
-              <button className="btn-edit" onClick={()=>showToast('Excel exported!')}>📊 Export Excel</button>
+              <button className="btn-edit" onClick={exportCSV}>📊 Export Excel</button>
             </div>
           </div>
         </>

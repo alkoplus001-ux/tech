@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
 import { Link } from 'react-router-dom';
+import useReveal from '../hooks/useReveal.js';
 import './CareerPage.css';
 
 const CAREER_SEO = {
@@ -61,6 +62,7 @@ const OPENINGS = [
 
 export default function CareerPage() {
   const [applied, setApplied] = useState(null);
+  useReveal();
 
   return (
     <div className="career-page">
@@ -83,14 +85,14 @@ export default function CareerPage() {
 
       {/* WHY JOIN US */}
       <section className="career-perks-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">🌟 Why Join Us</div>
           <h2>More Than Just a Job</h2>
           <p>We invest in our people because our people are our product. Here's what you can expect when you join Tech Nandu.</p>
         </div>
         <div className="career-perks-grid">
-          {PERKS.map(p => (
-            <div key={p.title} className="career-perk-card">
+          {PERKS.map((p, i) => (
+            <div key={p.title} className="career-perk-card reveal" style={{ transitionDelay:`${i * 0.1}s` }}>
               <div className="perk-icon">{p.icon}</div>
               <h4>{p.title}</h4>
               <p>{p.desc}</p>
@@ -120,14 +122,14 @@ export default function CareerPage() {
 
       {/* OPENINGS */}
       <section className="career-openings-section" id="openings">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">🚀 Current Openings</div>
           <h2>We Are Hiring!</h2>
           <p>Find the role that matches your skills and passion. All positions include training and growth opportunities.</p>
         </div>
         <div className="career-openings-grid">
           {OPENINGS.map((job, i) => (
-            <div key={i} className="job-card" style={{ borderTop:`3px solid ${job.color}` }}>
+            <div key={i} className="job-card reveal" style={{ borderTop:`3px solid ${job.color}`, transitionDelay:`${i * 0.12}s` }}>
               <div className="job-card-top">
                 <div>
                   <div className="job-title">{job.title}</div>

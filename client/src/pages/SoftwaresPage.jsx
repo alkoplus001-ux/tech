@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
 import { useNavigate, Link } from 'react-router-dom';
+import useReveal from '../hooks/useReveal.js';
 import './SoftwaresPage.css';
 
 const SW_SEO = {
@@ -51,6 +52,7 @@ const SOFTWARES = [
 
 export default function SoftwaresPage() {
   const navigate = useNavigate();
+  useReveal();
 
   return (
     <div className="softwares-page">
@@ -71,8 +73,8 @@ export default function SoftwaresPage() {
       {/* SOFTWARES GRID */}
       <section className="sw-grid-section">
         <div className="sw-grid">
-          {SOFTWARES.map(s => (
-            <div key={s.id} className="sw-card" style={{ '--accent': s.color }}>
+          {SOFTWARES.map((s, i) => (
+            <div key={s.id} className="sw-card reveal" style={{ '--accent': s.color, transitionDelay:`${i * 0.06}s` }}>
               <div className="sw-card-top">
                 <div className="sw-icon" style={{ background:`${s.color}20` }}>{s.icon}</div>
                 <span className="sw-badge-pill" style={{ background:`${s.color}18`, color:s.color, border:`1px solid ${s.color}33` }}>{s.badge}</span>
@@ -106,7 +108,7 @@ export default function SoftwaresPage() {
 
       {/* HOW IT WORKS */}
       <section className="sw-how-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">🔄 Simple Process</div>
           <h2>From Demo to Live in 3 Steps</h2>
           <p>We handle everything — setup, training, and ongoing support. You just focus on your business.</p>
@@ -117,7 +119,7 @@ export default function SoftwaresPage() {
             { step:'02', icon:'⚙️', color:'#43E97B', title:'We Set Up For You', desc:'Our team installs and configures the software for your specific business — no technical knowledge needed from you.' },
             { step:'03', icon:'🚀', color:'#f59e0b', title:'Train & Go Live',   desc:'Free hands-on training for you and your team. Go live confidently — we are always a WhatsApp message away.' },
           ].map((s,i) => (
-            <div key={i} className="sw-how-card" style={{ '--hw-color': s.color }}>
+            <div key={i} className="sw-how-card reveal" style={{ '--hw-color': s.color, transitionDelay:`${i * 0.15}s` }}>
               <div className="sw-how-num" style={{ background:`${s.color}18`, color:s.color, border:`1px solid ${s.color}30` }}>{s.step}</div>
               <div className="sw-how-icon">{s.icon}</div>
               <h3>{s.title}</h3>

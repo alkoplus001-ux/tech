@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import useReveal from '../hooks/useReveal.js';
 import './ServicePage.css';
 
 const SERVICE_SEO = {
@@ -60,6 +61,7 @@ const WHY = [
 
 export default function ServicePage() {
   const navigate = useNavigate();
+  useReveal();
 
   const goToContact = () => navigate('/contact');
   const goToDemo    = () => { navigate('/'); setTimeout(() => document.getElementById('cta-section')?.scrollIntoView({ behavior:'smooth' }), 500); };
@@ -86,14 +88,14 @@ export default function ServicePage() {
 
       {/* SERVICES GRID */}
       <section className="service-list-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">What We Offer</div>
           <h2>Our Core Services</h2>
           <p>Everything your business needs — built, delivered, and supported by one team.</p>
         </div>
         <div className="service-cards-grid">
-          {SERVICES.map(s => (
-            <div key={s.title} className="service-card" style={{ '--sc-color': s.color }}>
+          {SERVICES.map((s, i) => (
+            <div key={s.title} className="service-card reveal" style={{ '--sc-color': s.color, transitionDelay:`${i * 0.09}s` }}>
               <div className="sc-icon" style={{ background:`${s.color}18`, border:`1px solid ${s.color}30` }}>{s.icon}</div>
               <h3>{s.title}</h3>
               <p className="sc-desc">{s.desc}</p>
@@ -143,13 +145,13 @@ export default function ServicePage() {
 
       {/* WHY CHOOSE US */}
       <section className="service-why-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">Why Choose Tech Nandu?</div>
           <h2>What Makes Us Different</h2>
         </div>
         <div className="service-why-grid">
-          {WHY.map(w => (
-            <div key={w.title} className="service-why-card">
+          {WHY.map((w, i) => (
+            <div key={w.title} className="service-why-card reveal" style={{ transitionDelay:`${i * 0.1}s` }}>
               <div className="swy-icon">{w.icon}</div>
               <h4>{w.title}</h4>
               <p>{w.desc}</p>
@@ -160,7 +162,7 @@ export default function ServicePage() {
 
       {/* HOW IT WORKS */}
       <section className="service-how-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">Simple Process</div>
           <h2>How We Work</h2>
         </div>
@@ -170,8 +172,8 @@ export default function ServicePage() {
             { num:'02', icon:'💬', title:'Free Consultation', desc:'We understand your requirements and give you the best solution.',   color:'#43E97B' },
             { num:'03', icon:'⚙️', title:'We Build It',      desc:'Our team starts building your website or software immediately.',    color:'#f59e0b' },
             { num:'04', icon:'🚀', title:'Delivery & Training',desc:'We deliver on time, train you, and provide lifetime support.',    color:'#FF6584' },
-          ].map(s => (
-            <div key={s.num} className="service-how-card" style={{ '--hw-color': s.color }}>
+          ].map((s, i) => (
+            <div key={s.num} className="service-how-card reveal" style={{ '--hw-color': s.color, transitionDelay:`${i * 0.12}s` }}>
               <div className="shc-num">{s.num}</div>
               <div className="shc-icon">{s.icon}</div>
               <h4>{s.title}</h4>

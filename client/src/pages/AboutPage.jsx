@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
 import { Link, useNavigate } from 'react-router-dom';
+import useReveal from '../hooks/useReveal.js';
 import './AboutPage.css';
 
 const ABOUT_SEO = {
@@ -28,6 +29,7 @@ const TEAM = [
 
 export default function AboutPage() {
   const navigate = useNavigate();
+  useReveal();
 
   const goToDemo = () => {
     navigate('/');
@@ -57,7 +59,7 @@ export default function AboutPage() {
       {/* STORY WITH IMAGE */}
       <section className="about-story-section">
         <div className="about-story-inner">
-          <div className="about-story-text">
+          <div className="about-story-text reveal">
             <div className="section-badge">📖 Our Story</div>
             <h2>Started with a Simple Idea</h2>
             <p>Tech Nandu was started with a simple belief — technology should make business easier, not more complicated. We saw many small and growing businesses still relying on manual processes, registers, and outdated systems.</p>
@@ -93,12 +95,12 @@ export default function AboutPage() {
       {/* MISSION VISION */}
       <section className="about-mv-section">
         <div className="about-mv-grid">
-          <div className="about-mv-card mission">
+          <div className="about-mv-card mission reveal">
             <div className="mv-icon">🎯</div>
             <h3>Our Mission</h3>
             <p>To empower every Indian business — big or small — with affordable, easy-to-use software that saves time, reduces errors, and drives real growth. Technology should work for you.</p>
           </div>
-          <div className="about-mv-card vision">
+          <div className="about-mv-card vision reveal" style={{ transitionDelay:'.15s' }}>
             <div className="mv-icon">🔭</div>
             <h3>Our Vision</h3>
             <p>To become a trusted software partner for businesses across India — one that every entrepreneur thinks of first when they need a reliable technology solution.</p>
@@ -127,14 +129,14 @@ export default function AboutPage() {
 
       {/* VALUES */}
       <section className="about-values-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">💎 What We Stand For</div>
           <h2>Our Core Values</h2>
           <p>The principles that guide every product we build and every client we serve.</p>
         </div>
         <div className="about-values-grid">
-          {VALUES.map(v => (
-            <div key={v.title} className="about-value-card">
+          {VALUES.map((v, i) => (
+            <div key={v.title} className="about-value-card reveal" style={{ transitionDelay:`${i * 0.09}s` }}>
               <div className="av-icon">{v.icon}</div>
               <h4>{v.title}</h4>
               <p>{v.desc}</p>
@@ -145,14 +147,14 @@ export default function AboutPage() {
 
       {/* TEAM */}
       <section className="about-team-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">👥 The People Behind It</div>
           <h2>Meet Our Team</h2>
           <p>Passionate professionals dedicated to your business success.</p>
         </div>
         <div className="about-team-grid">
-          {TEAM.map(t => (
-            <div key={t.name} className="about-team-card">
+          {TEAM.map((t, i) => (
+            <div key={t.name} className="about-team-card reveal" style={{ transitionDelay:`${i * 0.12}s` }}>
               {/* IMAGE SLOT — put file: client/public/images/team-[name].jpg (optional) */}
               <div className="atc-emoji">{t.emoji}</div>
               <div className="atc-name">{t.name}</div>
@@ -166,7 +168,7 @@ export default function AboutPage() {
 
       {/* WHY CHOOSE US */}
       <section className="about-why-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">✅ Why Choose Tech Nandu</div>
           <h2>What Makes Us Different</h2>
         </div>
@@ -178,8 +180,8 @@ export default function AboutPage() {
             { icon:'🇮🇳', title:'GST & Compliance',   desc:'Fully GST compliant, invoice-ready, and built for Indian tax requirements.' },
             { icon:'⚡', title:'Quick Setup',          desc:'We set everything up for you. You can go live the same day.' },
             { icon:'📞', title:'Always Reachable',     desc:'WhatsApp, call, or email — we\'re always there when you need help.' },
-          ].map(w => (
-            <div key={w.title} className="about-why-card">
+          ].map((w, i) => (
+            <div key={w.title} className="about-why-card reveal" style={{ transitionDelay:`${i * 0.1}s` }}>
               <div className="awy-icon">{w.icon}</div>
               <h4>{w.title}</h4>
               <p>{w.desc}</p>

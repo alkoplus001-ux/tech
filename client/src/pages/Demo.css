@@ -53,6 +53,10 @@
   .product-grid { grid-template-columns:repeat(2,1fr); }
   .kanban { grid-template-columns:repeat(2,1fr); }
   .item-row { grid-template-columns:1fr 1fr; }
+  .table-actions { width:100%; }
+  .table-actions .search-bar,
+  .table-actions select { flex:1; min-width:80px; font-size:.8rem; }
+  .table-actions .btn-add { width:100%; margin-top:4px; }
 }
 
 /* ── Light mode Demo overrides ───────────────────────────────────────── */

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import useReveal from '../hooks/useReveal.js';
 import './BlogPage.css';
 
 const BLOG_SEO = {
@@ -95,6 +96,7 @@ const POSTS = [
 export default function BlogPage() {
   const navigate   = useNavigate();
   const [open, setOpen] = useState(null);
+  useReveal();
 
   const goToContact = () => navigate('/contact');
 
@@ -117,8 +119,8 @@ export default function BlogPage() {
       {/* POSTS */}
       <section className="blog-posts-section">
         <div className="blog-posts-grid">
-          {POSTS.map(post => (
-            <article key={post.id} className="blog-card" style={{ '--bp-color': post.color }}>
+          {POSTS.map((post, i) => (
+            <article key={post.id} className="blog-card reveal" style={{ '--bp-color': post.color, transitionDelay:`${i * 0.09}s` }}>
               {/* thumbnail — shows if image exists, else colored banner */}
               <div className="bc-thumb" style={{ background:`${post.color}18` }}>
                 <img

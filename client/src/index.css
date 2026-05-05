@@ -191,6 +191,13 @@ tr:hover td { background:rgba(255,255,255,.02); }
   .stats-grid { grid-template-columns:repeat(2,1fr); }
   .form-grid  { grid-template-columns:1fr; }
 }
+@media(max-width:600px) {
+  .card-header { flex-wrap:wrap; gap:8px; padding:12px 14px; }
+  .table-actions { width:100%; flex-wrap:wrap; }
+  .table-actions .search-bar { flex:1; min-width:90px; }
+  .table-actions select.search-bar { min-width:80px; }
+  .btn-add { font-size:.78rem; padding:7px 14px; }
+}
 @media(max-width:480px) {
   .stats-grid { grid-template-columns:1fr 1fr; }
 }

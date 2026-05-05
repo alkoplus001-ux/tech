@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import useReveal from '../hooks/useReveal.js';
 import './ContactPage.css';
 
 const CONTACT_SEO = {
@@ -16,6 +17,7 @@ export default function ContactPage() {
   const [form, setForm]   = useState({ name:'', phone:'', email:'', business:'', message:'' });
   const [sub, setSub]     = useState(false);
   const [msg, setMsg]     = useState(null);
+  useReveal();
 
   const handleSubmit = async () => {
     if (!form.name || !form.phone) { setMsg({ type:'error', text:'Name and phone number are required.' }); return; }
@@ -72,7 +74,7 @@ export default function ContactPage() {
         <div className="contact-grid">
 
           {/* INFO */}
-          <div className="contact-info-col">
+          <div className="contact-info-col reveal">
             <h2>Get In Touch</h2>
             <p className="contact-info-sub">Reach us through any of the channels below. We're always happy to help.</p>
             <div className="contact-info-cards">
@@ -102,7 +104,7 @@ export default function ContactPage() {
           </div>
 
           {/* FORM */}
-          <div className="contact-form-col">
+          <div className="contact-form-col reveal" style={{ transitionDelay:'.15s' }}>
             <div className="contact-form-card">
               <h3>Book a Free Demo</h3>
               <p>Fill in your details and our team will reach out within 2 hours with a personalised demo.</p>
@@ -174,7 +176,7 @@ export default function ContactPage() {
 
       {/* WHY CONTACT */}
       <section className="contact-why-section">
-        <div className="section-head">
+        <div className="section-head reveal">
           <div className="section-badge">💡 Why Choose Us</div>
           <h2>We Make It Simple for You</h2>
         </div>
@@ -184,8 +186,8 @@ export default function ContactPage() {
             { icon:'🎯', title:'Free Demo First',    desc:'We give you a full live demo before you decide anything. See the software in action for your specific business.' },
             { icon:'💰', title:'No Hidden Charges',  desc:'The price we quote is the price you pay. No surprise fees, no long contracts, no complicated pricing.' },
             { icon:'🤝', title:'Lifetime Support',   desc:'Once you\'re our client, we\'re always available. Setup, training, updates, and troubleshooting — all included.' },
-          ].map(w => (
-            <div key={w.title} className="contact-why-card">
+          ].map((w, i) => (
+            <div key={w.title} className="contact-why-card reveal" style={{ transitionDelay:`${i * 0.1}s` }}>
               <div className="cwc-icon">{w.icon}</div>
               <h4>{w.title}</h4>
               <p>{w.desc}</p>
