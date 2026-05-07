@@ -73,19 +73,27 @@ export default function InventoryDemo() {
   };
 
   const uploadToCloudinary = async (file) => {
-    const sigRes = await fetch(`${API}/api/cloudinary/sign`, { method:'POST', headers:{'Content-Type':'application/json'} });
-    if (!sigRes.ok) throw new Error('Cloudinary signing failed');
-    const { signature, timestamp, folder, api_key, cloud_name } = await sigRes.json();
+    // Step 1: get signed params from our backend
+    const sigRes  = await fetch(`${API}/api/cloudinary/sign`, { method:'POST', headers:{'Content-Type':'application/json'} });
+    const sigData = await sigRes.json();
+    if (!sigRes.ok || !sigData.success) {
+      throw new Error(sigData.message || 'Signing failed — check Render env vars: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET');
+    }
+    const { signature, timestamp, folder, api_key, cloud_name } = sigData;
+
+    // Step 2: upload directly from browser to Cloudinary
     const fd = new FormData();
     fd.append('file', file);
     fd.append('api_key', api_key);
-    fd.append('timestamp', timestamp);
+    fd.append('timestamp', String(timestamp));
     fd.append('signature', signature);
     fd.append('folder', folder);
-    const upRes = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, { method:'POST', body: fd });
-    if (!upRes.ok) throw new Error('Cloudinary upload failed');
-    const { secure_url } = await upRes.json();
-    return secure_url;
+    const upRes  = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, { method:'POST', body: fd });
+    const upData = await upRes.json();
+    if (!upRes.ok || upData.error) {
+      throw new Error(`Cloudinary: ${upData.error?.message || 'Upload rejected'}`);
+    }
+    return upData.secure_url;
   };
 
   const handleAdd = async () => {

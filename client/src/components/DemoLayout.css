@@ -30,6 +30,17 @@
 }
 .demo-theme-toggle:hover { background:rgba(255,255,255,.13); transform:scale(1.08); }
 
+/* Info button — hidden on desktop, visible on mobile */
+.demo-info-btn {
+  display: none;
+  width:32px; height:32px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+  cursor:pointer; font-size:.9rem;
+  align-items:center; justify-content:center;
+}
+html.light .demo-info-btn { background:#f1f5f9; border-color:#e2e8f0; }
+
 .demo-body    { display:flex; flex:1; }
 
 /* ── Sidebar ──────────────────────────────────────────────────────────── */
@@ -285,41 +296,9 @@ html.light .variant-corporate th { color: #1d4ed8 !important; background: #eff6f
 html.light .variant-pharma    th { color: #7e22ce !important; background: #faf5ff !important; border-bottom-color: #e9d5ff !important; }
 html.light .variant-gradient  th { color: #be185d !important; background: #fdf2f8 !important; border-bottom-color: #fbcfe8 !important; }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   MOBILE — phone layout
-═══════════════════════════════════════════════════════════════════════ */
-@media(max-width:768px) {
-  /* Topbar: tighter on small screens */
-  .demo-topbar        { padding: 0 12px; height: 52px; }
-  .demo-topbar-left   { gap: 10px; min-width: 0; flex: 1; }
-  .demo-title         { gap: 8px; min-width: 0; }
-  .demo-title-icon    { width: 28px; height: 28px; font-size: 14px; flex-shrink: 0; }
-  .demo-title h2      { font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .demo-badge         { display: none; }
-  .back-btn           { padding: 4px 8px; font-size: .75rem; flex-shrink: 0; }
-  .demo-topbar-right  { gap: 6px; }
-
-  /* Hide desktop sidebar */
-  .demo-sidebar { display: none; }
-
-  /* Main content: padding-bottom leaves room for tab bar */
-  .demo-main { padding: 12px 10px 90px; overflow-x: visible; }
-
-  /* Show bottom tab bar */
-  .mobile-tabs { display: flex; }
-}
-
-/* Extra small phones */
-@media(max-width:380px) {
-  .demo-title h2   { font-size: .75rem; }
-  .back-btn        { padding: 4px 6px; font-size: .7rem; }
-  .mobile-tab      { min-width: 44px; padding: 6px 4px 5px; }
-  .mobile-tab-label { font-size: .48rem; }
-}
-
-/* ── Bottom tab bar ───────────────────────────────────────────────────── */
+/* ── Bottom tab bar base styles (MUST come before media queries) ───────── */
 .mobile-tabs {
-  display: none; /* shown via media query */
+  display: none; /* overridden to flex inside @media below */
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
   background: rgba(12,12,22,.97);
   border-top: 1px solid rgba(255,255,255,.08);
@@ -339,11 +318,45 @@ html.light .variant-gradient  th { color: #be185d !important; background: #fdf2f
   transition: color .15s, border-color .15s;
   -webkit-tap-highlight-color: transparent;
 }
-.mobile-tab.active        { color: #fff; }
-.mobile-tab-icon          { font-size: 1.15rem; line-height: 1; }
-.mobile-tab-label         { font-size: .53rem; white-space: nowrap; letter-spacing: .1px; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.mobile-tab.active   { color: #fff; }
+.mobile-tab-icon     { font-size: 1.15rem; line-height: 1; }
+.mobile-tab-label    { font-size: .53rem; white-space: nowrap; letter-spacing: .1px; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
-/* Light mode */
-html.light .mobile-tabs   { background: rgba(255,255,255,.97); border-top-color: #e2e8f0; }
-html.light .mobile-tab    { color: #94a3b8; }
-html.light .mobile-tab.active { color: #1a1a2e; }
+html.light .mobile-tabs         { background: rgba(255,255,255,.97); border-top-color: #e2e8f0; }
+html.light .mobile-tab          { color: #94a3b8; }
+html.light .mobile-tab.active   { color: #1a1a2e; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE — phone layout  (media queries AFTER base styles so they win)
+═══════════════════════════════════════════════════════════════════════ */
+@media(max-width:768px) {
+  /* Topbar: tighter on small screens */
+  .demo-topbar        { padding: 0 12px; height: 52px; }
+  .demo-topbar-left   { gap: 10px; min-width: 0; flex: 1; }
+  .demo-title         { gap: 8px; min-width: 0; }
+  .demo-title-icon    { width: 28px; height: 28px; font-size: 14px; flex-shrink: 0; }
+  .demo-title h2      { font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .demo-badge         { display: none; }
+  .back-btn           { padding: 4px 8px; font-size: .75rem; flex-shrink: 0; }
+  .demo-topbar-right  { gap: 6px; }
+
+  /* Hide desktop sidebar */
+  .demo-sidebar { display: none; }
+
+  /* Show info button on mobile */
+  .demo-info-btn { display: flex; }
+
+  /* Main content: padding-bottom leaves room for tab bar */
+  .demo-main { padding: 12px 10px 90px; overflow-x: visible; }
+
+  /* ✅ Show bottom tab bar — this now comes AFTER .mobile-tabs{display:none} so it wins */
+  .mobile-tabs { display: flex; }
+}
+
+/* Extra small phones */
+@media(max-width:380px) {
+  .demo-title h2    { font-size: .75rem; }
+  .back-btn         { padding: 4px 6px; font-size: .7rem; }
+  .mobile-tab       { min-width: 44px; padding: 6px 4px 5px; }
+  .mobile-tab-label { font-size: .48rem; }
+}
