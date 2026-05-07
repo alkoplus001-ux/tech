@@ -383,7 +383,7 @@ export default function BillingDemo() {
       <div className="table-wrap">
         {loading ? <div className="demo-loading">Loading...</div> : (
           <table>
-            <thead><tr><th>Invoice#</th><th>Customer</th><th>Phone</th><th>Items</th><th>GST</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Invoice#</th><th>Customer</th><th className="col-mob-hide">Phone</th><th className="col-mob-hide">Items</th><th className="col-mob-hide">GST</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody>
               {invoices.length===0
                 ? <tr><td colSpan={8} className="empty-row">No invoices yet. Create one to get started!</td></tr>
@@ -391,18 +391,18 @@ export default function BillingDemo() {
                 <tr key={inv._id}>
                   <td style={{fontWeight:700,color:'#6C63FF',cursor:'pointer'}} onClick={()=>setPreview(inv)}>{inv.invoiceNo}</td>
                   <td style={{fontWeight:600}}>{inv.customer}</td>
-                  <td style={{color:'var(--muted)'}}>{inv.phone}</td>
-                  <td>{inv.items?.length} item{inv.items?.length!==1?'s':''}</td>
-                  <td>₹{inv.gstAmt?.toFixed(0)}</td>
+                  <td className="col-mob-hide" style={{color:'var(--muted)'}}>{inv.phone}</td>
+                  <td className="col-mob-hide">{inv.items?.length} item{inv.items?.length!==1?'s':''}</td>
+                  <td className="col-mob-hide">₹{inv.gstAmt?.toFixed(0)}</td>
                   <td style={{fontWeight:700,color:'#43E97B'}}>₹{inv.total?.toLocaleString('en-IN')}</td>
                   <td>{statusBadge(inv.status)}</td>
                   <td>
-                    <div style={{display:'flex',gap:5}}>
+                    <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
                       {inv.status!=='Paid'    && <button className="btn-edit" onClick={()=>updateStatus(inv._id,'Paid')}>✓ Paid</button>}
                       {inv.status!=='Overdue' && <button className="btn-del"  onClick={()=>updateStatus(inv._id,'Overdue')}>!</button>}
                       <button className="btn-edit"
                         style={{background:'rgba(108,99,255,.12)',color:'#6C63FF',border:'1px solid rgba(108,99,255,.25)'}}
-                        onClick={()=>cutChallan(inv)}>🖨️ Challan</button>
+                        onClick={()=>cutChallan(inv)}>🖨️</button>
                       <button className="btn-del" onClick={()=>deleteInvoice(inv._id)}>🗑</button>
                     </div>
                   </td>

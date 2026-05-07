@@ -36,16 +36,17 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { name, sku, category, stock, price, supplier } = req.body;
+    const { name, sku, category, stock, price, supplier, imageUrl, specs, sizes, minOrder } = req.body;
     if (!name || !sku || !category) return res.status(400).json({ success: false, message: 'name, sku and category are required.' });
     if (String(name).length > 200 || String(sku).length > 50) return res.status(400).json({ success: false, message: 'Input too long.' });
 
     const status = calcStatus(Number(stock));
+    const extra  = { imageUrl: String(imageUrl || '').slice(0, 500), specs: String(specs || '').slice(0, 300), sizes: String(sizes || '').slice(0, 100), minOrder: String(minOrder || '').slice(0, 100) };
     let doc;
     if (useMongo()) {
-      doc = await Product().create({ name, sku, category, stock: Number(stock), price: Number(price), supplier, status });
+      doc = await Product().create({ name, sku, category, stock: Number(stock), price: Number(price), supplier, status, ...extra });
     } else {
-      doc = mem.products.create({ name, sku, category, stock: Number(stock), price: Number(price), supplier, status });
+      doc = mem.products.create({ name, sku, category, stock: Number(stock), price: Number(price), supplier, status, ...extra });
     }
     res.json({ success: true, data: doc });
   } catch (e) {
@@ -56,7 +57,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     // Only allow whitelisted fields to be updated
-    const allowed = ['name', 'sku', 'category', 'stock', 'price', 'supplier'];
+    const allowed = ['name', 'sku', 'category', 'stock', 'price', 'supplier', 'imageUrl', 'specs', 'sizes', 'minOrder'];
     const payload = {};
     for (const key of allowed) {
       if (req.body[key] !== undefined) payload[key] = req.body[key];

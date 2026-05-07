@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import DemoLayout from '../components/DemoLayout.jsx';
+import CatalogueCard from '../components/CatalogueCard.jsx';
 const API = import.meta.env.VITE_API_URL;
 import './Demo.css';
 
@@ -9,6 +10,7 @@ const MENU = [
   { icon:'➕', label:'Add Product' },
   { icon:'🏭', label:'Suppliers'   },
   { icon:'📋', label:'Reports'     },
+  { icon:'🎨', label:'Catalogue'   },
 ];
 
 const CATS = ['All','Electronics','Grocery','Clothing','Footwear','FMCG'];
@@ -39,10 +41,14 @@ export default function InventoryDemo() {
   const [cat,           setCat]           = useState('All');
   const [modal,         setModal]         = useState(false);
   const [toast,         setToast]         = useState(null);
-  const [form,          setForm]          = useState({ name:'', sku:'', category:'Electronics', stock:'', price:'', supplier:'' });
+  const [form,          setForm]          = useState({ name:'', sku:'', category:'Electronics', stock:'', price:'', supplier:'', imageUrl:'', specs:'', sizes:'', minOrder:'' });
   const [suppliers,     setSuppliers]     = useState(INITIAL_SUPPLIERS);
   const [supplierModal, setSupplierModal] = useState(false);
   const [supplierForm,  setSupplierForm]  = useState({ name:'', contact:'', category:'Electronics', products:'', status:'Active' });
+  const [catProduct,    setCatProduct]    = useState(null);
+  const [imageFile,     setImageFile]     = useState(null);
+  const [uploading,     setUploading]     = useState(false);
+  const imageInputRef = useRef(null);
 
   const showToast = (msg, type='success') => { setToast({msg,type}); setTimeout(()=>setToast(null),3000); };
 
@@ -66,19 +72,43 @@ export default function InventoryDemo() {
     if (i === 2) setModal(true);
   };
 
+  const uploadToCloudinary = async (file) => {
+    const sigRes = await fetch(`${API}/api/cloudinary/sign`, { method:'POST', headers:{'Content-Type':'application/json'} });
+    if (!sigRes.ok) throw new Error('Cloudinary signing failed');
+    const { signature, timestamp, folder, api_key, cloud_name } = await sigRes.json();
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('api_key', api_key);
+    fd.append('timestamp', timestamp);
+    fd.append('signature', signature);
+    fd.append('folder', folder);
+    const upRes = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, { method:'POST', body: fd });
+    if (!upRes.ok) throw new Error('Cloudinary upload failed');
+    const { secure_url } = await upRes.json();
+    return secure_url;
+  };
+
   const handleAdd = async () => {
     if (!form.name || !form.stock || !form.price) return showToast('Product name, stock and price are required!','error');
+    setUploading(true);
     try {
-      const res  = await fetch(`${API}/api/inventory`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({...form, stock:Number(form.stock), price:Number(form.price)}) });
+      let imageUrl = form.imageUrl;
+      if (imageFile) {
+        showToast('Uploading image...', 'success');
+        imageUrl = await uploadToCloudinary(imageFile);
+      }
+      const res  = await fetch(`${API}/api/inventory`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({...form, imageUrl, stock:Number(form.stock), price:Number(form.price)}) });
       const data = await res.json();
       if (data.success) {
         showToast(`"${data.data.name}" added!`);
         setModal(false);
-        setForm({name:'',sku:'',category:'Electronics',stock:'',price:'',supplier:''});
+        setForm({name:'',sku:'',category:'Electronics',stock:'',price:'',supplier:'',imageUrl:'',specs:'',sizes:'',minOrder:''});
+        setImageFile(null);
         load();
         setTab(1);
       }
-    } catch { showToast('Failed to add product','error'); }
+    } catch (e) { showToast(e.message || 'Failed to add product','error'); }
+    finally { setUploading(false); }
   };
 
   const handleDelete = async (id, name) => {
@@ -238,18 +268,18 @@ export default function InventoryDemo() {
       <div className="table-wrap">
         {loading ? <div className="demo-loading">Loading...</div> : (
           <table>
-            <thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Stock</th><th>Price</th><th>Supplier</th><th>Status</th><th>Action</th></tr></thead>
+            <thead><tr><th>Product</th><th className="col-mob-hide">SKU</th><th className="col-mob-hide">Category</th><th>Stock</th><th>Price</th><th className="col-mob-hide">Supplier</th><th>Status</th><th>Action</th></tr></thead>
             <tbody>
               {products.length === 0
                 ? <tr><td colSpan={8} className="empty-row">No products. Click "Add Product" to add one!</td></tr>
                 : products.map(p=>(
                 <tr key={p._id}>
                   <td style={{fontWeight:600}}>{p.name}</td>
-                  <td style={{color:'var(--muted)'}}>{p.sku||'—'}</td>
-                  <td>{p.category}</td>
+                  <td className="col-mob-hide" style={{color:'var(--muted)'}}>{p.sku||'—'}</td>
+                  <td className="col-mob-hide">{p.category}</td>
                   <td style={{fontWeight:700}}>{p.stock} pcs</td>
                   <td style={{color:'#43E97B',fontWeight:700}}>₹{p.price.toLocaleString('en-IN')}</td>
-                  <td style={{color:'var(--muted)'}}>{p.supplier||'—'}</td>
+                  <td className="col-mob-hide" style={{color:'var(--muted)'}}>{p.supplier||'—'}</td>
                   <td>{statusBadge(p.status)}</td>
                   <td><button className="btn-del" onClick={()=>handleDelete(p._id,p.name)}>🗑</button></td>
                 </tr>
@@ -325,14 +355,14 @@ export default function InventoryDemo() {
             </div>
             <div className="table-wrap">
               <table>
-                <thead><tr><th>Supplier Name</th><th>Contact</th><th>Category</th><th>Products</th><th>Status</th><th>Action</th></tr></thead>
+                <thead><tr><th>Supplier Name</th><th className="col-mob-hide">Contact</th><th className="col-mob-hide">Category</th><th className="col-mob-hide">Products</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody>
                   {suppliers.map((s,i)=>(
                     <tr key={i}>
                       <td style={{fontWeight:600}}>🏭 {s.name}</td>
-                      <td style={{color:'#43E97B'}}>📞 {s.contact}</td>
-                      <td>{s.category}</td>
-                      <td style={{textAlign:'center',fontWeight:700}}>{s.products}</td>
+                      <td className="col-mob-hide" style={{color:'#43E97B'}}>📞 {s.contact}</td>
+                      <td className="col-mob-hide">{s.category}</td>
+                      <td className="col-mob-hide" style={{textAlign:'center',fontWeight:700}}>{s.products}</td>
                       <td>{statusBadge(s.status)}</td>
                       <td>
                         <button className="btn-edit" onClick={()=>showToast(`Calling ${s.name}...`)}>📞 Contact</button>
@@ -361,16 +391,16 @@ export default function InventoryDemo() {
             <h3 style={{fontSize:'.88rem',marginBottom:14}}>📋 Low Stock Alert Report</h3>
             <div className="table-wrap">
               <table>
-                <thead><tr><th>Product</th><th>Category</th><th>Current Stock</th><th>Min Required</th><th>Status</th><th>Action</th></tr></thead>
+                <thead><tr><th>Product</th><th className="col-mob-hide">Category</th><th>Stock</th><th className="col-mob-hide">Min Required</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody>
                   {products.filter(p=>p.status!=='In Stock').length === 0
                     ? <tr><td colSpan={6} className="empty-row">All products have healthy stock levels! 🎉</td></tr>
                     : products.filter(p=>p.status!=='In Stock').map(p=>(
                     <tr key={p._id}>
                       <td style={{fontWeight:600}}>{p.name}</td>
-                      <td>{p.category}</td>
+                      <td className="col-mob-hide">{p.category}</td>
                       <td style={{color:'#FF6584',fontWeight:700}}>{p.stock} pcs</td>
-                      <td style={{color:'var(--muted)'}}>20 pcs</td>
+                      <td className="col-mob-hide" style={{color:'var(--muted)'}}>20 pcs</td>
                       <td>{statusBadge(p.status)}</td>
                       <td><button className="btn-add" onClick={()=>showToast(`Reorder placed for ${p.name}!`)}>Reorder</button></td>
                     </tr>
@@ -386,6 +416,60 @@ export default function InventoryDemo() {
         </>
       )}
 
+      {/* TAB 5 — Catalogue */}
+      {tab === 5 && (
+        <>
+          <div className="stats-grid">
+            <div className="stat-card"><div className="s-label">Total Products</div><div className="s-val" style={{color:'#6C63FF'}}>{products.length}</div><div className="s-chg up">▲ In catalogue</div></div>
+            <div className="stat-card"><div className="s-label">With Images</div><div className="s-val" style={{color:'#43E97B'}}>{products.filter(p=>p.imageUrl).length}</div><div className="s-chg up">Ready to generate</div></div>
+            <div className="stat-card"><div className="s-label">No Image</div><div className="s-val" style={{color:'#f59e0b'}}>{products.filter(p=>!p.imageUrl).length}</div><div className="s-chg down">Add image to product</div></div>
+            <div className="stat-card"><div className="s-label">Categories</div><div className="s-val" style={{color:'#FF6584'}}>{[...new Set(products.map(p=>p.category))].length}</div><div className="s-chg up">Unique</div></div>
+          </div>
+          <div className="card">
+            <div className="card-header">
+              <h3>🎨 Product Catalogue Generator</h3>
+              <button className="btn-add" onClick={()=>{ setTab(2); setModal(true); }}>+ Add Product</button>
+            </div>
+            <div style={{padding:'6px 20px 18px'}}>
+              {loading ? <div className="demo-loading">Loading...</div> : products.length === 0 ? (
+                <div className="empty-row" style={{padding:'32px',textAlign:'center'}}>No products yet. Add products to generate catalogues!</div>
+              ) : (
+                <div className="cat-grid">
+                  {products.map(p => (
+                    <div key={p._id} className="catalogue-card">
+                      <div className="catalogue-img-wrap">
+                        {p.imageUrl
+                          ? <img className="catalogue-img" src={p.imageUrl} alt={p.name} />
+                          : <div className="catalogue-img" style={{background:'rgba(255,255,255,0.04)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'2.5rem'}}>📦</div>
+                        }
+                        {p.status === 'Out of Stock' && <span className="catalogue-oos">OOS</span>}
+                        {p.sku && <span className="catalogue-sku">{p.sku}</span>}
+                      </div>
+                      <div className="catalogue-body">
+                        <div className="catalogue-cat" style={{color:'#6C63FF'}}>{p.category}</div>
+                        <div className="catalogue-name">{p.name}</div>
+                        {p.specs && <div className="catalogue-desc">{p.specs}</div>}
+                        <div className="catalogue-price">
+                          <span className="catalogue-price-main">₹{p.price?.toLocaleString('en-IN')}</span>
+                          {p.sizes && <span style={{fontSize:'.68rem',color:'var(--muted)'}}>Sizes: {p.sizes}</span>}
+                        </div>
+                        <button
+                          className="btn-add"
+                          style={{marginTop:10,width:'100%',fontSize:'.75rem'}}
+                          onClick={()=>setCatProduct(p)}
+                        >
+                          🎨 Generate Catalogue
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
       {/* ADD PRODUCT MODAL */}
       {modal && (
         <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setModal(false)}>
@@ -396,20 +480,41 @@ export default function InventoryDemo() {
             </div>
             <div className="modal-body">
               <div className="form-grid">
-                <div className="form-group"><label>Product Name *</label><input className="form-control" placeholder="e.g. Samsung TV" value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))} /></div>
-                <div className="form-group"><label>SKU Code</label><input className="form-control" placeholder="e.g. EL-001" value={form.sku} onChange={e=>setForm(p=>({...p,sku:e.target.value}))} /></div>
+                <div className="form-group"><label>Product Name *</label><input className="form-control" placeholder="e.g. Nike Chappal MAX-16" value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))} /></div>
+                <div className="form-group"><label>SKU Code</label><input className="form-control" placeholder="e.g. FW-001" value={form.sku} onChange={e=>setForm(p=>({...p,sku:e.target.value}))} /></div>
                 <div className="form-group"><label>Category *</label>
                   <select className="form-control" value={form.category} onChange={e=>setForm(p=>({...p,category:e.target.value}))}>
                     {CATS.filter(c=>c!=='All').map(c=><option key={c}>{c}</option>)}
                   </select>
                 </div>
                 <div className="form-group"><label>Stock Quantity *</label><input className="form-control" type="number" min="0" placeholder="0" value={form.stock} onChange={e=>setForm(p=>({...p,stock:e.target.value}))} /></div>
-                <div className="form-group"><label>Price (₹) *</label><input className="form-control" type="number" min="0" placeholder="0" value={form.price} onChange={e=>setForm(p=>({...p,price:e.target.value}))} /></div>
-                <div className="form-group"><label>Supplier</label><input className="form-control" placeholder="Supplier name" value={form.supplier} onChange={e=>setForm(p=>({...p,supplier:e.target.value}))} /></div>
+                <div className="form-group"><label>Offer Price (₹) *</label><input className="form-control" type="number" min="0" placeholder="0" value={form.price} onChange={e=>setForm(p=>({...p,price:e.target.value}))} /></div>
+                <div className="form-group"><label>Brand / Supplier</label><input className="form-control" placeholder="e.g. Chetak Footwear" value={form.supplier} onChange={e=>setForm(p=>({...p,supplier:e.target.value}))} /></div>
+                <div className="form-group"><label>Sizes</label><input className="form-control" placeholder="e.g. 6 - 10" value={form.sizes} onChange={e=>setForm(p=>({...p,sizes:e.target.value}))} /></div>
+                <div className="form-group"><label>Minimum Order</label><input className="form-control" placeholder="e.g. Saiz 6-10 | Set of 10" value={form.minOrder} onChange={e=>setForm(p=>({...p,minOrder:e.target.value}))} /></div>
+                <div className="form-group" style={{gridColumn:'1/-1'}}><label>Specifications (for catalogue)</label><input className="form-control" placeholder="e.g. Textured Weave Straps | Padded Footbed | High-Grip Sole" value={form.specs} onChange={e=>setForm(p=>({...p,specs:e.target.value}))} /></div>
+                <div className="form-group" style={{gridColumn:'1/-1'}}>
+                  <label>Product Image</label>
+                  <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
+                    <input
+                      ref={imageInputRef}
+                      type="file"
+                      accept="image/*"
+                      style={{display:'none'}}
+                      onChange={e=>{ setImageFile(e.target.files[0] || null); setForm(p=>({...p,imageUrl:''})); }}
+                    />
+                    <button type="button" className="btn-edit" onClick={()=>imageInputRef.current?.click()}>
+                      📷 {imageFile ? imageFile.name.slice(0,20)+'…' : 'Choose Image'}
+                    </button>
+                    <span style={{color:'var(--muted)',fontSize:'.72rem'}}>— or paste URL —</span>
+                    <input className="form-control" style={{flex:1,minWidth:160}} placeholder="https://res.cloudinary.com/..." value={form.imageUrl} onChange={e=>{ setForm(p=>({...p,imageUrl:e.target.value})); setImageFile(null); }} />
+                  </div>
+                  {imageFile && <div style={{fontSize:'.7rem',color:'#43E97B',marginTop:4}}>✓ Image selected — will upload on Save</div>}
+                </div>
               </div>
               <div className="form-footer">
-                <button className="btn-cancel" onClick={()=>setModal(false)}>Cancel</button>
-                <button className="btn-add" onClick={handleAdd}>💾 Save Product</button>
+                <button className="btn-cancel" onClick={()=>{ setModal(false); setImageFile(null); }}>Cancel</button>
+                <button className="btn-add" onClick={handleAdd} disabled={uploading}>{uploading ? '⏳ Saving...' : '💾 Save Product'}</button>
               </div>
             </div>
           </div>
@@ -448,6 +553,8 @@ export default function InventoryDemo() {
           </div>
         </div>
       )}
+
+      {catProduct && <CatalogueCard product={catProduct} onClose={()=>setCatProduct(null)} />}
 
       {toast && <div className={`toast ${toast.type}`}>{toast.type==='success'?'✅':'❌'} {toast.msg}</div>}
     </DemoLayout>

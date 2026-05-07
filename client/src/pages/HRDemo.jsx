@@ -110,17 +110,17 @@ export default function HRDemo() {
       <div className="table-wrap">
         {loading ? <div className="demo-loading">Loading...</div> : (
           <table>
-            <thead><tr><th>Emp ID</th><th>Name</th><th>Department</th><th>Position</th><th>Phone</th><th>Salary</th><th>Status</th><th>Action</th></tr></thead>
+            <thead><tr><th className="col-mob-hide">Emp ID</th><th>Name</th><th>Department</th><th className="col-mob-hide">Position</th><th className="col-mob-hide">Phone</th><th>Salary</th><th>Status</th><th>Action</th></tr></thead>
             <tbody>
               {emps.length===0
                 ? <tr><td colSpan={8} className="empty-row">No employees found.</td></tr>
                 : emps.map(e=>(
                 <tr key={e._id}>
-                  <td style={{color:'#6C63FF',fontWeight:700}}>{e.empId}</td>
+                  <td className="col-mob-hide" style={{color:'#6C63FF',fontWeight:700}}>{e.empId}</td>
                   <td style={{fontWeight:600}}>🧑 {e.name}</td>
                   <td><span className="badge badge-blue">{e.department}</span></td>
-                  <td>{e.position}</td>
-                  <td style={{color:'var(--muted)'}}>{e.phone}</td>
+                  <td className="col-mob-hide">{e.position}</td>
+                  <td className="col-mob-hide" style={{color:'var(--muted)'}}>{e.phone}</td>
                   <td style={{color:'#43E97B',fontWeight:700}}>₹{(e.salary||0).toLocaleString('en-IN')}</td>
                   <td>{statusBadge(e.status)}</td>
                   <td><button className="btn-del" onClick={()=>handleDelete(e._id,e.name)}>🗑</button></td>

@@ -1,0 +1,374 @@
+/* ═══════════════════════════════════════════════════════════════
+   Premium Catalogue Card — Chetak / GP-Fax style
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Overlay ── */
+.cat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+  padding: 24px 16px 40px;
+  overflow-y: auto;
+}
+
+.cat-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* ── The card itself (900 × 620 fixed — captured by html2canvas) ── */
+.cat-card {
+  position: relative;
+  width: 900px;
+  height: 620px;
+  background: linear-gradient(145deg, #1c1c24 0%, #22222e 40%, #1a1a22 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  box-shadow: 0 0 0 1px rgba(180, 150, 70, 0.18),
+              0 40px 100px rgba(0, 0, 0, 0.8);
+}
+
+/* Depth gradient */
+.cat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 80% at 35% 55%, rgba(30, 30, 46, 0.6) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 85% 15%, rgba(20, 20, 32, 0.5) 0%, transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Brand Logo — top-left ── */
+.cat-logo {
+  position: absolute;
+  top: 26px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  z-index: 10;
+}
+
+.cat-logo-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(180, 150, 70, 0.5);
+  background: radial-gradient(circle, rgba(180, 150, 70, 0.1) 0%, rgba(180, 150, 70, 0.03) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(180, 150, 70, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.cat-logo-text { display: flex; flex-direction: column; }
+
+.cat-brand-name {
+  font-size: 23px;
+  font-weight: 900;
+  color: #e8d9a8;
+  letter-spacing: 3.5px;
+  line-height: 1;
+  text-shadow: 0 2px 12px rgba(232, 217, 168, 0.2);
+}
+
+.cat-brand-sub {
+  font-size: 10.5px;
+  color: rgba(232, 217, 168, 0.5);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* ── Product Image — center-left ── */
+.cat-img-area {
+  position: absolute;
+  left: 55px;
+  top: 75px;
+  width: 540px;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.cat-product-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 50px 70px rgba(0, 0, 0, 0.95))
+    drop-shadow(0 20px 40px rgba(0, 0, 0, 0.75))
+    drop-shadow(0 6px 18px rgba(0, 0, 0, 0.55));
+}
+
+.cat-no-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.18);
+  text-align: center;
+}
+.cat-no-img span    { font-size: 72px; line-height: 1; }
+.cat-no-img p       { font-size: 14px; margin: 0; }
+.cat-no-img-hint    { font-size: 11px !important; color: rgba(255,255,255,0.1) !important; margin-top: 4px !important; }
+
+/* ── Thumbnails — bottom-left ── */
+.cat-thumbs {
+  position: absolute;
+  bottom: 78px;
+  left: 30px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.cat-thumb {
+  width: 92px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cat-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Right Info Panel ── */
+.cat-info-panel {
+  position: absolute;
+  right: 22px;
+  top: 36px;
+  width: 270px;
+  bottom: 75px;
+  background: linear-gradient(165deg, rgba(18, 18, 26, 0.97) 0%, rgba(14, 14, 20, 0.99) 100%);
+  border: 1px solid rgba(180, 150, 70, 0.28);
+  border-radius: 22px 22px 14px 14px;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 10;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Gold top-accent line on panel */
+.cat-info-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200, 168, 75, 0.55), transparent);
+  border-radius: 2px;
+}
+
+/* Decorative strap accent — right edge */
+.cat-strap {
+  position: absolute;
+  right: -1px;
+  top: 20px;
+  bottom: 20px;
+  width: 6px;
+  background: linear-gradient(180deg,
+    rgba(120, 80, 30, 0.7) 0%,
+    rgba(160, 110, 50, 0.5) 50%,
+    rgba(120, 80, 30, 0.7) 100%);
+  border-radius: 0 3px 3px 0;
+}
+
+.cat-info-block {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cat-info-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(180, 150, 70, 0.25);
+  background: rgba(180, 150, 70, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cat-info-content { flex: 1; min-width: 0; }
+
+.cat-info-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #c8a84b;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.cat-info-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8e8f2;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.cat-info-sku {
+  font-size: 10px;
+  color: rgba(232, 232, 242, 0.4);
+  margin-top: 3px;
+  letter-spacing: 0.5px;
+}
+
+.cat-specs {
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: rgba(232, 232, 242, 0.75) !important;
+  line-height: 1.65 !important;
+}
+
+.cat-panel-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(180, 150, 70, 0.22), transparent);
+  margin: 2px 0;
+  flex-shrink: 0;
+}
+
+/* ── Bottom Bar ── */
+.cat-bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: rgba(10, 10, 16, 0.98);
+  border-top: 1px solid rgba(180, 150, 70, 0.26);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  z-index: 10;
+}
+
+.cat-bottom-main {
+  font-size: 14px;
+  color: #e8d9a8;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cat-bottom-label {
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  font-size: 14.5px;
+}
+
+.cat-bottom-sep {
+  color: rgba(180, 150, 70, 0.55);
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.cat-bottom-sub {
+  font-size: 12px;
+  color: rgba(232, 217, 168, 0.58);
+  letter-spacing: 0.3px;
+}
+
+.cat-bottom-sparkle {
+  position: absolute;
+  right: 28px;
+  font-size: 24px;
+  color: rgba(200, 168, 75, 0.65);
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(200, 168, 75, 0.3);
+}
+
+/* ── Controls (outside card) ── */
+.cat-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.cat-err {
+  max-width: 900px;
+  width: 100%;
+  background: rgba(220, 50, 50, 0.12);
+  border: 1px solid rgba(220, 50, 50, 0.3);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 12.5px;
+  color: #fca5a5;
+  text-align: center;
+}
+
+.cat-btn-close {
+  padding: 11px 26px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cat-btn-close:hover { background: rgba(255, 255, 255, 0.13); }
+
+.cat-btn-download {
+  padding: 11px 30px;
+  background: linear-gradient(135deg, #c8a84b 0%, #a07030 100%);
+  border: none;
+  color: #1a1005;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 18px rgba(180, 140, 50, 0.35);
+}
+.cat-btn-download:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+.cat-btn-download:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* ── Responsive scale for small screens ── */
+@media (max-width: 960px) {
+  .cat-overlay { padding: 12px 0 32px; align-items: flex-start; }
+  .cat-card {
+    transform-origin: top center;
+    transform: scale(0.72);
+    margin-bottom: -178px; /* compensate for scaled-down height */
+  }
+}
+
+@media (max-width: 680px) {
+  .cat-card { transform: scale(0.46); margin-bottom: -335px; }
+}
