@@ -1,0 +1,65 @@
+.animated-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Floating colour blobs */
+.abg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .11;
+}
+.abg-1 { width: 420px; height: 420px; top: -100px; left: -80px;  animation: abgFloat1 9s ease-in-out infinite; }
+.abg-2 { width: 280px; height: 280px; bottom: -60px; right: -40px; animation: abgFloat2 7s ease-in-out infinite 1.5s; }
+.abg-3 { width: 200px; height: 200px; top: 40%;  left: 60%;   animation: abgFloat3 11s ease-in-out infinite 3s; }
+
+@keyframes abgFloat1 { 0%,100%{transform:translate(0,0) scale(1)}   50%{transform:translate(30px,-25px) scale(1.08)} }
+@keyframes abgFloat2 { 0%,100%{transform:translate(0,0) scale(1)}   50%{transform:translate(-20px,18px) scale(1.12)} }
+@keyframes abgFloat3 { 0%,100%{transform:translate(0,0) scale(1)}   50%{transform:translate(15px,-30px) scale(.92)} }
+
+/* Dot-grid overlay */
+.abg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* Floating sparkle dots */
+.abg-sparkle {
+  position: absolute;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--sc, #a78bfa);
+  opacity: 0;
+  left:  calc(5% + calc(var(--si) * 9.5%));
+  top:   calc(10% + calc(var(--si) * 7%) - 20px);
+  animation: abgSpark 4.5s ease-in-out calc(var(--si) * 0.42s) infinite;
+}
+.abg-sparkle:nth-child(odd)  { width: 6px; height: 6px; }
+.abg-sparkle:nth-child(3n)   { width: 3px; height: 3px; }
+
+@keyframes abgSpark {
+  0%,100% { opacity:0; transform:scale(0) translateY(0); }
+  25%     { opacity:.85; transform:scale(1.5) translateY(-10px); }
+  55%     { opacity:.3; transform:scale(.8) translateY(-22px); }
+}
+
+/* Decorative rings */
+.abg-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  animation: abgRing 12s linear infinite;
+}
+.abg-ring1 { width: 600px; height: 600px; top: -200px; right: -200px; animation-duration: 18s; }
+.abg-ring2 { width: 400px; height: 400px; bottom:-150px; left: -100px; animation-duration: 14s; animation-direction:reverse; }
+
+@keyframes abgRing {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

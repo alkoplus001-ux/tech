@@ -1,9 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import AnimatedBg from '../components/AnimatedBg.jsx';
 const API = import.meta.env.VITE_API_URL;
 import './Home.css';
+
+function useCountUp(target, duration = 1800, suffix = '') {
+  const [count, setCount] = useState('0');
+  const ref = useRef(null);
+  const started = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const isNum = typeof target === 'number';
+        if (!isNum) { setCount(target); return; }
+        const start = performance.now();
+        const step = (now) => {
+          const pct = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - pct, 3);
+          setCount(Math.floor(ease * target).toString() + suffix);
+          if (pct < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+    }, { threshold: 0.4 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target, duration, suffix]);
+  return { ref, count };
+}
+
+const MARQUEE_ITEMS = [
+  '📦 Inventory Management','🧾 GST Billing','👥 HR & Payroll','🏪 POS System',
+  '🤝 CRM & Leads','🏥 Hospital ERP','🎓 School Management','🍽️ Restaurant POS',
+  '🏗️ Real Estate CRM','💊 Pharmacy System','📊 Analytics Dashboard','🌐 Website Development',
+];
 
 const HOME_SEO = {
   title: 'GST Billing Software India | ERP & Inventory Software | Tech Nandu',
@@ -28,10 +63,10 @@ const TEMPLATES = [
 ];
 
 const STATS = [
-  { num:'12+',  label:'Software Modules' },
-  { num:'99.9%',label:'Uptime' },
-  { num:'24/7', label:'Support' },
-  { num:'Free', label:'Setup & Training' },
+  { target:12,    suffix:'+',  label:'Software Modules', color:'#6C63FF' },
+  { target:'99.9%', suffix:'',label:'Uptime',            color:'#43E97B' },
+  { target:'24/7',  suffix:'',label:'Support',           color:'#FF6584' },
+  { target:'Free',  suffix:'',label:'Setup & Training',  color:'#f59e0b' },
 ];
 
 // ── Per-software pricing plans ──────────────────────────────────────────────
@@ -135,6 +170,59 @@ const PRICING = {
 };
 
 
+// ── Typewriter ────────────────────────────────────────────────────────────
+const TW_WORDS = ['Retail Shops','Hospitals','Restaurants','Schools','Pharmacies','Real Estate','Manufacturing','Your Business'];
+
+function useTypewriter(words) {
+  const [text, setText] = useState(words[0]);
+  const wi  = useRef(0);
+  const ci  = useRef(words[0].length);
+  const del = useRef(false);
+  useEffect(() => {
+    let tid;
+    const tick = () => {
+      const word = words[wi.current];
+      if (!del.current) {
+        ci.current++;
+        setText(word.slice(0, ci.current));
+        if (ci.current === word.length) { del.current = true; tid = setTimeout(tick, 2200); return; }
+        tid = setTimeout(tick, 85);
+      } else {
+        ci.current--;
+        setText(word.slice(0, ci.current));
+        if (ci.current === 0) {
+          del.current = false;
+          wi.current  = (wi.current + 1) % words.length;
+          tid = setTimeout(tick, 350); return;
+        }
+        tid = setTimeout(tick, 38);
+      }
+    };
+    tid = setTimeout(tick, 2500);
+    return () => clearTimeout(tid);
+  }, []);
+  return text;
+}
+
+// ── How it works ──────────────────────────────────────────────────────────
+const PROCESS = [
+  { num:'01', icon:'📞', title:'Book Free Demo',  desc:'Call, WhatsApp, or fill the form. We schedule a live 30-min demo tailored to your business.' },
+  { num:'02', icon:'⚙️', title:'We Set It Up',    desc:'Our team configures everything — products, GST, staff. Zero technical work from your side.' },
+  { num:'03', icon:'🎓', title:'Free Training',   desc:'We train you and your team in person or video call. Simple, clear, no tech jargon at all.' },
+  { num:'04', icon:'🚀', title:'Go Live Today',   desc:'Start using it on day one. WhatsApp & call support always available — we stay with you.' },
+];
+
+function AnimatedStat({ target, suffix, label, color }) {
+  const isNum = typeof target === 'number';
+  const { ref, count } = useCountUp(isNum ? target : target, 1800, isNum ? suffix : '');
+  return (
+    <div className="hero-stat" ref={ref}>
+      <div className="hero-stat-num" style={{ color }}>{count}</div>
+      <div className="hero-stat-label">{label}</div>
+    </div>
+  );
+}
+
 export default function Home() {
   const navigate = useNavigate();
   const [form, setForm]         = useState({ name:'', phone:'', email:'', business:'' });
@@ -167,6 +255,7 @@ export default function Home() {
     } finally { setSub(false); }
   };
 
+  const typeText = useTypewriter(TW_WORDS);
   const activeTpl   = TEMPLATES.find(t => t.id === pricingTab) || TEMPLATES[0];
   const activePlans = PRICING[pricingTab]?.plans || [];
 
@@ -177,13 +266,16 @@ export default function Home() {
 
       {/* HERO */}
       <section className="hero">
+        <AnimatedBg color="#6C63FF" count={14} />
         <div className="hero-bg-blob blob1" />
         <div className="hero-bg-blob blob2" />
         <div className="hero-bg-blob blob3" />
+        {/* Sparkle particles */}
+        {[...Array(12)].map((_,i) => <div key={i} className="hero-sparkle" style={{ '--i':i }} />)}
         <div className="hero-inner">
           <div className="hero-left">
             <div className="hero-badge">🚀 India's Trusted Business Software</div>
-            <h1>Smart Software for<br /><span className="gradient-text">Every Business</span></h1>
+            <h1>Smart Software for<br /><span className="gradient-text">{typeText || 'Your Business'}<span className="tw-cursor" /></span></h1>
             <p>Complete ERP & management solutions — Inventory, HR, Billing, CRM & more. Built for Indian businesses, starting at ₹2,000/month.</p>
             <div className="hero-btns">
               <button className="btn btn-primary" onClick={() => document.getElementById('templates')?.scrollIntoView({ behavior:'smooth' })}>
@@ -194,23 +286,20 @@ export default function Home() {
               </button>
             </div>
             <div className="hero-stats">
-              {STATS.map(s => (
-                <div key={s.label} className="hero-stat">
-                  <div className="hero-stat-num">{s.num}</div>
-                  <div className="hero-stat-label">{s.label}</div>
-                </div>
-              ))}
+              {STATS.map(s => <AnimatedStat key={s.label} {...s} />)}
             </div>
           </div>
 
           <div className="hero-right">
+            <div className="hero-right-inner">
             <div className="hero-offer-card">
               <div className="hoc-header">
                 <span className="hoc-logo">TN</span>
-                <div>
+                <div style={{flex:1}}>
                   <div className="hoc-title">Tech Nandu Software</div>
                   <div className="hoc-sub">Smart Software for Every Business</div>
                 </div>
+                <div className="hoc-live-row"><span className="hoc-live-dot" />LIVE</div>
               </div>
               <div className="hoc-divider" />
               <div className="hoc-label">What We Offer</div>
@@ -246,6 +335,48 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      </section>
+
+      {/* TRUST BAR */}
+      <div className="trust-bar">
+        <div className="trust-bar-inner">
+          <span className="trust-label">Trusted by 200+ Indian Businesses</span>
+          <div className="trust-pills">
+            {['🏪 Retail','🏥 Healthcare','🎓 Education','🍽️ Restaurant','🏗️ Real Estate','💊 Pharmacy'].map(b => (
+              <span key={b} className="trust-pill">{b}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* MARQUEE STRIP */}
+      <div className="marquee-strip">
+        <div className="marquee-track">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="marquee-item">{item}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* HOW IT WORKS */}
+      <section className="process-section">
+        <div className="section-head reveal">
+          <div className="section-badge">🔄 How It Works</div>
+          <h2>From Demo to Live in 1 Day</h2>
+          <p>Simple 4-step process. No complexity, no delays — just real results.</p>
+        </div>
+        <div className="process-grid">
+          {PROCESS.map((p, i) => (
+            <div key={i} className="process-card reveal" style={{ transitionDelay:`${i * 0.12}s` }}>
+              <div className="pc-num">{p.num}</div>
+              <div className="pc-icon">{p.icon}</div>
+              <h4>{p.title}</h4>
+              <p>{p.desc}</p>
+              {i < PROCESS.length - 1 && <div className="pc-arrow">→</div>}
+            </div>
+          ))}
         </div>
       </section>
 
@@ -483,17 +614,11 @@ export default function Home() {
       <a
         href="https://wa.me/919991327697?text=Hi%20Tech%20Nandu%2C%20I%20want%20a%20free%20demo!"
         target="_blank" rel="noreferrer"
-        style={{
-          position:'fixed', bottom:28, right:28, zIndex:9999,
-          width:58, height:58, borderRadius:'50%',
-          background:'#25D366', display:'flex', alignItems:'center', justifyContent:'center',
-          fontSize:'1.6rem', boxShadow:'0 6px 24px rgba(37,211,102,0.5)',
-          textDecoration:'none', transition:'transform .2s',
-          animation:'waPulse 2s infinite',
-        }}
+        className="wa-float-btn"
         title="Chat on WhatsApp"
       >
-        💬
+        <span className="wa-float-icon">💬</span>
+        <span className="wa-float-label">Free Demo</span>
       </a>
     </div>
   );

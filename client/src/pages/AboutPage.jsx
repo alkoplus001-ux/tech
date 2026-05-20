@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import AnimatedBg from '../components/AnimatedBg.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import useReveal from '../hooks/useReveal.js';
 import './AboutPage.css';
@@ -27,6 +28,22 @@ const TEAM = [
   { name:'Support Team',    role:'Customer Success',         emoji:'📞', desc:'Available on WhatsApp and call to help clients resolve issues quickly.' },
 ];
 
+const DEEPAK = {
+  name: 'Deepak Kushwaha',
+  title: 'Lead Java Developer',
+  exp: '9+ Years',
+  current: 'Lead Developer @ Synechron, Pune',
+  linkedin: 'https://linkedin.com/in/deepak-kushwaha-5a15a7116',
+  quote: 'Enterprise Java specialist with 9+ years building high-performance microservices for Banking & Capital Markets. Led teams at IBM, Cognizant, Citi Corp & Synechron.',
+  skills: ['Spring Boot','Microservices','Kafka','Docker','Core Java','Spring Batch','Hibernate/JPA','REST APIs','PL/SQL','Angular JS','Redis','Red Hat Cloud'],
+  journey: ['IBM India (2017–2020)','Cognizant (2020–2022)','Citi Corp (2022–2025)','Synechron (2025–Present)'],
+  highlights: [
+    { icon:'🏦', text:'Banking & Capital Markets expert — Jefferies, Citi Corp platforms' },
+    { icon:'⚙️', text:'Built high-scale microservices with Kafka, Spring Boot & Docker' },
+    { icon:'🔒', text:'Implemented end-to-end encryption for secure partner communication' },
+  ],
+};
+
 export default function AboutPage() {
   const navigate = useNavigate();
   useReveal();
@@ -43,6 +60,7 @@ export default function AboutPage() {
 
       {/* HERO */}
       <section className="about-hero">
+        <AnimatedBg color="#6C63FF" count={10} />
         <div className="about-hero-bg blob1" />
         <div className="about-hero-bg blob2" />
         <div className="about-hero-content">
@@ -145,6 +163,63 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* LEAD DEVELOPER — Deepak Kushwaha */}
+      <section className="about-dev-section">
+        <div className="section-head reveal">
+          <div className="section-badge">⭐ Main Developer</div>
+          <h2>Meet Our Lead Developer</h2>
+          <p>The technical backbone behind all our enterprise-grade software solutions.</p>
+        </div>
+
+        <div className="dev-card reveal">
+          {/* Left: Avatar + Identity */}
+          <div className="dev-card-left">
+            <div className="dev-avatar-ring">
+              <div className="dev-avatar">DK</div>
+            </div>
+            <div className="dev-identity">
+              <div className="dev-name">{DEEPAK.name}</div>
+              <div className="dev-title">{DEEPAK.title}</div>
+              <div className="dev-current">{DEEPAK.current}</div>
+              <div className="dev-exp-pill">{DEEPAK.exp} Experience</div>
+            </div>
+            <a href={DEEPAK.linkedin} target="_blank" rel="noreferrer" className="dev-linkedin-btn">
+              🔗 View LinkedIn Profile
+            </a>
+          </div>
+
+          {/* Center: Quote + Skills */}
+          <div className="dev-card-center">
+            <div className="dev-quote">"{DEEPAK.quote}"</div>
+            <div className="dev-skills-label">Core Technologies</div>
+            <div className="dev-skills-wrap">
+              {DEEPAK.skills.map(s => <span key={s} className="dev-skill">{s}</span>)}
+            </div>
+          </div>
+
+          {/* Right: Journey + Highlights */}
+          <div className="dev-card-right">
+            <div className="dev-block-title">Career Journey</div>
+            <div className="dev-journey">
+              {DEEPAK.journey.map((j, i) => (
+                <div key={i} className={`dev-journey-item ${i === DEEPAK.journey.length - 1 ? 'dev-journey-current' : ''}`}>
+                  <div className="dev-journey-dot" />
+                  <span>{j}</span>
+                </div>
+              ))}
+            </div>
+            <div className="dev-highlights">
+              {DEEPAK.highlights.map((h, i) => (
+                <div key={i} className="dev-highlight-row">
+                  <span>{h.icon}</span>
+                  <span>{h.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* TEAM */}
       <section className="about-team-section">
         <div className="section-head reveal">
@@ -155,7 +230,6 @@ export default function AboutPage() {
         <div className="about-team-grid">
           {TEAM.map((t, i) => (
             <div key={t.name} className="about-team-card reveal" style={{ transitionDelay:`${i * 0.12}s` }}>
-              {/* IMAGE SLOT — put file: client/public/images/team-[name].jpg (optional) */}
               <div className="atc-emoji">{t.emoji}</div>
               <div className="atc-name">{t.name}</div>
               <div className="atc-role">{t.role}</div>
@@ -163,7 +237,6 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-        <p className="about-team-note">💡 To add team photos, place images in <code>client/public/images/</code> and update the img src in AboutPage.jsx</p>
       </section>
 
       {/* WHY CHOOSE US */}

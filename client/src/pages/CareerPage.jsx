@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import AnimatedBg from '../components/AnimatedBg.jsx';
 import { Link } from 'react-router-dom';
 import useReveal from '../hooks/useReveal.js';
 import './CareerPage.css';
@@ -71,6 +72,7 @@ export default function CareerPage() {
 
       {/* HERO */}
       <section className="career-hero">
+        <AnimatedBg color="#FF6584" count={8} />
         <div className="career-hero-bg b1" />
         <div className="career-hero-bg b2" />
         <div className="career-hero-content">

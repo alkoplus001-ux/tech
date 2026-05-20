@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import AnimatedBg from '../components/AnimatedBg.jsx';
 import useReveal from '../hooks/useReveal.js';
 import './BlogPage.css';
 
@@ -107,6 +108,7 @@ export default function BlogPage() {
 
       {/* HERO */}
       <section className="blog-hero">
+        <AnimatedBg color="#43E97B" count={9} />
         <div className="blog-hero-bg b1" />
         <div className="blog-hero-bg b2" />
         <div className="blog-hero-content">

@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import AnimatedBg from '../components/AnimatedBg.jsx';
 import { useNavigate, Link } from 'react-router-dom';
 import useReveal from '../hooks/useReveal.js';
 import './SoftwaresPage.css';
@@ -61,6 +62,7 @@ export default function SoftwaresPage() {
 
       {/* HERO */}
       <section className="sw-hero">
+        <AnimatedBg color="#6C63FF" count={10} />
         <div className="sw-hero-bg b1" />
         <div className="sw-hero-bg b2" />
         <div className="sw-hero-content">

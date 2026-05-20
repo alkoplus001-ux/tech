@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import AnimatedBg from '../components/AnimatedBg.jsx';
 import useReveal from '../hooks/useReveal.js';
 import './ServicePage.css';
 
@@ -73,6 +74,7 @@ export default function ServicePage() {
 
       {/* HERO */}
       <section className="service-hero">
+        <AnimatedBg color="#6C63FF" count={10} />
         <div className="service-hero-bg b1" />
         <div className="service-hero-bg b2" />
         <div className="service-hero-content">

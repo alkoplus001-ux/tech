@@ -43,6 +43,7 @@ export default function Navbar() {
         </Link>
 
         <ul className="nav-links">
+          <li><Link to="/"          className={isActive('/')}>🏠 Home</Link></li>
           <li><Link to="/softwares" className={isActive('/softwares')}>Softwares</Link></li>
           <li><Link to="/services"  className={isActive('/services')}>Services</Link></li>
           <li><Link to="/blog"      className={isActive('/blog')}>Blog</Link></li>
@@ -79,6 +80,7 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {menuOpen && (
         <div className="mobile-nav">
+          <Link to="/"          className={isActive('/')}          onClick={close}>🏠 Home</Link>
           <Link to="/softwares" className={isActive('/softwares')} onClick={close}>💻 Softwares</Link>
           <Link to="/services"  className={isActive('/services')}  onClick={close}>🛠️ Services</Link>
           <Link to="/blog"      className={isActive('/blog')}      onClick={close}>📝 Blog</Link>

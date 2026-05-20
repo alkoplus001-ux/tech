@@ -41,6 +41,69 @@
 }
 html.light .demo-info-btn { background:#f1f5f9; border-color:#e2e8f0; }
 
+/* Help button */
+.demo-help-btn {
+  display: flex; width:32px; height:32px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.06);
+  cursor:pointer; font-size:.9rem; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+.demo-help-btn:hover { background:rgba(108,99,255,.15); border-color:rgba(108,99,255,.4); }
+html.light .demo-help-btn { background:#f1f5f9; border-color:#e2e8f0; }
+
+/* ── GUIDE BANNER ──────────────────────────────────────────────────────── */
+.demo-guide-banner {
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  border:1px solid; border-radius:12px; padding:10px 16px; margin-bottom:16px; font-size:.78rem;
+}
+.demo-guide-steps { display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:rgba(255,255,255,.55); }
+.demo-guide-step { white-space:nowrap; }
+.demo-guide-sep { color:rgba(255,255,255,.2); font-size:.6rem; }
+.demo-guide-help-btn {
+  padding:5px 14px; border-radius:8px; border:1px solid; background:transparent;
+  font-size:.75rem; font-weight:700; cursor:pointer; white-space:nowrap; transition:all .2s;
+  font-family:inherit;
+}
+.demo-guide-help-btn:hover { background:rgba(108,99,255,.15); }
+html.light .demo-guide-banner { background:rgba(108,99,255,.04) !important; border-color:rgba(108,99,255,.15) !important; }
+html.light .demo-guide-steps { color:#64748b; }
+html.light .demo-guide-sep { color:#cbd5e1; }
+
+/* ── HELP MODAL ─────────────────────────────────────────────────────────── */
+.demo-help-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.65); backdrop-filter:blur(4px);
+  z-index:9998; display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.demo-help-modal {
+  background:var(--dark2); border:1px solid var(--border); border-radius:20px;
+  width:100%; max-width:640px; max-height:90vh; overflow-y:auto; z-index:9999;
+  animation:modalIn .25s ease;
+}
+html.light .demo-help-modal { background:#fff; border-color:#e2e8f0; box-shadow:0 20px 60px rgba(0,0,0,.15); }
+.demo-help-head {
+  display:flex; align-items:flex-start; justify-content:space-between; padding:22px 26px 18px;
+}
+.demo-help-body { padding:0 26px 26px; }
+.demo-help-note { font-size:.82rem; line-height:1.7; color:rgba(255,255,255,.6); }
+html.light .demo-help-note { color:#475569; }
+.demo-help-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; margin-bottom:22px; }
+.demo-help-item {
+  display:flex; gap:12px; align-items:flex-start;
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07);
+  border-radius:12px; padding:13px;
+}
+html.light .demo-help-item { background:#f8fafc; border-color:#e2e8f0; }
+.demo-help-icon { font-size:1.4rem; flex-shrink:0; }
+.demo-help-item-title { font-weight:700; font-size:.82rem; margin-bottom:3px; }
+html.light .demo-help-item-title { color:#0f172a; }
+.demo-help-item-desc { color:rgba(255,255,255,.5); font-size:.75rem; line-height:1.6; }
+html.light .demo-help-item-desc { color:#64748b; }
+.demo-help-cta {
+  text-align:center; padding:18px; background:rgba(255,255,255,.03); border-radius:12px;
+  border:1px solid rgba(255,255,255,.06); font-size:.85rem; color:rgba(255,255,255,.7);
+}
+html.light .demo-help-cta { background:#f8fafc; border-color:#e2e8f0; color:#374151; }
+
 .demo-body    { display:flex; flex:1; }
 
 /* ── Sidebar ──────────────────────────────────────────────────────────── */

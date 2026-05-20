@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
 import SEOHead from '../components/SEOHead.jsx';
+import AnimatedBg from '../components/AnimatedBg.jsx';
 import useReveal from '../hooks/useReveal.js';
 import './ContactPage.css';
 
@@ -60,6 +61,7 @@ export default function ContactPage() {
 
       {/* HERO */}
       <section className="contact-hero">
+        <AnimatedBg color="#6C63FF" count={8} />
         <div className="contact-hero-bg b1" />
         <div className="contact-hero-bg b2" />
         <div className="contact-hero-content">
